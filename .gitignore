@@ -42,3 +42,7 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Generated API
+src/app/api-client/*
+!src/app/api-client/.openapi-generator-ignore

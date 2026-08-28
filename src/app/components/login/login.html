@@ -1,0 +1,25 @@
+<div class="auth-container">
+  <h2>Sign in</h2>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div style="margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
+      <label style="font-size: 0.85rem; font-weight: 500;">Username</label>
+      <input type="text" formControlName="login" placeholder="Wprowadź login..." />
+    </div>
+
+    <div style="margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem;">
+      <label style="font-size: 0.85rem; font-weight: 500;">Password</label>
+      <input type="password" formControlName="password" placeholder="Wprowadź hasło..." />
+    </div>
+
+    @if (errorMessage()) {
+      <div style="color: #ef4444; font-size: 0.85rem; margin-bottom: 1rem;">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <button type="submit" class="btn-primary" style="width: 100%;">
+      {{ loading() ? 'Ładowanie...' : 'Sign in' }}
+    </button>
+  </form>
+</div>

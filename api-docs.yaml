@@ -1,0 +1,308 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  "/api/v1/user/password/forgot":
+    post:
+      tags:
+      - User
+      summary: Forgot password
+      description: Sends a message with a password reset link
+      operationId: forgotPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ForgotPasswordRequest"
+        required: true
+      responses:
+        '202':
+          description: Request received
+  "/api/v1/product/info/preview":
+    post:
+      tags:
+      - Product
+      summary: Product scraping
+      description: Extracts product info
+      operationId: extractProductInfo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ProductInfoRequest"
+        required: true
+      responses:
+        '200':
+          description: Product info successfully extracted
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ScrapedProduct"
+        '400':
+          description: Invalid scrape request
+        '422':
+          description: Unable to extract product info from the given source
+        '504':
+          description: Timed out while scraping the target source
+  "/api/v1/auth/register":
+    post:
+      tags:
+      - Authentication
+      summary: User registration
+      description: Creates a new user account
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserRegisterRequest"
+        required: true
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Invalid input or email already in use
+  "/api/v1/auth/refresh":
+    post:
+      tags:
+      - Authentication
+      summary: Refresh access token
+      description: Generate a new access token
+      operationId: refreshToken
+      responses:
+        '200':
+          description: Token refreshed successfully
+          headers:
+            Set-Cookie:
+              description: New accessToken cookie
+              style: simple
+        '401':
+          description: Invalid or expired refresh token
+  "/api/v1/auth/logout":
+    post:
+      tags:
+      - Authentication
+      summary: Logout user
+      description: Invalidates session and clears cookies
+      operationId: logout
+      responses:
+        '204':
+          description: Logged out successfully
+  "/api/v1/auth/login":
+    post:
+      tags:
+      - Authentication
+      summary: Login user
+      description: Authenticates user and returns JWT tokens in HttpOnly cookies
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserLoginRequest"
+        required: true
+      responses:
+        '200':
+          description: Login successful
+          headers:
+            Set-Cookie:
+              description: accessToken and refreshToken cookies
+              style: simple
+        '401':
+          description: Invalid credentials or unverified account
+  "/api/v1/alert":
+    post:
+      tags:
+      - Price Alert
+      summary: Create price alert
+      description: Creates a new price alert
+      operationId: createAlert
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CreatePriceAlertRequest"
+        required: true
+      responses:
+        '201':
+          description: Price alert created successfully
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized
+  "/api/v1/user/password":
+    patch:
+      tags:
+      - User
+      summary: Password change
+      description: Changes user password
+      operationId: updatePassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UpdatePasswordRequest"
+        required: true
+      responses:
+        '200':
+          description: Password successfully updated
+        '400':
+          description: Old password does not match
+        '401':
+          description: Unauthorized
+  "/api/v1/user/password/reset":
+    patch:
+      tags:
+      - User
+      summary: Password reset
+      description: Resets forgotten password
+      operationId: resetPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ResetPasswordRequest"
+        required: true
+      responses:
+        '200':
+          description: Password has been reset
+  "/api/v1/auth/verify":
+    get:
+      tags:
+      - Authentication
+      summary: User verification
+      description: Verifies the user account using the JWT token sent via email
+      operationId: verify
+      parameters:
+      - name: token
+        in: query
+        description: JWT verification token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Account verified successfully
+        '400':
+          description: Invalid or expired token
+components:
+  schemas:
+    ForgotPasswordRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+      required:
+      - email
+    ProductInfoRequest:
+      type: object
+      properties:
+        url:
+          type: string
+          minLength: 1
+      required:
+      - url
+    ScrapedProduct:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        imageUrl:
+          type: string
+          format: uri
+        currency:
+          type: object
+          properties:
+            currencyCode:
+              type: string
+            displayName:
+              type: string
+            symbol:
+              type: string
+            defaultFractionDigits:
+              type: integer
+              format: int32
+            numericCode:
+              type: integer
+              format: int32
+            numericCodeAsString:
+              type: string
+    UserRegisterRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          maxLength: 2147483647
+          minLength: 8
+      required:
+      - email
+      - password
+      - username
+    UserLoginRequest:
+      type: object
+      properties:
+        login:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+      required:
+      - login
+      - password
+    CreatePriceAlertRequest:
+      type: object
+      properties:
+        url:
+          type: string
+          minLength: 1
+        targetPrice:
+          type: number
+          minimum: 0
+        scrapedProduct:
+          "$ref": "#/components/schemas/ScrapedProduct"
+      required:
+      - scrapedProduct
+      - targetPrice
+      - url
+    UpdatePasswordRequest:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+          minLength: 1
+        newPassword:
+          type: string
+          maxLength: 2147483647
+          minLength: 8
+      required:
+      - newPassword
+      - oldPassword
+    ResetPasswordRequest:
+      type: object
+      properties:
+        resetToken:
+          type: string
+          minLength: 1
+        newPassword:
+          type: string
+          maxLength: 2147483647
+          minLength: 8
+      required:
+      - newPassword
+      - resetToken
