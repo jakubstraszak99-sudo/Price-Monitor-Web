@@ -1,24 +1,23 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { ApiErrorResponse } from '../../shared/api-error-response';
 import { ExceptionCode } from '../../shared/exception-code';
 import { AuthenticationService, UserLoginRequest } from '../../api-client';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   selector: 'app-login',
-  styleUrl: './login.css',
   templateUrl: './login.html',
 })
 export class Login {
   private fb = inject(FormBuilder);
   private authService = inject(AuthenticationService);
-  private router = inject(Router);
 
   loading = signal(false);
   errorMessage = signal<string | null>(null);
+  closeModal = output<void>();
 
   loginForm = this.fb.nonNullable.group({
     login: ['', Validators.required],
@@ -39,7 +38,7 @@ export class Login {
     this.authService.login(request).subscribe({
       next: () => {
         this.loading.set(false);
-        this.router.navigate(['/']);
+        this.close();
       },
       error: (err) => {
         const apiError = err.error as ApiErrorResponse;
@@ -48,8 +47,11 @@ export class Login {
         if (apiError.code === ExceptionCode.E008) {
           this.loginForm.controls.password.reset();
         }
-      }
+      },
     });
   }
 
+  close() {
+    this.closeModal.emit();
+  }
 }

@@ -19,8 +19,20 @@
     </div>
     <div class="nav-divider"></div>
     <div class="nav-auth">
-      <button routerLink="/login" class="btn-secondary">{{ 'SIGN_IN' | translate }}</button>
-      <button routerLink="/register" class="btn-primary">{{ 'SIGN_UP' | translate }}</button>
+      <button class="btn-secondary" (click)="isLoginModalOpen.set(true)">
+        {{ 'SIGN_IN' | translate }}
+      </button>
+      <button class="btn-primary" (click)="isRegisterModalOpen.set(true)">
+        {{ 'SIGN_UP' | translate }}
+      </button>
     </div>
   </div>
 </nav>
+
+@if (isLoginModalOpen()) {
+  <app-login (closeModal)="isLoginModalOpen.set(false)"></app-login>
+}
+
+@if (isRegisterModalOpen()) {
+  <app-register (closeModal)="isRegisterModalOpen.set(false)"></app-register>
+}

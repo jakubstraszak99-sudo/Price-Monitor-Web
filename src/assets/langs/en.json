@@ -2,5 +2,9 @@
   "SIGN_IN": "Sign In",
   "SIGN_UP": "Sign Up",
   "USERNAME": "Username",
-  "PASSWORD": "Password"
+  "PASSWORD": "Password",
+  "REPEAT_PASSWORD": "Repeat Password",
+  "LOG_IN": "Log In",
+  "LOADING": "Loading",
+  "REGISTER": "Register"
 }

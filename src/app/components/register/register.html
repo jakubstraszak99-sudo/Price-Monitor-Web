@@ -3,16 +3,26 @@
     <div style="display: flex; justify-content: flex-end; margin-bottom: -1.5rem;">
       <button type="button" (click)="close()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted); padding: 0;">✕</button>
     </div>
-    <h2>{{ 'LOG_IN' | translate }}</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h2>{{ 'REGISTER' | translate }}</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <div style="margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
         <label style="font-size: 0.85rem; font-weight: 500;">{{ 'USERNAME' | translate }}</label>
         <input type="text" formControlName="login"/>
       </div>
 
+      <div style="margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
+        <label style="font-size: 0.85rem; font-weight: 500;">Email</label>
+        <input type="email" formControlName="email"/>
+      </div>
+
       <div style="margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem;">
         <label style="font-size: 0.85rem; font-weight: 500;">{{ 'PASSWORD' | translate }}</label>
         <input type="password" formControlName="password"/>
+      </div>
+
+      <div style="margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem;">
+        <label style="font-size: 0.85rem; font-weight: 500;">{{ 'REPEAT_PASSWORD' | translate }}</label>
+        <input type="password" formControlName="repeatPassword"/>
       </div>
 
       @if (errorMessage()) {
@@ -22,7 +32,7 @@
       }
 
       <button type="submit" class="btn-primary" style="width: 100%;" [disabled]="loading()">
-        {{ loading() ? ('LOADING' | translate) : ('SIGN_IN' | translate) }}
+        {{ loading() ? ('LOADING' | translate) : ('SIGN_UP' | translate) }}
       </button>
     </form>
   </div>
