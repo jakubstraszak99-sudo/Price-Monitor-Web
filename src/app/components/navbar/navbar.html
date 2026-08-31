@@ -8,13 +8,19 @@
   </div>
   <div class="nav-actions">
     <div class="nav-flags">
-      <button class="flag-btn"><img src="assets/images/usa-flag.png" alt="EN" /></button>
-      <button class="flag-btn"><img src="assets/images/poland-flag.png" alt="PL" /></button>
+      <button class="flag-btn" (click)="switchLanguage('en')">
+        <a href="https://www.flaticon.com/free-icons/united-states" style="display: none" title="united states icons">United states icons created by Freepik - Flaticon</a>
+        <img src="assets/images/usa-flag.png"/>
+      </button>
+      <button class="flag-btn" (click)="switchLanguage('pl')">
+        <a href="https://www.flaticon.com/free-icons/poland" style="display: none" title="poland icons">Poland icons created by Freepik - Flaticon</a>
+        <img src="assets/images/poland-flag.png"/>
+      </button>
     </div>
     <div class="nav-divider"></div>
     <div class="nav-auth">
-      <button routerLink="/login" class="btn-secondary">Zaloguj się</button>
-      <button routerLink="/register" class="btn-primary">Zarejestruj się</button>
+      <button routerLink="/login" class="btn-secondary">{{ 'SIGN_IN' | translate }}</button>
+      <button routerLink="/register" class="btn-primary">{{ 'SIGN_UP' | translate }}</button>
     </div>
   </div>
 </nav>

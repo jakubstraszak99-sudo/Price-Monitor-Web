@@ -1,0 +1,76 @@
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.nav-logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+  cursor: pointer;
+  letter-spacing: -0.5px;
+}
+
+.nav-search {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+  max-width: 600px;
+  margin: 0 2rem;
+}
+
+.nav-search input {
+  flex: 1;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-flags {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.flag-btn {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0.25rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.flag-btn:hover {
+  background-color: #f1f5f9;
+  transform: none;
+}
+
+.flag-btn img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.nav-divider {
+  height: 28px;
+  border-left: 1px solid var(--border);
+}
+
+.nav-auth {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.nav-auth button {
+  min-width: 143px;
+  text-align: center;
+}

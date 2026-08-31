@@ -1,36 +1,25 @@
-/* Import nowoczesnej czcionki */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Tło i panele */
   --bg-color: #f8fafc;
   --surface: #ffffff;
-
-  /* Kolory tekstu */
-  --text-main: #0f172a;      /* Bardzo głęboki granat wpadający w czerń */
+  --text-main: #0f172a;
   --text-muted: #64748b;
-
-  /* Kolor Akcentowy - Premium Indigo */
   --primary: #4f46e5;
   --primary-hover: #4338ca;
   --primary-glow: rgba(79, 70, 229, 0.2);
-
-  /* Obramowania i kształty */
   --border: #e2e8f0;
-  --radius: 8px;             /* Idealny balans między ostrym a miękkim */
+  --radius: 8px;
 }
 
 body {
   margin: 0;
   background-color: var(--bg-color);
   color: var(--text-main);
-  font-family: 'Inter', sans-serif; /* Aktywacja czcionki */
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ------------------------------------- */
-/* GLOBALNE STYLE (Inputy i Przyciski)   */
-/* ------------------------------------- */
 input {
   background-color: #f1f5f9;
   border: 1px solid transparent;
@@ -58,7 +47,6 @@ button {
   transition: all 0.2s ease;
 }
 
-/* Główny przycisk z kolorem */
 .btn-primary {
   background-color: var(--primary);
   color: white;
@@ -72,7 +60,6 @@ button {
   box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
 }
 
-/* Zwykły przycisk obrysowy */
 .btn-secondary {
   background-color: var(--surface);
   color: var(--text-main);
@@ -82,79 +69,4 @@ button {
 .btn-secondary:hover {
   background-color: #f8fafc;
   border-color: #cbd5e1;
-}
-
-/* ------------------------------------- */
-/* UKŁAD PASKU NAWIGACJI                 */
-/* ------------------------------------- */
-.top-navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 2rem;
-  background-color: var(--surface);
-  border-bottom: 1px solid var(--border);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-
-.nav-logo {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--primary);
-  cursor: pointer;
-  letter-spacing: -0.5px;
-}
-
-.nav-search {
-  display: flex;
-  gap: 0.5rem;
-  flex: 1;
-  max-width: 600px;
-  margin: 0 2rem;
-}
-
-.nav-search input {
-  flex: 1;
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.nav-flags {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.flag-btn {
-  background: none;
-  border: none;
-  box-shadow: none;
-  padding: 0.25rem;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-}
-
-.flag-btn:hover {
-  background-color: #f1f5f9;
-  transform: none;
-}
-
-.flag-btn img {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-}
-
-.nav-divider {
-  height: 28px;
-  border-left: 1px solid var(--border);
-}
-
-.nav-auth {
-  display: flex;
-  gap: 0.75rem;
 }
