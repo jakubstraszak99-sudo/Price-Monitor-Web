@@ -9,9 +9,13 @@
   --primary: #4f46e5;
   --primary-hover: #4338ca;
   --primary-glow: rgba(79, 70, 229, 0.2);
+  --secondary-hover: #f8fafc;
   --border: #e2e8f0;
   --error: #ef4444;
+  --error-bg: #fef2f2;
   --radius: 8px;
+  --button-shadow: 0 4px 6px rgba(79, 70, 229, 0.25);
+  --hover-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
 }
 
 body {
@@ -49,17 +53,24 @@ button {
   transition: all 0.2s ease;
 }
 
+button:hover {
+  box-shadow: var(--hover-shadow);
+  transform: translateY(-1px);
+}
+
+button:active {
+  opacity: 0.9;
+}
+
 .btn-primary {
   background-color: var(--primary);
   color: white;
   border: none;
-  box-shadow: 0 4px 6px rgba(79, 70, 229, 0.25);
+  box-shadow: var(--button-shadow);
 }
 
 .btn-primary:hover {
   background-color: var(--primary-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
 }
 
 .btn-secondary {
@@ -69,8 +80,7 @@ button {
 }
 
 .btn-secondary:hover {
-  background-color: #f8fafc;
-  border-color: #cbd5e1;
+  background-color: var(--secondary-hover);
 }
 
 .auth-container {
@@ -92,6 +102,48 @@ button {
   text-align: center;
 }
 
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.field-group-spaced {
+  margin-bottom: 1.5rem;
+}
+
+.field-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.field-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.field-error {
+  color: var(--error);
+  font-size: 0.75rem;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0;
+}
+
+.modal-close-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -1.5rem;
+}
+
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -111,6 +163,11 @@ button {
   margin: 0;
   width: 90%;
   animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+input.input-error {
+  border-color: var(--error) !important;
+  background-color: var(--error-bg);
 }
 
 @keyframes fadeIn {

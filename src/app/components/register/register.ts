@@ -8,6 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
+import { AuthenticationService, UserRegisterRequest } from '../../api-client';
+import { ToastService } from '../../services/toast-service';
 
 @Component({
   imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
@@ -16,35 +18,45 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class Register {
   private fb = inject(FormBuilder);
+  private authService = inject(AuthenticationService);
+  private toastService = inject(ToastService);
 
-  loading = signal(false);
-  errorMessage = signal<string | null>(null);
-  closeModal = output<void>();
+  public loading = signal(false);
+  public closeModal = output<void>();
 
-  registerForm = this.fb.nonNullable.group({
-    login: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
-    repeatPassword: ['', Validators.required],
-  }, { validators: this.passwordsMatchValidator });
+  public registerForm = this.fb.nonNullable.group(
+    {
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      repeatPassword: ['', Validators.required],
+    },
+    { validators: this.passwordsMatchValidator },
+  );
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       return;
     }
 
     this.loading.set(true);
-    this.errorMessage.set(null);
+    const { repeatPassword, ...formValues } = this.registerForm.getRawValue();
+    const request: UserRegisterRequest = formValues;
 
-    // TODO: Service
-    setTimeout(() => {
-      this.loading.set(false);
-      this.close();
-    }, 1000);
+    this.authService.register(request).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.close();
+        this.toastService.showSuccess('TOASTS.REGISTER_SUCCESS');
+      },
+      error: (err) => {
+        //TODO
+      },
+    });
   }
 
-  close() {
+  public close(): void {
     this.closeModal.emit();
   }
 

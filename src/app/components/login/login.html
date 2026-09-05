@@ -1,25 +1,29 @@
 <div class="modal-backdrop" (click)="close()">
   <div class="auth-container modal-content" (click)="$event.stopPropagation()">
-    <div style="display: flex; justify-content: flex-end; margin-bottom: -1.5rem;">
-      <button type="button" (click)="close()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted); padding: 0;">✕</button>
+    <div class="modal-close-row">
+      <button type="button" (click)="close()" class="modal-close-btn">✕</button>
     </div>
     <h2>{{ 'LOG_IN' | translate }}</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div style="margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
-        <label style="font-size: 0.85rem; font-weight: 500;">{{ 'USERNAME' | translate }}</label>
-        <input type="text" formControlName="login"/>
-      </div>
-
-      <div style="margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem;">
-        <label style="font-size: 0.85rem; font-weight: 500;">{{ 'PASSWORD' | translate }}</label>
-        <input type="password" formControlName="password"/>
-      </div>
-
-      @if (errorMessage()) {
-        <div style="color: var(--error); font-size: 0.85rem; margin-bottom: 1rem;">
-          {{ errorMessage() }}
+      <div class="field-group">
+        <div class="field-header">
+          <label class="field-label">{{ 'USERNAME' | translate }}/Email</label>
+          @if (loginForm.controls.login.errors?.['required'] && loginForm.controls.login.touched) {
+            <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
+          }
         </div>
-      }
+        <input type="text" formControlName="login" [class.input-error]="loginForm.controls.login.invalid && loginForm.controls.login.touched" />
+      </div>
+
+      <div class="field-group field-group-spaced">
+        <div class="field-header">
+          <label class="field-label">{{ 'PASSWORD' | translate }}</label>
+          @if (loginForm.controls.password.errors?.['required'] && loginForm.controls.password.touched) {
+            <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
+          }
+        </div>
+        <input type="password" formControlName="password" [class.input-error]="loginForm.controls.password.invalid && loginForm.controls.password.touched" />
+      </div>
 
       <button type="submit" class="btn-primary" style="width: 100%;" [disabled]="loading()">
         {{ loading() ? ('LOADING' | translate) : ('SIGN_IN' | translate) }}

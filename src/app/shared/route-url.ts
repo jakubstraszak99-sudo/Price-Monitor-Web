@@ -1,3 +1,4 @@
 export enum RouteUrl {
-  HOME = 'home'
+  HOME = 'home',
+  VERIFY = 'verify'
 }

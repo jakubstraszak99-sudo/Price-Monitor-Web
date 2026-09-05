@@ -18,19 +18,55 @@
       </button>
     </div>
     <div class="nav-divider"></div>
-    <div class="nav-auth">
-      <button class="btn-secondary" (click)="isLoginModalOpen.set(true)">
-        {{ 'SIGN_IN' | translate }}
-      </button>
-      <button class="btn-primary" (click)="isRegisterModalOpen.set(true)">
-        {{ 'SIGN_UP' | translate }}
-      </button>
-    </div>
+
+    @if (!sessionService.isLoggedIn()) {
+      <div class="nav-auth">
+        <button class="btn-secondary" (click)="isLoginModalOpen.set(true)">
+          {{ 'SIGN_IN' | translate }}
+        </button>
+        <button class="btn-primary" (click)="isRegisterModalOpen.set(true)">
+          {{ 'SIGN_UP' | translate }}
+        </button>
+      </div>
+    } @else {
+      <div class="nav-user">
+        <span class="user-name">{{ sessionService.username() }}</span>
+        <div class="dropdown-wrapper">
+          <button class="icon-btn" (click)="toggleDropdown()" [class.active]="isDropdownOpen()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </button>
+
+          @if (isDropdownOpen()) {
+            <div class="dropdown-menu">
+              <a routerLink="/alerts" class="dropdown-item" (click)="isDropdownOpen.set(false)">
+                {{ 'MY_ALERTS' | translate }}
+              </a>
+              <a routerLink="/settings" class="dropdown-item" (click)="isDropdownOpen.set(false)">
+                {{ 'SETTINGS' | translate }}
+              </a>
+            </div>
+          }
+        </div>
+        <button class="icon-btn logout-btn" (click)="sessionService.logout()" [title]="'LOGOUT' | translate">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+    }
   </div>
 </nav>
 
 @if (isLoginModalOpen()) {
-  <app-login (closeModal)="isLoginModalOpen.set(false)"></app-login>
+  <app-login
+    (closeModal)="isLoginModalOpen.set(false)"
+    (loginSuccess)="onLogin()">
+  </app-login>
 }
 
 @if (isRegisterModalOpen()) {

@@ -6,5 +6,18 @@
   "REPEAT_PASSWORD": "Repeat Password",
   "LOG_IN": "Log In",
   "LOADING": "Loading",
-  "REGISTER": "Register"
+  "REGISTER": "Register",
+  "MY_ALERTS": "My alerts",
+  "SETTINGS": "Settings",
+  "LOGOUT": "Log out",
+  "ERRORS": {
+    "REQUIRED": "This field is required",
+    "INVALID_EMAIL": "Invalid email address",
+    "MIN_LENGTH_8": "Password must be at least 8 characters",
+    "PASSWORDS_DO_NOT_MATCH": "Passwords do not match"
+  },
+  "TOASTS": {
+    "REGISTER_SUCCESS": "Registration successful! Please check your email!",
+    "VERIFY_SUCCESS": "Account verified successfully!"
+  }
 }

@@ -6,5 +6,18 @@
   "REPEAT_PASSWORD": "Powtórz Hasło",
   "LOG_IN": "Logowanie",
   "LOADING": "Ładowanie",
-  "REGISTER": "Rejestracja"
+  "REGISTER": "Rejestracja",
+  "MY_ALERTS": "Moje alerty",
+  "SETTINGS": "Ustawienia",
+  "LOGOUT": "Wyloguj się",
+  "ERRORS": {
+    "REQUIRED": "To pole jest wymagane",
+    "INVALID_EMAIL": "Nieprawidłowy adres email",
+    "MIN_LENGTH_8": "Hasło musi mieć min. 8 znaków",
+    "PASSWORDS_DO_NOT_MATCH": "Hasła nie są identyczne"
+  },
+  "TOASTS": {
+    "REGISTER_SUCCESS": "Rejestracja udana! Sprawdź swój e-mail!",
+    "VERIFY_SUCCESS": "Konto zostało pomyślnie zweryfikowane!"
+  }
 }
