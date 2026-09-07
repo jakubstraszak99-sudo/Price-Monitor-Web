@@ -1,18 +1,14 @@
 import { Component, inject, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  AbstractControl,
-  FormBuilder,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthenticationService, UserRegisterRequest } from '../../api-client';
 import { ToastService } from '../../services/toast-service';
+import { Modal } from '../modal/modal';
+import { ApiErrorResponse } from '../../shared/api-error-response';
 
 @Component({
-  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe, Modal],
   selector: 'app-register',
   templateUrl: './register.html',
 })
@@ -22,6 +18,7 @@ export class Register {
   private toastService = inject(ToastService);
 
   public loading = signal(false);
+  public error = signal(false);
   public closeModal = output<void>();
 
   public registerForm = this.fb.nonNullable.group(
@@ -51,7 +48,18 @@ export class Register {
         this.toastService.showSuccess('TOASTS.REGISTER_SUCCESS');
       },
       error: (err) => {
-        //TODO
+        const apiError = err.error as ApiErrorResponse;
+
+        if (apiError.code === 'E007') {
+          this.error.set(true);
+        }
+
+        else {
+          this.close();
+          this.toastService.showError('ERRORS.REGISTER_ERROR', apiError.code);
+        }
+
+        this.loading.set(false);
       },
     });
   }

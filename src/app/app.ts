@@ -1,13 +1,17 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Toast } from './components/toast/toast';
+import { LanguageService } from './services/language.service';
 
 @Component({
   imports: [RouterOutlet, Toast],
   selector: 'app-root',
-  styleUrl: './app.css',
   templateUrl: './app.html',
 })
-export class App {
-  protected readonly title = signal('price-monitor-web');
+export class App implements OnInit {
+  private languageService = inject(LanguageService);
+
+  public ngOnInit(): void {
+    this.languageService.initLanguage();
+  }
 }

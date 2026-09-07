@@ -1,15 +1,16 @@
+---
 openapi: 3.1.0
 info:
   title: OpenAPI definition
   version: v0
 servers:
-- url: http://localhost:8080
-  description: Generated server url
+  - url: http://localhost:8080
+    description: Generated server url
 paths:
   "/api/v1/user/password/forgot":
     post:
       tags:
-      - User
+        - User
       summary: Forgot password
       description: Sends a message with a password reset link
       operationId: forgotPassword
@@ -25,7 +26,7 @@ paths:
   "/api/v1/product/info/preview":
     post:
       tags:
-      - Product
+        - Product
       summary: Product scraping
       description: Extracts product info
       operationId: extractProductInfo
@@ -51,7 +52,7 @@ paths:
   "/api/v1/auth/register":
     post:
       tags:
-      - Authentication
+        - Authentication
       summary: User registration
       description: Creates a new user account
       operationId: register
@@ -69,7 +70,7 @@ paths:
   "/api/v1/auth/refresh":
     post:
       tags:
-      - Authentication
+        - Authentication
       summary: Refresh access token
       description: Generate a new access token
       operationId: refreshToken
@@ -85,7 +86,7 @@ paths:
   "/api/v1/auth/logout":
     post:
       tags:
-      - Authentication
+        - Authentication
       summary: Logout user
       description: Invalidates session and clears cookies
       operationId: logout
@@ -95,7 +96,7 @@ paths:
   "/api/v1/auth/login":
     post:
       tags:
-      - Authentication
+        - Authentication
       summary: Login user
       description: Authenticates user and returns JWT tokens in HttpOnly cookies
       operationId: login
@@ -117,7 +118,7 @@ paths:
   "/api/v1/alert":
     post:
       tags:
-      - Price Alert
+        - Price Alert
       summary: Create price alert
       description: Creates a new price alert
       operationId: createAlert
@@ -137,7 +138,7 @@ paths:
   "/api/v1/user/password":
     patch:
       tags:
-      - User
+        - User
       summary: Password change
       description: Changes user password
       operationId: updatePassword
@@ -157,7 +158,7 @@ paths:
   "/api/v1/user/password/reset":
     patch:
       tags:
-      - User
+        - User
       summary: Password reset
       description: Resets forgotten password
       operationId: resetPassword
@@ -170,20 +171,40 @@ paths:
       responses:
         '200':
           description: Password has been reset
+  "/api/v1/user":
+    get:
+      tags:
+        - User
+      summary: Get user
+      description: Fetches user data
+      operationId: getUser
+      responses:
+        '200':
+          description: User data retrieved successfully
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/User"
+        '401':
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/User"
   "/api/v1/auth/verify":
     get:
       tags:
-      - Authentication
+        - Authentication
       summary: User verification
       description: Verifies the user account using the JWT token sent via email
       operationId: verify
       parameters:
-      - name: token
-        in: query
-        description: JWT verification token
-        required: true
-        schema:
-          type: string
+        - name: token
+          in: query
+          description: JWT verification token
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Account verified successfully
@@ -199,7 +220,7 @@ components:
           format: email
           minLength: 1
       required:
-      - email
+        - email
     ProductInfoRequest:
       type: object
       properties:
@@ -207,7 +228,7 @@ components:
           type: string
           minLength: 1
       required:
-      - url
+        - url
     ScrapedProduct:
       type: object
       properties:
@@ -250,9 +271,9 @@ components:
           maxLength: 2147483647
           minLength: 8
       required:
-      - email
-      - password
-      - username
+        - email
+        - password
+        - username
     UserLoginRequest:
       type: object
       properties:
@@ -263,8 +284,8 @@ components:
           type: string
           minLength: 1
       required:
-      - login
-      - password
+        - login
+        - password
     CreatePriceAlertRequest:
       type: object
       properties:
@@ -277,9 +298,9 @@ components:
         scrapedProduct:
           "$ref": "#/components/schemas/ScrapedProduct"
       required:
-      - scrapedProduct
-      - targetPrice
-      - url
+        - scrapedProduct
+        - targetPrice
+        - url
     UpdatePasswordRequest:
       type: object
       properties:
@@ -291,8 +312,8 @@ components:
           maxLength: 2147483647
           minLength: 8
       required:
-      - newPassword
-      - oldPassword
+        - newPassword
+        - oldPassword
     ResetPasswordRequest:
       type: object
       properties:
@@ -304,5 +325,15 @@ components:
           maxLength: 2147483647
           minLength: 8
       required:
-      - newPassword
-      - resetToken
+        - newPassword
+        - resetToken
+    User:
+      type: object
+      properties:
+        publicId:
+          type: string
+          format: uuid
+        username:
+          type: string
+        email:
+          type: string

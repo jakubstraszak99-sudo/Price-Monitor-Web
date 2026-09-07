@@ -30,6 +30,6 @@ export class ToastService {
 
     this.timeoutId = setTimeout(() => {
       this.state.update((s) => ({ ...s, visible: false }));
-    }, 3000);
+    }, 4000);
   }
 }

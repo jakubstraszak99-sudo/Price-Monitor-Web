@@ -1,34 +1,28 @@
-import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../services/language.service';
 import { Login } from '../login/login';
 import { Register } from '../register/register';
 import { SessionService } from '../../services/session-service';
+import { AddProduct } from '../add-product/add-product';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterModule, TranslatePipe, Login, Register],
+  imports: [RouterModule, TranslatePipe, Login, Register, AddProduct],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar implements OnInit {
-  private translateService = inject(TranslateService);
+export class Navbar {
   private languageService = inject(LanguageService);
-
   public sessionService = inject(SessionService);
 
   public isLoginModalOpen = signal(false);
   public isRegisterModalOpen = signal(false);
   public isDropdownOpen = signal(false);
-
-  public ngOnInit(): void {
-    const language = this.languageService.getLanguage();
-    this.translateService.use(language);
-  }
+  public isAddProductModalOpen = signal(false);
 
   public switchLanguage(language: string): void {
-    this.translateService.use(language);
     this.languageService.setLanguage(language);
   }
 
@@ -39,6 +33,11 @@ export class Navbar implements OnInit {
   public onLogin(): void {
     this.isLoginModalOpen.set(false);
     this.sessionService.setLogin();
+  }
+
+  public handleRequireLogin(): void {
+    this.isAddProductModalOpen.set(false);
+    this.isLoginModalOpen.set(true);
   }
 
   @HostListener('document:click', ['$event'])

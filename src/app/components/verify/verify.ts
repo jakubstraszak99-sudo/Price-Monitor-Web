@@ -4,6 +4,7 @@ import { AuthenticationService } from '../../api-client';
 import { ToastService } from '../../services/toast-service';
 import { RouteUrl } from '../../shared/route-url';
 import { ApiErrorResponse } from '../../shared/api-error-response';
+import { SessionService } from '../../services/session-service';
 
 @Component({
   imports: [],
@@ -15,6 +16,7 @@ export class Verify implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthenticationService);
   private toastService = inject(ToastService);
+  private sessionService = inject(SessionService);
 
   public ngOnInit() {
     const token = this.route.snapshot.queryParamMap.get('token');
@@ -26,12 +28,13 @@ export class Verify implements OnInit {
 
     this.authService.verify(token).subscribe({
       next: () => {
+        this.sessionService.setLogin();
         this.toastService.showSuccess('TOASTS.VERIFY_SUCCESS');
         this.router.navigate([`/${RouteUrl.HOME}`]);
       },
       error: (err) => {
         const apiError = err.error as ApiErrorResponse;
-        this.toastService.showError('ERRORS.VERIFY_FAILED', apiError?.code); //TODO
+        this.toastService.showError('TOASTS.VERIFY_FAILED', apiError?.code);
         this.router.navigate([`/${RouteUrl.HOME}`]);
       },
     });

@@ -1,60 +1,60 @@
-<div class="modal-backdrop" (click)="close()">
-  <div class="auth-container modal-content" (click)="$event.stopPropagation()">
-    <div class="modal-close-row">
-      <button type="button" (click)="close()" class="modal-close-btn">✕</button>
+<app-modal (close)="close()" [isLoading]="loading()" loadingText="{{ 'LOADING' | translate }}...">
+  <h2>{{ 'REGISTER' | translate }}</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="field-group">
+      <div class="field-header">
+        <label class="field-label">{{ 'USERNAME' | translate }}</label>
+        @if (registerForm.controls.username.errors?.['required'] && registerForm.controls.username.touched) {
+          <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
+        }
+      </div>
+      <input type="text" formControlName="username" [class.input-error]="registerForm.controls.username.invalid && registerForm.controls.username.touched" />
     </div>
-    <h2>{{ 'REGISTER' | translate }}</h2>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="field-group">
-        <div class="field-header">
-          <label class="field-label">{{ 'USERNAME' | translate }}</label>
-          @if (registerForm.controls.username.errors?.['required'] && registerForm.controls.username.touched) {
-            <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
-          }
-        </div>
-        <input type="text" formControlName="username" [class.input-error]="registerForm.controls.username.invalid && registerForm.controls.username.touched" />
+    <div class="field-group">
+      <div class="field-header">
+        <label class="field-label">Email</label>
+        @if (registerForm.controls.email.errors?.['required'] && registerForm.controls.email.touched) {
+          <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
+        } @else if (registerForm.controls.email.errors?.['email'] && registerForm.controls.email.touched) {
+          <span class="field-error">{{ 'ERRORS.INVALID_EMAIL' | translate }}</span>
+        }
       </div>
+      <input type="email" formControlName="email" [class.input-error]="registerForm.controls.email.invalid && registerForm.controls.email.touched" />
+    </div>
 
-      <div class="field-group">
-        <div class="field-header">
-          <label class="field-label">Email</label>
-          @if (registerForm.controls.email.errors?.['required'] && registerForm.controls.email.touched) {
-            <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
-          } @else if (registerForm.controls.email.errors?.['email'] && registerForm.controls.email.touched) {
-            <span class="field-error">{{ 'ERRORS.INVALID_EMAIL' | translate }}</span>
-          }
-        </div>
-        <input type="email" formControlName="email" [class.input-error]="registerForm.controls.email.invalid && registerForm.controls.email.touched" />
+    <div class="field-group field-group-spaced">
+      <div class="field-header">
+        <label class="field-label">{{ 'PASSWORD' | translate }}</label>
+        @if (registerForm.controls.password.errors?.['required'] && registerForm.controls.password.touched) {
+          <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
+        } @else if (registerForm.controls.password.errors?.['minlength'] && registerForm.controls.password.touched) {
+          <span class="field-error">{{ 'ERRORS.MIN_LENGTH_8' | translate }}</span>
+        }
       </div>
+      <input type="password" formControlName="password" [class.input-error]="registerForm.controls.password.invalid && registerForm.controls.password.touched" />
+    </div>
 
-      <div class="field-group field-group-spaced">
-        <div class="field-header">
-          <label class="field-label">{{ 'PASSWORD' | translate }}</label>
-          @if (registerForm.controls.password.errors?.['required'] && registerForm.controls.password.touched) {
-            <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
-          } @else if (registerForm.controls.password.errors?.['minlength'] && registerForm.controls.password.touched) {
-            <span class="field-error">{{ 'ERRORS.MIN_LENGTH_8' | translate }}</span>
-          }
-        </div>
-        <input type="password" formControlName="password" [class.input-error]="registerForm.controls.password.invalid && registerForm.controls.password.touched" />
+    <div class="field-group field-group-spaced">
+      <div class="field-header">
+        <label class="field-label">{{ 'REPEAT_PASSWORD' | translate }}</label>
+        @if (registerForm.controls.repeatPassword.errors?.['required'] && registerForm.controls.repeatPassword.touched) {
+          <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
+        } @else if (registerForm.hasError('mismatch') && registerForm.controls.repeatPassword.touched) {
+          <span class="field-error">{{ 'ERRORS.PASSWORDS_DO_NOT_MATCH' | translate }}</span>
+        }
       </div>
+      <input type="password" formControlName="repeatPassword" [class.input-error]="(registerForm.controls.repeatPassword.invalid || registerForm.hasError('mismatch')) && registerForm.controls.repeatPassword.touched" />
+    </div>
 
-      <div class="field-group field-group-spaced">
-        <div class="field-header">
-          <label class="field-label">{{ 'REPEAT_PASSWORD' | translate }}</label>
-          @if (registerForm.controls.repeatPassword.errors?.['required'] && registerForm.controls.repeatPassword.touched) {
-            <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
-          } @else if (registerForm.hasError('mismatch') && registerForm.controls.repeatPassword.touched) {
-            <span class="field-error">{{ 'ERRORS.PASSWORDS_DO_NOT_MATCH' | translate }}</span>
-          }
-        </div>
-        <input type="password" formControlName="repeatPassword" [class.input-error]="(registerForm.controls.repeatPassword.invalid || registerForm.hasError('mismatch')) && registerForm.controls.repeatPassword.touched" />
+    @if (error()) {
+      <div style="color: var(--error); font-size: 0.85rem; margin-bottom: 1rem; text-align: center;">
+        {{ 'ERRORS.USER_EXISTS' | translate }}
       </div>
+    }
 
-      <button type="submit" class="btn-primary" style="width: 100%;" [disabled]="loading()">
-        {{ loading() ? ('LOADING' | translate) : ('SIGN_UP' | translate) }}
-      </button>
-    </form>
-  </div>
-</div>
+    <button type="submit" class="btn-primary" style="width: 100%;" [disabled]="loading()">
+      {{ 'SIGN_UP' | translate }}
+    </button>
+  </form>
+</app-modal>

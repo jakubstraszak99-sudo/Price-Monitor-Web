@@ -1,0 +1,24 @@
+<div class="modal-backdrop" (click)="close.emit()">
+  <div class="modal-container modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-close-row">
+      <button
+        type="button"
+        (click)="close.emit()"
+        class="modal-close-btn">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    @if (isLoading()) {
+      <div class="loader-container">
+        <div class="spinner"></div>
+        @if (loadingText()) {
+          <p class="loading-text">{{ loadingText() }}</p>
+        }
+      </div>
+    } @else {
+      <ng-content></ng-content>
+    }
+  </div>
+</div>

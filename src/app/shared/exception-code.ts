@@ -5,7 +5,7 @@ export enum ExceptionCode {
   E004 = 'E004', // New password is the same as the old one
   E005 = 'E005', // JWT token date expired
   E006 = 'E006', // JWT token is invalid
-  E007 = 'E007', // Email address already exists
+  E007 = 'E007', // User already exists
   E008 = 'E008', // Invalid credentials
   E009 = 'E009', // Session expired
   E010 = 'E010', // Product or price could not be identified

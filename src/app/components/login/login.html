@@ -1,33 +1,34 @@
-<div class="modal-backdrop" (click)="close()">
-  <div class="auth-container modal-content" (click)="$event.stopPropagation()">
-    <div class="modal-close-row">
-      <button type="button" (click)="close()" class="modal-close-btn">✕</button>
+<app-modal (close)="close()" [isLoading]="loading()" loadingText="{{ 'LOADING' | translate }}...">
+  <h2>{{ 'LOG_IN' | translate }}</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="field-group">
+      <div class="field-header">
+        <label class="field-label">{{ 'USERNAME' | translate }}/Email</label>
+        @if (loginForm.controls.login.errors?.['required'] && loginForm.controls.login.touched) {
+          <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
+        }
+      </div>
+      <input type="text" formControlName="login" [class.input-error]="loginForm.controls.login.invalid && loginForm.controls.login.touched" />
     </div>
-    <h2>{{ 'LOG_IN' | translate }}</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="field-group">
-        <div class="field-header">
-          <label class="field-label">{{ 'USERNAME' | translate }}/Email</label>
-          @if (loginForm.controls.login.errors?.['required'] && loginForm.controls.login.touched) {
-            <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
-          }
-        </div>
-        <input type="text" formControlName="login" [class.input-error]="loginForm.controls.login.invalid && loginForm.controls.login.touched" />
-      </div>
 
-      <div class="field-group field-group-spaced">
-        <div class="field-header">
-          <label class="field-label">{{ 'PASSWORD' | translate }}</label>
-          @if (loginForm.controls.password.errors?.['required'] && loginForm.controls.password.touched) {
-            <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
-          }
-        </div>
-        <input type="password" formControlName="password" [class.input-error]="loginForm.controls.password.invalid && loginForm.controls.password.touched" />
+    <div class="field-group field-group-spaced">
+      <div class="field-header">
+        <label class="field-label">{{ 'PASSWORD' | translate }}</label>
+        @if (loginForm.controls.password.errors?.['required'] && loginForm.controls.password.touched) {
+          <span class="field-error">{{ 'ERRORS.REQUIRED' | translate }}</span>
+        }
       </div>
+      <input type="password" formControlName="password" [class.input-error]="loginForm.controls.password.invalid && loginForm.controls.password.touched" />
+    </div>
 
-      <button type="submit" class="btn-primary" style="width: 100%;" [disabled]="loading()">
-        {{ loading() ? ('LOADING' | translate) : ('SIGN_IN' | translate) }}
-      </button>
-    </form>
-  </div>
-</div>
+    @if (error()) {
+      <div style="color: var(--error); font-size: 0.90rem; margin-bottom: 1rem; text-align: center;">
+        {{ 'ERRORS.INVALID_CREDENTIALS' | translate }}
+      </div>
+    }
+
+    <button type="submit" class="btn-primary" style="width: 100%;" [disabled]="loading()">
+      {{ 'SIGN_IN' | translate }}
+    </button>
+  </form>
+</app-modal>

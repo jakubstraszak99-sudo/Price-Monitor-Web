@@ -1,0 +1,78 @@
+<app-modal (close)="close()" [isLoading]="loading()" loadingText="{{ 'SEARCHING' | translate }}...">
+  @if (!scrapedProduct()) {
+    <h2>{{ 'ADD_PRODUCT' | translate }}</h2>
+
+    <div class="field-group field-group-spaced">
+      <div class="field-header">
+        <label class="field-label">{{ 'PRODUCT_LINK' | translate }}</label>
+        @if (urlControl.invalid && urlControl.touched) {
+          <span class="field-error">{{ 'ERRORS.URL' | translate }}</span>
+        }
+      </div>
+      <input
+        type="text"
+        [formControl]="urlControl"
+        (keyup.enter)="onSearch()"
+        placeholder="https://..."
+        [class.input-error]="urlControl.invalid && urlControl.touched"
+      />
+    </div>
+
+    @if (error()) {
+      <div style="color: var(--error); font-size: 0.85rem; margin-bottom: 1rem; text-align: center;">
+        {{ 'ERRORS.SCRAP_FAILED' | translate }}
+      </div>
+    }
+
+    <button type="button" class="btn-primary" style="width: 100%;" (click)="onSearch()">
+      {{ 'SEARCH' | translate }}
+    </button>
+  }
+
+  @else if (scrapedProduct(); as product) {
+    <div style="display: flex; gap: 1.25rem; padding: 1.25rem;">
+      <img [src]="product.imageUrl" alt="Product" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;" />
+      <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 600; margin: 0; color: var(--text-main); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.3;">
+          {{ product.name }}
+        </h3>
+        <p style="font-size: 1.25rem; font-weight: 700; color: var(--primary); margin: 0;">
+          {{ product.price }} {{ product.currency?.symbol || product.currency?.currencyCode || product.currency }}
+        </p>
+      </div>
+    </div>
+
+    @if (sessionService.isLoggedIn()) {
+      <div class="field-group" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
+        <div class="field-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <label class="field-label" style="margin: 0;">{{ 'TARGET_PRICE' | translate }}:</label>
+          @if (targetPriceControl.invalid && targetPriceControl.touched) {
+            <span class="field-error" style="margin: 0;">{{ 'ERRORS.INVALID_TARGET_PRICE' | translate }}</span>
+          }
+        </div>
+
+        <div style="position: relative; display: flex; align-items: center;">
+          <input
+            type="text"
+            inputmode="decimal"
+            [formControl]="targetPriceControl"
+            (input)="onPriceInput($event)"
+            [class.input-error]="targetPriceControl.invalid && targetPriceControl.touched"
+            style="width: 100%; padding-right: 4rem;"
+          />
+          <span style="position: absolute; right: 1rem; font-weight: 600; color: var(--text-muted); pointer-events: none; font-size: 0.95rem;">
+            {{ product.currency?.symbol || product.currency?.currencyCode || product.currency }}
+          </span>
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary" style="width: 100%;" (click)="confirmTracking()">
+        {{ 'ADD_AND_TRACK' | translate }}
+      </button>
+    } @else {
+      <button type="button" class="btn-primary" style="width: 100%; margin-top: 1.5rem;" (click)="promptLogin()">
+        {{ 'SIGN_IN_TO_TRACK' | translate }}
+      </button>
+    }
+  }
+</app-modal>

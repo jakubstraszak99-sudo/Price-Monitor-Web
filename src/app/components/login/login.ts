@@ -3,9 +3,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthenticationService, UserLoginRequest } from '../../api-client';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Modal } from '../modal/modal';
 
 @Component({
-  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe, Modal],
   selector: 'app-login',
   templateUrl: './login.html',
 })
@@ -14,6 +15,7 @@ export class Login {
   private authService = inject(AuthenticationService);
 
   public loading = signal(false);
+  public error = signal(false);
   public closeModal = output<void>();
   public loginSuccess = output<void>();
 
@@ -31,9 +33,17 @@ export class Login {
     this.loading.set(true);
     const request: UserLoginRequest = this.loginForm.getRawValue();
 
-    this.authService.login(request).subscribe(() => {
-      this.loading.set(false);
-      this.loginSuccess.emit();
+    this.authService.login(request).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.loginSuccess.emit();
+        this.close();
+      },
+      error: () => {
+        this.loading.set(false);
+        this.error.set(true);
+        this.loginForm.controls.password.reset();
+      },
     });
   }
 

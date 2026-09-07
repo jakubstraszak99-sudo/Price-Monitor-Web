@@ -3,8 +3,10 @@
     Price Monitor
   </div>
   <div class="nav-search">
-    <input type="text" placeholder="Wklej link do produktu (np. Allegro, Amazon)..." />
-    <button class="btn-primary">Śledź cenę</button>
+    <input type="text" placeholder="{{ 'SEARCH' | translate }}..." />
+    <button class="btn-primary" style="min-width: 10rem" (click)="isAddProductModalOpen.set(true)">
+      {{ 'ADD_PRODUCT' | translate }}
+    </button>
   </div>
   <div class="nav-actions">
     <div class="nav-flags">
@@ -70,5 +72,14 @@
 }
 
 @if (isRegisterModalOpen()) {
-  <app-register (closeModal)="isRegisterModalOpen.set(false)"></app-register>
+  <app-register
+    (closeModal)="isRegisterModalOpen.set(false)">
+  </app-register>
+}
+
+@if (isAddProductModalOpen()) {
+  <app-add-product
+    (closeModal)="isAddProductModalOpen.set(false)"
+    (requireLogin)="handleRequireLogin()">
+  </app-add-product>
 }

@@ -10,14 +10,30 @@
   "MY_ALERTS": "Moje alerty",
   "SETTINGS": "Ustawienia",
   "LOGOUT": "Wyloguj się",
+  "ADD_PRODUCT": "Dodaj Produkt",
+  "SEARCH": "Szukaj",
+  "SEARCHING": "Szukanie",
+  "PRODUCT_LINK": "Link do produktu",
+  "ADD_AND_TRACK": "Dodaj i Śledź",
+  "SIGN_IN_TO_TRACK": "Zaloguj się, aby śledzić",
+  "TARGET_PRICE": "Cena docelowa",
   "ERRORS": {
     "REQUIRED": "To pole jest wymagane",
     "INVALID_EMAIL": "Nieprawidłowy adres email",
     "MIN_LENGTH_8": "Hasło musi mieć min. 8 znaków",
-    "PASSWORDS_DO_NOT_MATCH": "Hasła nie są identyczne"
+    "PASSWORDS_DO_NOT_MATCH": "Hasła nie są identyczne",
+    "INVALID_CREDENTIALS": "Nieprawidłowa nazwa użytkownika lub hasło",
+    "SCRAP_FAILED": "Nie znaleziono produktu pod podanym adresem lub sklep nie jest obsługiwany.",
+    "URL": "Podaj prawidłowy adres URL",
+    "PRICE_ALERT_NOT_CREATRED": "Wystąpił błąd podczas dodawania produktu!",
+    "USER_EXISTS": "Podany adres e-mail lub nazwa użytkownika już istnieje",
+    "REGISTER_ERROR": "Podczas rejestracji wystąpił błąd!",
+    "INVALID_TARGET_PRICE": "Cena nieprawidłowa"
   },
   "TOASTS": {
     "REGISTER_SUCCESS": "Rejestracja udana! Sprawdź swój e-mail!",
-    "VERIFY_SUCCESS": "Konto zostało pomyślnie zweryfikowane!"
+    "VERIFY_SUCCESS": "Konto zostało pomyślnie zweryfikowane!",
+    "VERIFY_FAILED": "Nie można zweryfikować konta!",
+    "PRICE_ALERT_CREATED": "Pomyślnie dodano produkt!"
   }
 }
