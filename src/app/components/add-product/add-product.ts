@@ -16,32 +16,32 @@ import { ApiErrorResponse } from '../../shared/api-error-response';
 @Component({
   imports: [CommonModule, ReactiveFormsModule, TranslatePipe, Modal],
   selector: 'app-add-product',
-  templateUrl: './add-product.html'
+  templateUrl: './add-product.html',
 })
 export class AddProduct {
-  private productService = inject(ProductService);
-  private priceAlertService = inject(PriceAlertService);
-  private toastService = inject(ToastService);
+  private readonly productService = inject(ProductService);
+  private readonly priceAlertService = inject(PriceAlertService);
+  private readonly toastService = inject(ToastService);
   private searchedUrl: string = '';
 
-  public sessionService = inject(SessionService);
-  public closeModal = output<void>();
-  public requireLogin = output<void>();
-  public loading = signal(false);
-  public error = signal(false);
-  public scrapedProduct = signal<ScrapedProduct | null>(null);
+  protected readonly sessionService = inject(SessionService);
+  protected readonly closeModal = output<void>();
+  protected readonly requireLogin = output<void>();
+  protected readonly loading = signal(false);
+  protected readonly error = signal(false);
+  protected readonly scrapedProduct = signal<ScrapedProduct | null>(null);
 
-  public urlControl = new FormControl('', {
+  protected readonly urlControl = new FormControl('', {
     validators: [Validators.required, Validators.pattern(/^https?:\/\/.+/)],
     nonNullable: true,
   });
 
-  public targetPriceControl = new FormControl<string>('0.01', {
+  protected readonly targetPriceControl = new FormControl<string>('0.01', {
     validators: [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)],
     nonNullable: true,
   });
 
-  public onSearch(): void {
+  protected onSearch(): void {
     if (this.urlControl.invalid) {
       this.urlControl.markAsTouched();
       return;
@@ -69,7 +69,7 @@ export class AddProduct {
     });
   }
 
-  public onPriceInput(event: Event): void {
+  protected onPriceInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     let sanitized = input.value.replace(/[^0-9.,]/g, '');
     sanitized = sanitized.replace(/,/g, '.');
@@ -83,7 +83,7 @@ export class AddProduct {
     this.targetPriceControl.setValue(sanitized, { emitEvent: false });
   }
 
-  public confirmTracking(): void {
+  protected confirmTracking(): void {
     const product = this.scrapedProduct();
 
     if (!product) {
@@ -117,11 +117,11 @@ export class AddProduct {
     });
   }
 
-  public promptLogin(): void {
+  protected promptLogin(): void {
     this.requireLogin.emit();
   }
 
-  public close(): void {
+  protected close(): void {
     this.closeModal.emit();
   }
 }

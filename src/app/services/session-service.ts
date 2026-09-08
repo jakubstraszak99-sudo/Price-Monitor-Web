@@ -6,12 +6,12 @@ import { catchError, switchMap } from 'rxjs';
 
 @Service()
 export class SessionService {
-  private authApi = inject(AuthenticationService);
-  private userApi = inject(UserService);
-  private router = inject(Router);
+  private readonly authApi = inject(AuthenticationService);
+  private readonly userApi = inject(UserService);
+  private readonly router = inject(Router);
 
-  public isLoggedIn = signal(false);
-  public username = signal('');
+  public readonly isLoggedIn = signal(false);
+  public readonly username = signal('');
 
   constructor() {
     this.checkActiveSession();
@@ -36,7 +36,8 @@ export class SessionService {
         catchError((error) => {
           throw error;
         }),
-      ).subscribe({
+      )
+      .subscribe({
         next: (user) => {
           this.isLoggedIn.set(true);
           if (user.username != null) {

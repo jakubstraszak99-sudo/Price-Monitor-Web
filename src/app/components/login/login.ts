@@ -11,20 +11,20 @@ import { Modal } from '../modal/modal';
   templateUrl: './login.html',
 })
 export class Login {
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthenticationService);
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthenticationService);
 
-  public loading = signal(false);
-  public error = signal(false);
-  public closeModal = output<void>();
-  public loginSuccess = output<void>();
+  protected readonly loading = signal(false);
+  protected readonly error = signal(false);
+  protected readonly closeModal = output<void>();
+  protected readonly loginSuccess = output<void>();
 
-  public loginForm = this.fb.nonNullable.group({
+  protected readonly loginForm = this.fb.nonNullable.group({
     login: ['', Validators.required],
     password: ['', Validators.required],
   });
 
-  public onSubmit(): void {
+  protected onSubmit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -47,7 +47,7 @@ export class Login {
     });
   }
 
-  public close(): void {
+  protected close(): void {
     this.closeModal.emit();
   }
 }

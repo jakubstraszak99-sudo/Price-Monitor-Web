@@ -8,5 +8,5 @@ import { ToastService } from '../../services/toast-service';
   templateUrl: './toast.html',
 })
 export class Toast {
-  public toastService = inject(ToastService);
+  protected readonly toastService = inject(ToastService);
 }

@@ -17,6 +17,7 @@
   "ADD_AND_TRACK": "Add and Track",
   "SIGN_IN_TO_TRACK": "Sign in to track",
   "TARGET_PRICE": "Target price",
+  "NO_PRODUCTS_FOUND": "No products found!",
   "ERRORS": {
     "REQUIRED": "This field is required",
     "INVALID_EMAIL": "Invalid email address",
@@ -28,12 +29,20 @@
     "PRICE_ALERT_NOT_CREATRED": "An error occurred while creating price alert!",
     "USER_EXISTS": "Provided email or username already exists",
     "REGISTER_ERROR": "An error occurred during registration!",
-    "INVALID_TARGET_PRICE": "Invalid price"
+    "INVALID_TARGET_PRICE": "Invalid price",
+    "UNABLE_TO_LOAD_PRODUCTS": "Unable to load products"
   },
   "TOASTS": {
     "REGISTER_SUCCESS": "Registration successful! Please check your email!",
     "VERIFY_SUCCESS": "Account verified successfully!",
     "VERIFY_FAILED": "Account verification failed!",
     "PRICE_ALERT_CREATED": "Price alert created successfully!"
+  },
+  "SORT": {
+    "NAME_ASC": "Name (A-Z)",
+    "NAME_DESC": "Name (Z-A)",
+    "PRICE_ASC": "Price ascending",
+    "PRICE_DESC": "Price descending",
+    "LAST_UPDATED": "Last updated"
   }
 }

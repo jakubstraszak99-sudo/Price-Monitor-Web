@@ -9,7 +9,7 @@
   "REGISTER": "Rejestracja",
   "MY_ALERTS": "Moje alerty",
   "SETTINGS": "Ustawienia",
-  "LOGOUT": "Wyloguj się",
+  "LOGOUT": "Wyloguj",
   "ADD_PRODUCT": "Dodaj Produkt",
   "SEARCH": "Szukaj",
   "SEARCHING": "Szukanie",
@@ -17,6 +17,7 @@
   "ADD_AND_TRACK": "Dodaj i Śledź",
   "SIGN_IN_TO_TRACK": "Zaloguj się, aby śledzić",
   "TARGET_PRICE": "Cena docelowa",
+  "NO_PRODUCTS_FOUND": "Nie znaleziono żadnych produktów!",
   "ERRORS": {
     "REQUIRED": "To pole jest wymagane",
     "INVALID_EMAIL": "Nieprawidłowy adres email",
@@ -28,12 +29,20 @@
     "PRICE_ALERT_NOT_CREATRED": "Wystąpił błąd podczas dodawania produktu!",
     "USER_EXISTS": "Podany adres e-mail lub nazwa użytkownika już istnieje",
     "REGISTER_ERROR": "Podczas rejestracji wystąpił błąd!",
-    "INVALID_TARGET_PRICE": "Cena nieprawidłowa"
+    "INVALID_TARGET_PRICE": "Cena nieprawidłowa",
+    "UNABLE_TO_LOAD_PRODUCTS": "Nie udało się wczytać produktów"
   },
   "TOASTS": {
     "REGISTER_SUCCESS": "Rejestracja udana! Sprawdź swój e-mail!",
     "VERIFY_SUCCESS": "Konto zostało pomyślnie zweryfikowane!",
     "VERIFY_FAILED": "Nie można zweryfikować konta!",
     "PRICE_ALERT_CREATED": "Pomyślnie dodano produkt!"
+  },
+  "SORT": {
+    "NAME_ASC": "Nazwa (A-Z)",
+    "NAME_DESC": "Nazwa (Z-A)",
+    "PRICE_ASC": "Cena rosnąco",
+    "PRICE_DESC": "Cena malejąco",
+    "LAST_UPDATED": "Ostatnio zaktualizowane"
   }
 }

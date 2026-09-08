@@ -11,6 +11,7 @@
   --primary-glow: rgba(79, 70, 229, 0.2);
   --secondary-hover: #f8fafc;
   --border: #e2e8f0;
+  --toolbar: #e8e8f4;
   --error: #ef4444;
   --error-bg: #fef2f2;
   --radius: 8px;
@@ -27,7 +28,7 @@ body {
 }
 
 input {
-  background-color: #f1f5f9;
+  background-color: var(--toolbar);
   border: 1px solid transparent;
   border-radius: var(--radius);
   padding: 0.65rem 1rem;
@@ -143,12 +144,14 @@ button:active {
   padding: 0;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
+
 .modal-close-btn:hover {
   background-color: var(--secondary-hover);
   color: var(--text-main);
   box-shadow: none;
   transform: none;
 }
+
 .modal-close-btn:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;

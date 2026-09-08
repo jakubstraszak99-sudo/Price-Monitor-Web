@@ -2,13 +2,11 @@
   <div routerLink="/home" class="nav-logo">
     Price Monitor
   </div>
-  <div class="nav-search">
-    <input type="text" placeholder="{{ 'SEARCH' | translate }}..." />
-    <button class="btn-primary" style="min-width: 10rem" (click)="isAddProductModalOpen.set(true)">
+  <div class="nav-actions">
+    <button class="btn-primary add-product-btn" style="min-width: 10rem" (click)="isAddProductModalOpen.set(true)">
       {{ 'ADD_PRODUCT' | translate }}
     </button>
-  </div>
-  <div class="nav-actions">
+    <div class="nav-divider"></div>
     <div class="nav-flags">
       <button class="flag-btn" (click)="switchLanguage('en')">
         <a href="https://www.flaticon.com/free-icons/united-states" style="display: none" title="united states icons">United states icons created by Freepik - Flaticon</a>

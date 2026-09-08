@@ -9,7 +9,7 @@ import { LanguageService } from './services/language.service';
   templateUrl: './app.html',
 })
 export class App implements OnInit {
-  private languageService = inject(LanguageService);
+  private readonly languageService = inject(LanguageService);
 
   public ngOnInit(): void {
     this.languageService.initLanguage();

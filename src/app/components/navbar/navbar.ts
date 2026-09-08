@@ -14,34 +14,34 @@ import { AddProduct } from '../add-product/add-product';
   styleUrl: './navbar.css',
 })
 export class Navbar {
-  private languageService = inject(LanguageService);
-  public sessionService = inject(SessionService);
+  private readonly languageService = inject(LanguageService);
+  protected readonly sessionService = inject(SessionService);
 
-  public isLoginModalOpen = signal(false);
-  public isRegisterModalOpen = signal(false);
-  public isDropdownOpen = signal(false);
-  public isAddProductModalOpen = signal(false);
+  protected readonly isLoginModalOpen = signal(false);
+  protected readonly isRegisterModalOpen = signal(false);
+  protected readonly isDropdownOpen = signal(false);
+  protected readonly isAddProductModalOpen = signal(false);
 
-  public switchLanguage(language: string): void {
+  protected switchLanguage(language: string): void {
     this.languageService.setLanguage(language);
   }
 
-  public toggleDropdown(): void {
+  protected toggleDropdown(): void {
     this.isDropdownOpen.update((val) => !val);
   }
 
-  public onLogin(): void {
+  protected onLogin(): void {
     this.isLoginModalOpen.set(false);
     this.sessionService.setLogin();
   }
 
-  public handleRequireLogin(): void {
+  protected handleRequireLogin(): void {
     this.isAddProductModalOpen.set(false);
     this.isLoginModalOpen.set(true);
   }
 
   @HostListener('document:click', ['$event'])
-  onClickOutside(event: Event): void {
+  public onClickOutside(event: Event): void {
     if (this.isDropdownOpen()) {
       const clickedInside = (event.target as HTMLElement).closest('.dropdown-wrapper');
 

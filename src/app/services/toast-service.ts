@@ -4,10 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Service()
 export class ToastService {
-  private translateService = inject(TranslateService);
+  private readonly translateService = inject(TranslateService);
   private timeoutId: any;
 
-  public state = signal<ToastState>({ message: '', type: 'success', visible: false });
+  public readonly state = signal<ToastState>({ message: '', type: 'success', visible: false });
 
   public showSuccess(key: string): void {
     this.translateService.get(key).subscribe((message: string) => {

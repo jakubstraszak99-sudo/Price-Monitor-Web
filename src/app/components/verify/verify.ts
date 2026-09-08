@@ -12,11 +12,11 @@ import { SessionService } from '../../services/session-service';
   templateUrl: './verify.html',
 })
 export class Verify implements OnInit {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private authService = inject(AuthenticationService);
-  private toastService = inject(ToastService);
-  private sessionService = inject(SessionService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthenticationService);
+  private readonly toastService = inject(ToastService);
+  private readonly sessionService = inject(SessionService);
 
   public ngOnInit() {
     const token = this.route.snapshot.queryParamMap.get('token');

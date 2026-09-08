@@ -6,7 +6,7 @@ import { Component, input, output } from '@angular/core';
   templateUrl: './modal.html',
 })
 export class Modal {
-  public close = output<void>();
-  public isLoading = input(false);
-  public loadingText = input<string>('');
+  public readonly close = output<void>();
+  public readonly isLoading = input(false);
+  public readonly loadingText = input<string>('');
 }

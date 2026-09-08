@@ -13,15 +13,15 @@ import { ApiErrorResponse } from '../../shared/api-error-response';
   templateUrl: './register.html',
 })
 export class Register {
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthenticationService);
-  private toastService = inject(ToastService);
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthenticationService);
+  private readonly toastService = inject(ToastService);
 
-  public loading = signal(false);
-  public error = signal(false);
-  public closeModal = output<void>();
+  protected readonly loading = signal(false);
+  protected readonly error = signal(false);
+  protected readonly closeModal = output<void>();
 
-  public registerForm = this.fb.nonNullable.group(
+  protected readonly registerForm = this.fb.nonNullable.group(
     {
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -31,7 +31,7 @@ export class Register {
     { validators: this.passwordsMatchValidator },
   );
 
-  public onSubmit(): void {
+  protected onSubmit(): void {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       return;
@@ -52,9 +52,7 @@ export class Register {
 
         if (apiError.code === 'E007') {
           this.error.set(true);
-        }
-
-        else {
+        } else {
           this.close();
           this.toastService.showError('ERRORS.REGISTER_ERROR', apiError.code);
         }
@@ -64,7 +62,7 @@ export class Register {
     });
   }
 
-  public close(): void {
+  protected close(): void {
     this.closeModal.emit();
   }
 

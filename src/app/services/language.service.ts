@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 
 @Service()
 export class LanguageService {
-  private translateService = inject(TranslateService);
+  private readonly translateService = inject(TranslateService);
 
   public initLanguage(): void {
     const language = localStorage.getItem(environment.languageToken) ?? 'pl';
