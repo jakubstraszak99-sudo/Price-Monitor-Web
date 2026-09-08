@@ -15,50 +15,47 @@
   </div>
 } @else {
   <div class="product-grid">
-    @for (product of products(); track product.productUrl) {
-      <a class="product-card" [href]="product.productUrl" target="_blank" rel="noopener">
+    @for (product of products(); track product) {
+      <a class="product-card" target="_blank" rel="noopener">
         <div class="product-image-wrapper">
           <img [src]="product.imageUrl" [alt]="product.name" class="product-image" loading="lazy" />
         </div>
         <div class="product-info">
-          <h3 class="product-name">{{ product.name }}</h3>
-          <p class="product-price">{{ product.currentPrice }} {{ product.currency?.symbol || product.currency?.currencyCode || product.currency }}</p>
+          <h3 class="product-name">
+            {{ product.name }}
+          </h3>
+          <p class="product-price">
+            {{ product.currentPrice | number:'1.2-2' }} {{ product.currency?.symbol || product.currency?.currencyCode || product.currency }}
+          </p>
+          <div class="product-source">
+            @if (product.faviconUrl || product.domain) {
+              @if (product.faviconUrl) {
+                <img
+                  [src]="product.faviconUrl"
+                  [alt]="product.domain || 'shop icon'"
+                  class="product-favicon"
+                  loading="lazy"
+                />
+              } @else {
+                <svg class="product-favicon product-favicon-placeholder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  <path d="M2 12h20" />
+                </svg>
+              }
+              @if (product.domain) {
+                <span class="product-domain">{{ product.domain }}</span>
+              }
+            }
+          </div>
         </div>
       </a>
     }
   </div>
-
-  @if (totalPages() > 1) {
-    <div class="pagination">
-      <button
-        class="btn-secondary page-btn"
-        [disabled]="currentPage() === 0"
-        (click)="goToPage(currentPage() - 1)"
-      >
-        ‹
-      </button>
-
-      @for (page of pageNumbers; track $index) {
-        @if (page === '...') {
-          <span class="page-ellipsis">…</span>
-        } @else {
-          <button
-            class="page-btn"
-            [class.page-btn-active]="page === currentPage()"
-            (click)="goToPage(page)"
-          >
-            {{ page + 1 }}
-          </button>
-        }
-      }
-
-      <button
-        class="btn-secondary page-btn"
-        [disabled]="currentPage() === totalPages() - 1"
-        (click)="goToPage(currentPage() + 1)"
-      >
-        ›
-      </button>
-    </div>
-  }
+  <app-pagination
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    [pageNumbers]="pageNumbers"
+    (pageChange)="goToPage($event)"
+  />
 }

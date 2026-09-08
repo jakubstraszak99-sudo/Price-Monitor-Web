@@ -1,0 +1,97 @@
+@if (loading()) {
+  <div class="loader-container">
+    <div class="spinner"></div>
+  </div>
+} @else if (error()) {
+  <div class="empty-state">
+    <p class="empty-state-text">{{ 'ERRORS.UNABLE_TO_LOAD_ALERTS' | translate }}</p>
+  </div>
+} @else if (priceAlerts().length === 0) {
+  <div class="empty-state">
+    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </svg>
+    <p class="empty-state-text">{{ 'NO_ALERTS_FOUND' | translate }}</p>
+  </div>
+} @else {
+  <div class="alert-list">
+    @for (alert of priceAlerts(); track alert.publicId) {
+      <div class="alert-item" [class.alert-item-expanded]="isExpanded(alert.publicId)">
+        <button class="alert-summary" type="button" (click)="toggleExpanded(alert.publicId)">
+          <img
+            [src]="alert.product?.imageUrl"
+            [alt]="alert.product?.name || ''"
+            class="alert-image"
+            loading="lazy"
+          />
+
+          <div class="alert-main-info">
+            <div class="alert-source">
+              @if (alert.product?.faviconUrl) {
+                <img [src]="alert.product?.faviconUrl" [alt]="alert.product?.domain || ''" class="alert-favicon" loading="lazy" />
+              }
+              @if (alert.product?.domain) {
+                <span class="alert-domain">{{ alert.product?.domain }}</span>
+              }
+            </div>
+
+            <h3 class="alert-name">{{ alert.product?.name }}</h3>
+
+            <div class="alert-prices">
+              <span class="alert-price-current">
+                {{ alert.product?.currentPrice | number: '1.2-2' }} {{ alert.product?.currency }}
+              </span>
+              <span class="alert-price-target">
+                {{ 'ALERT.TARGET_PRICE' | translate }}: {{ alert.targetPrice | number: '1.2-2' }} {{ alert.product?.currency }}
+              </span>
+            </div>
+          </div>
+
+          <div class="alert-status">
+            <span class="status-badge" [class.status-active]="alert.active" [class.status-inactive]="!alert.active">
+              <span class="status-dot"></span>
+              {{ (alert.active ? 'ALERT.ACTIVE' : 'ALERT.INACTIVE') | translate }}
+            </span>
+            <svg class="expand-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+        </button>
+
+        @if (isExpanded(alert.publicId)) {
+          <div class="alert-details">
+            <div class="detail-row">
+              <span class="detail-label">{{ 'ALERT.CREATED_AT' | translate }}</span>
+              <span class="detail-value">{{ alert.createdAt | date: 'medium' }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">{{ 'ALERT.LAST_UPDATED' | translate }}</span>
+              <span class="detail-value">{{ alert.product?.lastUpdated | date: 'medium' }}</span>
+            </div>
+            <a class="detail-link"
+            [href]="alert.product?.productUrl"
+            target="_blank"
+            rel="noopener"
+            (click)="$event.stopPropagation()"
+            >
+            {{ 'ALERT.VIEW_PRODUCT' | translate }}
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
+            </a>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <app-pagination
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    [pageNumbers]="pageNumbers"
+    (pageChange)="goToPage($event)"
+  />
+}

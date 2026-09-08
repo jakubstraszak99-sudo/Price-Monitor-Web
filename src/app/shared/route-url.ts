@@ -1,4 +1,5 @@
 export enum RouteUrl {
   HOME = 'home',
-  VERIFY = 'verify'
+  VERIFY = 'verify',
+  MY_ALERTS = 'my-alerts'
 }

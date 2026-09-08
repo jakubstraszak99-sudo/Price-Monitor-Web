@@ -1,0 +1,19 @@
+@if (totalPages() > 1) {
+  <div class="pagination">
+    <button class="btn-secondary page-btn" [disabled]="currentPage() === 0" (click)="onGoToPage(currentPage() - 1)">
+      ‹
+    </button>
+    @for (page of pageNumbers(); track $index) {
+      @if (page === '...') {
+        <span class="page-ellipsis">…</span>
+      } @else {
+        <button class="page-btn" [class.page-btn-active]="page === currentPage()" (click)="onGoToPage(page)">
+          {{ page + 1 }}
+        </button>
+      }
+    }
+    <button class="btn-secondary page-btn" [disabled]="currentPage() === totalPages() - 1" (click)="onGoToPage(currentPage() + 1)">
+      ›
+    </button>
+  </div>
+}

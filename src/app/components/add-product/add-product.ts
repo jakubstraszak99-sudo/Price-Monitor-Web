@@ -28,7 +28,7 @@ export class AddProduct {
   protected readonly closeModal = output<void>();
   protected readonly requireLogin = output<void>();
   protected readonly loading = signal(false);
-  protected readonly error = signal(false);
+  protected readonly errorMessage = signal<string | null>(null);
   protected readonly scrapedProduct = signal<ScrapedProduct | null>(null);
 
   protected readonly urlControl = new FormControl('', {
@@ -48,7 +48,7 @@ export class AddProduct {
     }
 
     this.loading.set(true);
-    this.error.set(false);
+    this.errorMessage.set(null);
     this.searchedUrl = this.urlControl.value;
 
     this.productService.extractProductInfo({ url: this.searchedUrl }).subscribe({
@@ -63,7 +63,7 @@ export class AddProduct {
         this.loading.set(false);
       },
       error: () => {
-        this.error.set(true);
+        this.errorMessage.set('ERRORS.SCRAP_FAILED');
         this.loading.set(false);
       },
     });
@@ -96,6 +96,8 @@ export class AddProduct {
     }
 
     this.loading.set(true);
+    this.errorMessage.set(null);
+
     const request: CreatePriceAlertRequest = {
       url: this.searchedUrl,
       targetPrice: parseFloat(this.targetPriceControl.value),
@@ -111,8 +113,13 @@ export class AddProduct {
       error: (err) => {
         const apiError = err.error as ApiErrorResponse;
         this.loading.set(false);
-        this.close();
-        this.toastService.showError('ERRORS.PRICE_ALERT_NOT_CREATRED', apiError?.code);
+
+        if (apiError.code === 'E014') {
+          this.errorMessage.set('ERRORS.PRICE_ALERT_ALREADY_EXISTS');
+        } else {
+          this.toastService.showError('ERRORS.PRICE_ALERT_NOT_CREATRED', apiError?.code);
+          this.close();
+        }
       },
     });
   }

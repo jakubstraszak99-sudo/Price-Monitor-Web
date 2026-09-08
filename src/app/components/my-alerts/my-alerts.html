@@ -1,4 +1,5 @@
 <section>
   <app-search-sort-toolbar [(searchTerm)]="searchTerm" [(sortValue)]="sortValue" [sortOptions]="sortOptions" />
-  <app-product-list [searchTerm]="searchTerm()" [sortValue]="sortValue()" />
+  <h1>{{ 'MY_ALERTS' | translate }}</h1>
+  <app-alert-list [searchTerm]="searchTerm()" [sortValue]="sortValue()" />
 </section>

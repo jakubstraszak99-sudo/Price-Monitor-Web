@@ -2,7 +2,7 @@ import { inject, Service, signal } from '@angular/core';
 import { AuthenticationService, UserService } from '../api-client';
 import { Router } from '@angular/router';
 import { RouteUrl } from '../shared/route-url';
-import { catchError, switchMap } from 'rxjs';
+import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 
 @Service()
 export class SessionService {
@@ -13,12 +13,8 @@ export class SessionService {
   public readonly isLoggedIn = signal(false);
   public readonly username = signal('');
 
-  constructor() {
-    this.checkActiveSession();
-  }
-
   public setLogin(): void {
-    this.checkActiveSession();
+    this.initializeSession().subscribe();
   }
 
   public logout(): void {
@@ -28,27 +24,21 @@ export class SessionService {
     });
   }
 
-  private checkActiveSession(): void {
-    this.authApi
-      .refreshToken()
-      .pipe(
-        switchMap(() => this.userApi.getUser()),
-        catchError((error) => {
-          throw error;
-        }),
-      )
-      .subscribe({
-        next: (user) => {
-          this.isLoggedIn.set(true);
-          if (user.username != null) {
-            this.username.set(user.username);
-          }
-        },
-        error: () => {
-          this.isLoggedIn.set(false);
-          this.username.set('');
-        },
-      });
+  public initializeSession(): Observable<any> {
+    return this.authApi.refreshToken().pipe(
+      switchMap(() => this.userApi.getUser()),
+      tap((user) => {
+        this.isLoggedIn.set(true);
+        if (user.username != null) {
+          this.username.set(user.username);
+        }
+      }),
+      catchError(() => {
+        this.isLoggedIn.set(false);
+        this.username.set('');
+        return of(null);
+      }),
+    );
   }
 
   private handleLogout(): void {

@@ -6,6 +6,7 @@ import { Login } from '../login/login';
 import { Register } from '../register/register';
 import { SessionService } from '../../services/session-service';
 import { AddProduct } from '../add-product/add-product';
+import { RouteUrl } from '../../shared/route-url';
 
 @Component({
   selector: 'app-navbar',
@@ -21,6 +22,8 @@ export class Navbar {
   protected readonly isRegisterModalOpen = signal(false);
   protected readonly isDropdownOpen = signal(false);
   protected readonly isAddProductModalOpen = signal(false);
+  protected readonly homeRouterLink = `/${RouteUrl.HOME}`;
+  protected readonly alertsRouterLink = `/${RouteUrl.MY_ALERTS}`;
 
   protected switchLanguage(language: string): void {
     this.languageService.setLanguage(language);

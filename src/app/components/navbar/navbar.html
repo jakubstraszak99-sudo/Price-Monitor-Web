@@ -1,5 +1,5 @@
 <nav class="top-navbar">
-  <div routerLink="/home" class="nav-logo">
+  <div [routerLink]="homeRouterLink" class="nav-logo">
     Price Monitor
   </div>
   <div class="nav-actions">
@@ -41,7 +41,7 @@
 
           @if (isDropdownOpen()) {
             <div class="dropdown-menu">
-              <a routerLink="/alerts" class="dropdown-item" (click)="isDropdownOpen.set(false)">
+              <a [routerLink]="alertsRouterLink" class="dropdown-item" (click)="isDropdownOpen.set(false)">
                 {{ 'MY_ALERTS' | translate }}
               </a>
               <a routerLink="/settings" class="dropdown-item" (click)="isDropdownOpen.set(false)">

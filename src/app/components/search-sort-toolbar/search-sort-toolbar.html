@@ -1,0 +1,13 @@
+<div class="toolbar">
+  <input
+    type="text"
+    class="search-input"
+    placeholder="{{ 'SEARCH' | translate }}..."
+    (input)="onSearchInput($any($event.target).value)"
+  />
+  <select class="sort-select" [ngModel]="sortValue()" (ngModelChange)="onSortChange($event)">
+    @for (option of sortOptions(); track option.value) {
+      <option [value]="option.value">{{ option.labelKey | translate }}</option>
+    }
+  </select>
+</div>
