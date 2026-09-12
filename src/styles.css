@@ -218,6 +218,21 @@ input.input-error {
   animation: spin 1s linear infinite;
 }
 
+.price-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.price-input span {
+  position: absolute;
+  right: 1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  pointer-events: none;
+  font-size: 0.95rem;
+}
+
 .error-state,
 .empty-state {
   display: flex;

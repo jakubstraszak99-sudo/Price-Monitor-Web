@@ -19,5 +19,7 @@ export class MyAlerts {
     { labelKey: 'SORT.PRICE_DESC', value: 'product.currentPrice,desc' },
     { labelKey: 'SORT.CREATED_NEWEST', value: 'createdAt,desc' },
     { labelKey: 'SORT.CREATED_OLDEST', value: 'createdAt,asc' },
+    { labelKey: 'SORT.ACTIVE_FIRST', value: 'active,desc' },
+    { labelKey: 'SORT.INACTIVE_FIRST', value: 'active,asc' },
   ];
 }

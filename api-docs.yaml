@@ -221,6 +221,35 @@ paths:
       responses:
         '200':
           description: Password has been reset
+  "/api/v1/alert/{publicId}":
+    patch:
+      tags:
+        - Price Alert
+      summary: Update price alert
+      description: Partially updates price alert (target price and/or active status)
+      operationId: updatePriceAlert
+      parameters:
+        - name: publicId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UpdatePriceAlertRequest"
+        required: true
+      responses:
+        '200':
+          description: Price alert updated successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PriceAlert"
+        '404':
+          description: Price alert not found
   "/api/v1/user":
     get:
       tags:
@@ -308,6 +337,23 @@ paths:
           description: Account verified successfully
         '400':
           description: Invalid or expired token
+  "/api/v1/alert/{publicId}/delete":
+    delete:
+      tags:
+        - Price Alert
+      summary: Delete price alert
+      description: Deletes price alert permanently
+      operationId: deletePriceAlert
+      parameters:
+        - name: publicId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Price alert deleted successfully
 components:
   schemas:
     ForgotPasswordRequest:
@@ -354,7 +400,7 @@ components:
               format: int32
             numericCodeAsString:
               type: string
-        domain:
+        shop:
           type: string
         faviconUrl:
           type: string
@@ -430,34 +476,29 @@ components:
       required:
         - newPassword
         - resetToken
-    User:
+    UpdatePriceAlertRequest:
+      type: object
+      properties:
+        active:
+          type: boolean
+        targetPrice:
+          type: number
+          minimum: 0
+    PriceAlert:
       type: object
       properties:
         publicId:
           type: string
           format: uuid
-        username:
-          type: string
-        email:
-          type: string
-    PageableObject:
-      type: object
-      properties:
-        offset:
-          type: integer
-          format: int64
-        paged:
+        targetPrice:
+          type: number
+        active:
           type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        sort:
-          "$ref": "#/components/schemas/SortObject"
-        unpaged:
-          type: boolean
+        product:
+          "$ref": "#/components/schemas/Product"
+        createdAt:
+          type: string
+          format: date-time
     Product:
       type: object
       properties:
@@ -491,11 +532,39 @@ components:
         lastUpdated:
           type: string
           format: date-time
-        domain:
+        shop:
           type: string
         faviconUrl:
           type: string
           format: uri
+    User:
+      type: object
+      properties:
+        publicId:
+          type: string
+          format: uuid
+        username:
+          type: string
+        email:
+          type: string
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        sort:
+          "$ref": "#/components/schemas/SortObject"
+        unpaged:
+          type: boolean
     ProductPage:
       type: object
       properties:
@@ -505,14 +574,14 @@ components:
             "$ref": "#/components/schemas/Product"
         pageable:
           "$ref": "#/components/schemas/PageableObject"
+        last:
+          type: boolean
         totalElements:
           type: integer
           format: int64
         totalPages:
           type: integer
           format: int32
-        last:
-          type: boolean
         size:
           type: integer
           format: int32
@@ -521,11 +590,11 @@ components:
           format: int32
         sort:
           "$ref": "#/components/schemas/SortObject"
+        first:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
-        first:
-          type: boolean
         empty:
           type: boolean
     SortObject:
@@ -537,21 +606,6 @@ components:
           type: boolean
         unsorted:
           type: boolean
-    PriceAlert:
-      type: object
-      properties:
-        publicId:
-          type: string
-          format: uuid
-        targetPrice:
-          type: number
-        active:
-          type: boolean
-        product:
-          "$ref": "#/components/schemas/Product"
-        createdAt:
-          type: string
-          format: date-time
     PriceAlertPage:
       type: object
       properties:
@@ -561,14 +615,14 @@ components:
             "$ref": "#/components/schemas/PriceAlert"
         pageable:
           "$ref": "#/components/schemas/PageableObject"
+        last:
+          type: boolean
         totalElements:
           type: integer
           format: int64
         totalPages:
           type: integer
           format: int32
-        last:
-          type: boolean
         size:
           type: integer
           format: int32
@@ -577,10 +631,10 @@ components:
           format: int32
         sort:
           "$ref": "#/components/schemas/SortObject"
+        first:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
-        first:
-          type: boolean
         empty:
           type: boolean

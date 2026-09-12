@@ -51,7 +51,7 @@
           }
         </div>
 
-        <div style="position: relative; display: flex; align-items: center;">
+        <div class="price-input">
           <input
             type="text"
             inputmode="decimal"
@@ -60,9 +60,7 @@
             [class.input-error]="targetPriceControl.invalid && targetPriceControl.touched"
             style="width: 100%; padding-right: 4rem;"
           />
-          <span style="position: absolute; right: 1rem; font-weight: 600; color: var(--text-muted); pointer-events: none; font-size: 0.95rem;">
-            {{ product.currency?.symbol || product.currency?.currencyCode || product.currency }}
-          </span>
+          <span>{{ product.currency }}</span>
         </div>
       </div>
 

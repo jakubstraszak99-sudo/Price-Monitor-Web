@@ -8,7 +8,16 @@
   </div>
 } @else if (priceAlerts().length === 0) {
   <div class="empty-state">
-    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <svg
+      viewBox="0 0 24 24"
+      width="48"
+      height="48"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
       <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
       <path d="M13.73 21a2 2 0 0 1-3.46 0" />
     </svg>
@@ -29,38 +38,137 @@
           <div class="alert-main-info">
             <div class="alert-source">
               @if (alert.product?.faviconUrl) {
-                <img [src]="alert.product?.faviconUrl" [alt]="alert.product?.domain || ''" class="alert-favicon" loading="lazy" />
+                <img
+                  [src]="alert.product?.faviconUrl"
+                  [alt]="alert.product?.shop || ''"
+                  class="alert-favicon"
+                  loading="lazy"
+                />
               }
-              @if (alert.product?.domain) {
-                <span class="alert-domain">{{ alert.product?.domain }}</span>
+              @if (alert.product?.shop) {
+                <span class="alert-shop">{{ alert.product?.shop }}</span>
               }
             </div>
-
             <h3 class="alert-name">{{ alert.product?.name }}</h3>
-
             <div class="alert-prices">
               <span class="alert-price-current">
                 {{ alert.product?.currentPrice | number: '1.2-2' }} {{ alert.product?.currency }}
               </span>
-              <span class="alert-price-target">
-                {{ 'ALERT.TARGET_PRICE' | translate }}: {{ alert.targetPrice | number: '1.2-2' }} {{ alert.product?.currency }}
-              </span>
+              @if (!isExpanded(alert.publicId)) {
+                <span class="alert-price-target">
+                  {{ 'ALERT.TARGET_PRICE' | translate }}: {{ alert.targetPrice | number: '1.2-2' }} {{ alert.product?.currency }}
+                </span>
+              }
             </div>
           </div>
 
           <div class="alert-status">
-            <span class="status-badge" [class.status-active]="alert.active" [class.status-inactive]="!alert.active">
+            <button
+              type="button"
+              class="status-badge"
+              [class.status-active]="alert.active"
+              [class.status-inactive]="!alert.active"
+              [disabled]="isToggling(alert.publicId)"
+              (click)="onToggleStatus($event, alert)"
+            >
               <span class="status-dot"></span>
               {{ (alert.active ? 'ALERT.ACTIVE' : 'ALERT.INACTIVE') | translate }}
-            </span>
-            <svg class="expand-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
+            </button>
+            <button
+              type="button"
+              class="icon-btn delete-btn"
+              [title]="'ALERT.DELETE' | translate"
+              (click)="onDeleteClick($event, alert)"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="3 6 5 6 21 6" />
+                <path
+                  d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                />
+                <line x1="10" y1="11" x2="10" y2="17" />
+                <line x1="14" y1="11" x2="14" y2="17" />
+              </svg>
+            </button>
           </div>
+          <svg
+            class="expand-icon"
+            viewBox="0 0 24 24"
+            width="18"
+            height="18"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
         </button>
 
         @if (isExpanded(alert.publicId)) {
           <div class="alert-details">
+            <div class="detail-row detail-row-editable">
+              <span class="detail-label">{{ 'ALERT.TARGET_PRICE' | translate }}</span>
+              @if (isEditing(alert.publicId)) {
+                <div class="price-edit-wrapper" (click)="$event.stopPropagation()">
+                  <div class="price-edit">
+                    <button
+                      type="button"
+                      class="icon-btn price-save-btn"
+                      [disabled]="isSavingPrice()"
+                      (click)="onSaveTargetPrice($event, alert)"
+                    >
+                      @if (isSavingPrice()) {
+                        <span class="mini-spinner"></span>
+                      } @else {
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      }
+                    </button>
+                    <button
+                      type="button"
+                      class="icon-btn price-cancel-btn"
+                      [disabled]="isSavingPrice()"
+                      (click)="onCancelEditPrice($event)"
+                    >
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                      </svg>
+                    </button>
+                    <input
+                      type="text"
+                      class="price-input"
+                      [formControl]="targetPriceControl"
+                      (input)="onPriceInput($event)"
+                      [class.input-error]="targetPriceControl.invalid && targetPriceControl.touched"
+                      [disabled]="isSavingPrice()"
+                    />
+                    <span>{{ alert.product?.currency }}</span>
+                  </div>
+                  @if (priceEditError()) {
+                    <span class="price-edit-error">{{ 'ERRORS.INVALID_TARGET_PRICE' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                  }
+                </div>
+              } @else {
+                <button type="button" class="detail-value detail-value-editable" (click)="onEditPriceClick($event, alert)">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                  </svg>
+                  {{ alert.targetPrice | number: '1.2-2' }} {{ alert.product?.currency }}
+                </button>
+              }
+            </div>
             <div class="detail-row">
               <span class="detail-label">{{ 'ALERT.CREATED_AT' | translate }}</span>
               <span class="detail-value">{{ alert.createdAt | date: 'medium' }}</span>
@@ -69,29 +177,48 @@
               <span class="detail-label">{{ 'ALERT.LAST_UPDATED' | translate }}</span>
               <span class="detail-value">{{ alert.product?.lastUpdated | date: 'medium' }}</span>
             </div>
-            <a class="detail-link"
-            [href]="alert.product?.productUrl"
-            target="_blank"
-            rel="noopener"
-            (click)="$event.stopPropagation()"
+            <a
+              class="detail-link"
+              [href]="alert.product?.productUrl"
+              target="_blank"
+              rel="noopener"
+              (click)="$event.stopPropagation()"
             >
-            {{ 'ALERT.VIEW_PRODUCT' | translate }}
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
+              {{ 'ALERT.VIEW_PRODUCT' | translate }}
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
             </a>
           </div>
         }
       </div>
     }
   </div>
-
   <app-pagination
     [currentPage]="currentPage()"
     [totalPages]="totalPages()"
     [pageNumbers]="pageNumbers"
     (pageChange)="goToPage($event)"
+  />
+}
+
+@if (alertPendingDeletion()) {
+  <app-confirm-dialog
+    [title]="'ALERT.DELETE_TITLE' | translate"
+    [message]="'ALERT.DELETE_MESSAGE' | translate"
+    [isLoading]="isDeleting()"
+    (confirmed)="onConfirmDelete()"
+    (cancelled)="onCancelDelete()"
   />
 }

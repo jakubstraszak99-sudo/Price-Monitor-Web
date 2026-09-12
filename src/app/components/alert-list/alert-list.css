@@ -67,7 +67,7 @@
   flex-shrink: 0;
 }
 
-.alert-domain {
+.alert-shop {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -116,6 +116,25 @@
   font-size: 0.75rem;
   font-weight: 500;
   white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+  font-family: inherit;
+}
+
+.status-badge:hover:not(:disabled) {
+  opacity: 0.85;
+  box-shadow: var(--hover-shadow);
+  transform: scale(1.09);
+}
+
+.status-badge:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.status-badge:disabled {
+  cursor: wait;
+  opacity: 0.6;
 }
 
 .status-dot {
@@ -153,13 +172,12 @@
 }
 
 .alert-details {
-  padding: 0 1rem 1rem 1rem;
   border-top: 1px solid var(--border);
   margin-top: 0;
-  padding-top: 0.85rem;
+  padding: 0.85rem 1rem 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .detail-row {
@@ -170,11 +188,17 @@
 
 .detail-label {
   color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
 }
 
 .detail-value {
   color: var(--text-main);
   font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .detail-link {
@@ -191,4 +215,122 @@
 
 .detail-link:hover {
   text-decoration: underline;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: transparent;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-muted);
+  opacity: 0.55;
+  padding: 0;
+  box-shadow: none;
+  transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+}
+
+.icon-btn:hover {
+  opacity: 1;
+  box-shadow: none;
+  transform: none;
+}
+
+.delete-btn:hover {
+  background-color: var(--error-bg);
+  color: var(--error);
+}
+
+.delete-btn:active {
+  transform: scale(0.92);
+}
+
+.detail-row-editable {
+  align-items: center;
+}
+
+.detail-value-editable {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.detail-value-editable:hover {
+  background-color: var(--secondary-hover);
+  box-shadow: none;
+  transform: none;
+}
+
+.detail-value-editable svg {
+  opacity: 0.5;
+}
+
+.price-edit {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.price-edit-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+
+.price-input {
+  width: 99px;
+  padding: 0.15rem 0.6rem;
+}
+
+.price-edit-error {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--error);
+  text-align: right;
+  margin-top: -0.3rem;
+}
+
+.price-save-btn {
+  color: #16a34a;
+  opacity: 0.8;
+}
+
+.price-save-btn:hover {
+  background-color: #dcfce7;
+  opacity: 1;
+}
+
+.price-cancel-btn {
+  color: var(--error);
+  opacity: 0.7;
+}
+
+.price-cancel-btn:hover {
+  background-color: var(--error-bg);
+  opacity: 1;
+}
+
+.mini-spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
 }

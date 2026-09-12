@@ -19,13 +19,19 @@
   "TARGET_PRICE": "Cena docelowa",
   "NO_PRODUCTS_FOUND": "Nie znaleziono żadnych produktów",
   "NO_ALERTS_FOUND": "Nie znaleziono żadnych alertów",
+  "PRICE_ALERT_REMOVED": "Alert został usunięty",
+  "CONFIRM": "Potwierdź",
+  "CANCEL": "Anuluj",
   "ALERT": {
     "TARGET_PRICE": "Cena docelowa",
     "ACTIVE": "Aktywny",
     "INACTIVE": "Nieaktywny",
     "CREATED_AT": "Utworzono",
     "LAST_UPDATED": "Ostatnia aktualizacja",
-    "VIEW_PRODUCT": "Zobacz produkt"
+    "VIEW_PRODUCT": "Zobacz produkt",
+    "DELETE": "Usuń",
+    "DELETE_TITLE": "Usuń alert cenowy",
+    "DELETE_MESSAGE": "Ta operacja jest nieodwracalna. Alert zostanie trwale usunięty i nie otrzymasz już powiadomień o zmianie ceny tego produktu."
   },
   "ERRORS": {
     "REQUIRED": "To pole jest wymagane",
@@ -41,7 +47,9 @@
     "REGISTER_ERROR": "Podczas rejestracji wystąpił błąd!",
     "INVALID_TARGET_PRICE": "Cena nieprawidłowa",
     "UNABLE_TO_LOAD_PRODUCTS": "Nie udało się wczytać produktów",
-    "UNABLE_TO_LOAD_ALERTS": "Nie udało się załadować alertów"
+    "UNABLE_TO_LOAD_ALERTS": "Nie udało się załadować alertów",
+    "UNABLE_TO_REMOVE_PRICE_ALERT": "Nie udało się usunąć alertu",
+    "UNABLE_TO_UPDATE_PRICE_ALERT": "Nie udało się zaktualizować alertu"
   },
   "TOASTS": {
     "REGISTER_SUCCESS": "Rejestracja udana! Sprawdź swój e-mail!",
@@ -54,10 +62,12 @@
     "NAME_DESC": "Nazwa (Z-A)",
     "PRICE_ASC": "Cena rosnąco",
     "PRICE_DESC": "Cena malejąco",
-    "DOMAIN_NAME_ASC": "Nazwa domeny (A-Z)",
-    "DOMAIN_NAME_DESC": "Nazwa domeny (Z-A)",
+    "SHOP_NAME_ASC": "Nazwa sklepu (A-Z)",
+    "SHOP_NAME_DESC": "Nazwa sklepu (Z-A)",
     "LAST_UPDATED": "Ostatnio zaktualizowane",
     "CREATED_NEWEST": "Najnowsze",
-    "CREATED_OLDEST": "Najstarsze"
+    "CREATED_OLDEST": "Najstarsze",
+    "ACTIVE_FIRST": "Od aktywnych",
+    "INACTIVE_FIRST": "Od nieaktywnych"
   }
 }

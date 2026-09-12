@@ -16,8 +16,8 @@ export class Home {
     { labelKey: 'SORT.NAME_DESC', value: 'name,desc' },
     { labelKey: 'SORT.PRICE_ASC', value: 'currentPrice,asc' },
     { labelKey: 'SORT.PRICE_DESC', value: 'currentPrice,desc' },
-    { labelKey: 'SORT.DOMAIN_NAME_ASC', value: 'domain,asc' },
-    { labelKey: 'SORT.DOMAIN_NAME_DESC', value: 'domain,desc' },
+    { labelKey: 'SORT.SHOP_NAME_ASC', value: 'shop,asc' },
+    { labelKey: 'SORT.SHOP_NAME_DESC', value: 'shop,desc' },
     { labelKey: 'SORT.LAST_UPDATED', value: 'lastUpdated,desc' },
   ];
 }

@@ -78,7 +78,7 @@
   flex-shrink: 0;
 }
 
-.product-domain {
+.product-shop {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

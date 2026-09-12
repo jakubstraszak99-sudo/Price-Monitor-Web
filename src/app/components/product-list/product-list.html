@@ -28,11 +28,11 @@
             {{ product.currentPrice | number:'1.2-2' }} {{ product.currency?.symbol || product.currency?.currencyCode || product.currency }}
           </p>
           <div class="product-source">
-            @if (product.faviconUrl || product.domain) {
+            @if (product.faviconUrl || product.shop) {
               @if (product.faviconUrl) {
                 <img
                   [src]="product.faviconUrl"
-                  [alt]="product.domain || 'shop icon'"
+                  [alt]="product.shop || 'shop icon'"
                   class="product-favicon"
                   loading="lazy"
                 />
@@ -43,8 +43,8 @@
                   <path d="M2 12h20" />
                 </svg>
               }
-              @if (product.domain) {
-                <span class="product-domain">{{ product.domain }}</span>
+              @if (product.shop) {
+                <span class="product-shop">{{ product.shop }}</span>
               }
             }
           </div>

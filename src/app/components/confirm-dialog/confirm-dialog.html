@@ -1,0 +1,12 @@
+<app-modal [isLoading]="isLoading()" (close)="cancelled.emit()">
+  <h2>{{ title() }}</h2>
+  <p class="confirm-message">{{ message() }}</p>
+  <div class="confirm-actions">
+    <button type="button" class="btn-secondary" (click)="cancelled.emit()">
+      {{ 'CANCEL' | translate }}
+    </button>
+    <button type="button" class="btn-primary" (click)="confirmed.emit()">
+      {{ 'CONFIRM' | translate }}
+    </button>
+  </div>
+</app-modal>

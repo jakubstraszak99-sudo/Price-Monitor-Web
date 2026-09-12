@@ -19,13 +19,19 @@
   "TARGET_PRICE": "Target price",
   "NO_PRODUCTS_FOUND": "No products found",
   "NO_ALERTS_FOUND": "No alerts found",
+  "PRICE_ALERT_REMOVED": "Price alert removed",
+  "CONFIRM": "Confirm",
+  "CANCEL": "Cancel",
   "ALERT": {
     "TARGET_PRICE": "Target price",
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
     "CREATED_AT": "Created",
     "LAST_UPDATED": "Last updated",
-    "VIEW_PRODUCT": "View product"
+    "VIEW_PRODUCT": "View product",
+    "DELETE": "Delete",
+    "DELETE_TITLE": "Delete price alert",
+    "DELETE_MESSAGE": "This action cannot be undone. The alert will be permanently deleted and you will no longer receive notifications about this product's price."
   },
   "ERRORS": {
     "REQUIRED": "This field is required",
@@ -41,7 +47,9 @@
     "REGISTER_ERROR": "An error occurred during registration!",
     "INVALID_TARGET_PRICE": "Invalid price",
     "UNABLE_TO_LOAD_PRODUCTS": "Unable to load products",
-    "UNABLE_TO_LOAD_ALERTS": "Unable to load alerts"
+    "UNABLE_TO_LOAD_ALERTS": "Unable to load alerts",
+    "UNABLE_TO_REMOVE_PRICE_ALERT": "Unable to remove price alert",
+    "UNABLE_TO_UPDATE_PRICE_ALERT": "Unable to update price alert"
   },
   "TOASTS": {
     "REGISTER_SUCCESS": "Registration successful! Please check your email!",
@@ -54,10 +62,12 @@
     "NAME_DESC": "Name (Z-A)",
     "PRICE_ASC": "Price ascending",
     "PRICE_DESC": "Price descending",
-    "DOMAIN_NAME_ASC": "Domain name (A-Z)",
-    "DOMAIN_NAME_DESC": "Domain name (Z-A)",
+    "SHOP_NAME_ASC": "Shop name (A-Z)",
+    "SHOP_NAME_DESC": "Shop name (Z-A)",
     "LAST_UPDATED": "Last updated",
     "CREATED_NEWEST": "Newest",
-    "CREATED_OLDEST": "Oldest"
+    "CREATED_OLDEST": "Oldest",
+    "ACTIVE_FIRST": "Active first",
+    "INACTIVE_FIRST": "Inactive first"
   }
 }
