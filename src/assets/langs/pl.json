@@ -31,7 +31,8 @@
     "VIEW_PRODUCT": "Zobacz produkt",
     "DELETE": "Usuń",
     "DELETE_TITLE": "Usuń alert cenowy",
-    "DELETE_MESSAGE": "Ta operacja jest nieodwracalna. Alert zostanie trwale usunięty i nie otrzymasz już powiadomień o zmianie ceny tego produktu."
+    "DELETE_MESSAGE": "Ta operacja jest nieodwracalna. Alert zostanie trwale usunięty i nie otrzymasz już powiadomień o zmianie ceny tego produktu.",
+    "EDIT_PRICE": "Edytuj cenę"
   },
   "ERRORS": {
     "REQUIRED": "To pole jest wymagane",

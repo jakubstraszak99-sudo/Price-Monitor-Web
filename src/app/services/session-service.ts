@@ -14,7 +14,13 @@ export class SessionService {
   public readonly username = signal('');
 
   public setLogin(): void {
-    this.initializeSession().subscribe();
+    this.userApi.getUser().subscribe({
+      next: (user) => {
+        this.isLoggedIn.set(true);
+        this.username.set(user.username ?? '');
+      },
+      error: () => this.handleLogout(),
+    });
   }
 
   public logout(): void {
@@ -29,9 +35,7 @@ export class SessionService {
       switchMap(() => this.userApi.getUser()),
       tap((user) => {
         this.isLoggedIn.set(true);
-        if (user.username != null) {
-          this.username.set(user.username);
-        }
+        this.username.set(user.username ?? '');
       }),
       catchError(() => {
         this.isLoggedIn.set(false);

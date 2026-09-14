@@ -261,15 +261,11 @@ paths:
         '200':
           description: User data retrieved successfully
           content:
-            "*/*":
+            application/json:
               schema:
                 "$ref": "#/components/schemas/User"
         '401':
           description: Unauthorized
-          content:
-            "*/*":
-              schema:
-                "$ref": "#/components/schemas/User"
   "/api/v1/product":
     get:
       tags:
@@ -318,6 +314,36 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/ProductPage"
+  "/api/v1/history":
+    get:
+      tags:
+        - Price History
+      summary: Get price history
+      description: Fetches whole price history of product
+      operationId: getPriceHistory
+      parameters:
+        - name: productUrl
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Price history retrieved successfully
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/PriceHistory"
+        '400':
+          description: Invalid product url
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/PriceHistory"
   "/api/v1/auth/verify":
     get:
       tags:
@@ -606,6 +632,14 @@ components:
           type: boolean
         unsorted:
           type: boolean
+    PriceHistory:
+      type: object
+      properties:
+        recordedPrice:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
     PriceAlertPage:
       type: object
       properties:

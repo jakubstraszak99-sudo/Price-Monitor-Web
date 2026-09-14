@@ -31,7 +31,8 @@
     "VIEW_PRODUCT": "View product",
     "DELETE": "Delete",
     "DELETE_TITLE": "Delete price alert",
-    "DELETE_MESSAGE": "This action cannot be undone. The alert will be permanently deleted and you will no longer receive notifications about this product's price."
+    "DELETE_MESSAGE": "This action cannot be undone. The alert will be permanently deleted and you will no longer receive notifications about this product's price.",
+    "EDIT_PRICE": "Edit price"
   },
   "ERRORS": {
     "REQUIRED": "This field is required",
