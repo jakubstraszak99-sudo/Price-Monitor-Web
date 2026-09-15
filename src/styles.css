@@ -254,6 +254,21 @@ input.input-error {
   text-align: center;
 }
 
+.detail-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--primary);
+  text-decoration: none;
+  width: fit-content;
+}
+
+.detail-link:hover {
+  text-decoration: underline;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

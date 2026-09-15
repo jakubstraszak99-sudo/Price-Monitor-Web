@@ -1,4 +1,4 @@
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { Router } from '@angular/router';
 import { SessionService } from '../services/session-service';
 import { inject, Injectable } from '@angular/core';
 import { RouteUrl } from '../shared/route-url';
@@ -10,7 +10,7 @@ export class AuthGuard {
   private readonly sessionService = inject(SessionService);
   private readonly router = inject(Router);
 
-  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  public canActivate(): boolean {
     if (this.sessionService.isLoggedIn()) {
       return true;
     }

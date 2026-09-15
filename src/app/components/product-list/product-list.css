@@ -13,6 +13,7 @@
   overflow: hidden;
   text-decoration: none;
   color: var(--text-main);
+  cursor: pointer;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 

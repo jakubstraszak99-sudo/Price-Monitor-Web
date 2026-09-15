@@ -1,9 +1,16 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthenticationService, UserRegisterRequest } from '../../api-client';
 import { ToastService } from '../../services/toast-service';
+import { ModalService } from '../../services/modal-service';
 import { Modal } from '../modal/modal';
 import { ApiErrorResponse } from '../../shared/api-error-response';
 
@@ -16,10 +23,10 @@ export class Register {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthenticationService);
   private readonly toastService = inject(ToastService);
+  private readonly modalService = inject(ModalService);
 
   protected readonly loading = signal(false);
   protected readonly error = signal(false);
-  protected readonly closeModal = output<void>();
 
   protected readonly registerForm = this.fb.nonNullable.group(
     {
@@ -63,7 +70,7 @@ export class Register {
   }
 
   protected close(): void {
-    this.closeModal.emit();
+    this.modalService.closeRegister();
   }
 
   private passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {

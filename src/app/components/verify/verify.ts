@@ -18,7 +18,7 @@ export class Verify implements OnInit {
   private readonly toastService = inject(ToastService);
   private readonly sessionService = inject(SessionService);
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     const token = this.route.snapshot.queryParamMap.get('token');
 
     if (!token) {

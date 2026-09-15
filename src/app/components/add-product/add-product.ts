@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   CreatePriceAlertRequest,
   PriceAlertService,
@@ -11,6 +11,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { Modal } from '../modal/modal';
 import { ToastService } from '../../services/toast-service';
 import { SessionService } from '../../services/session-service';
+import { ModalService } from '../../services/modal-service';
 import { ApiErrorResponse } from '../../shared/api-error-response';
 
 @Component({
@@ -22,11 +23,10 @@ export class AddProduct {
   private readonly productService = inject(ProductService);
   private readonly priceAlertService = inject(PriceAlertService);
   private readonly toastService = inject(ToastService);
+  private readonly modalService = inject(ModalService);
   private searchedUrl: string = '';
 
   protected readonly sessionService = inject(SessionService);
-  protected readonly closeModal = output<void>();
-  protected readonly requireLogin = output<void>();
   protected readonly loading = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly scrapedProduct = signal<ScrapedProduct | null>(null);
@@ -84,12 +84,6 @@ export class AddProduct {
   }
 
   protected confirmTracking(): void {
-    const product = this.scrapedProduct();
-
-    if (!product) {
-      return;
-    }
-
     if (this.targetPriceControl.invalid) {
       this.targetPriceControl.markAsTouched();
       return;
@@ -101,7 +95,7 @@ export class AddProduct {
     const request: CreatePriceAlertRequest = {
       url: this.searchedUrl,
       targetPrice: parseFloat(this.targetPriceControl.value),
-      scrapedProduct: product,
+      scrapedProduct: this.scrapedProduct()!,
     };
 
     this.priceAlertService.createAlert(request).subscribe({
@@ -117,7 +111,7 @@ export class AddProduct {
         if (apiError.code === 'E014') {
           this.errorMessage.set('ERRORS.PRICE_ALERT_ALREADY_EXISTS');
         } else {
-          this.toastService.showError('ERRORS.PRICE_ALERT_NOT_CREATRED', apiError?.code);
+          this.toastService.showError('ERRORS.PRICE_ALERT_NOT_CREATED', apiError?.code);
           this.close();
         }
       },
@@ -125,10 +119,10 @@ export class AddProduct {
   }
 
   protected promptLogin(): void {
-    this.requireLogin.emit();
+    this.modalService.requireLogin();
   }
 
   protected close(): void {
-    this.closeModal.emit();
+    this.modalService.closeAddProduct();
   }
 }

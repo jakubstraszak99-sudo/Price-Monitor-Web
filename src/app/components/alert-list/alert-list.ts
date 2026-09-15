@@ -54,11 +54,11 @@ export class AlertList {
     this.list.goToPage(page);
   }
 
-  protected get pageNumbers() {
+  protected get pageNumbers(): any {
     return this.list.pageNumbers();
   }
 
-  protected toggleExpanded(publicId: string | undefined): void {
+  protected toggleExpanded(publicId: string): void {
     if (!publicId) {
       return;
     }
@@ -66,11 +66,11 @@ export class AlertList {
     this.expandedIds.update((set) => this.toggleSetMember(set, publicId));
   }
 
-  protected isExpanded(publicId: string | undefined): boolean {
+  protected isExpanded(publicId: string): boolean {
     return !!publicId && this.expandedIds().has(publicId);
   }
 
-  protected isToggling(publicId: string | undefined): boolean {
+  protected isToggling(publicId: string): boolean {
     return !!publicId && this.togglingIds().has(publicId);
   }
 
@@ -114,11 +114,7 @@ export class AlertList {
   }
 
   protected onConfirmDelete(): void {
-    const publicId = this.alertPendingDeletion()?.publicId;
-    if (!publicId) {
-      return;
-    }
-
+    const publicId = this.alertPendingDeletion()!.publicId!;
     this.isDeleting.set(true);
 
     this.priceAlertService.deletePriceAlert(publicId).subscribe({
@@ -138,12 +134,7 @@ export class AlertList {
   protected onEditPriceClick(event: Event, alert: PriceAlert): void {
     event.stopPropagation();
     this.priceEditError.set(false);
-
-    if (!alert.publicId) {
-      return;
-    }
-
-    this.editingId.set(alert.publicId);
+    this.editingId.set(alert.publicId!);
     const validators = [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)];
 
     if (alert.product?.currentPrice !== undefined) {
@@ -183,11 +174,7 @@ export class AlertList {
       return;
     }
 
-    const publicId = alert.publicId;
-    if (!publicId) {
-      return;
-    }
-
+    const publicId = alert.publicId!;
     const newPrice = parseFloat(this.targetPriceControl.value);
     this.isSavingPrice.set(true);
 
@@ -204,7 +191,7 @@ export class AlertList {
     });
   }
 
-  protected isEditing(publicId: string | undefined): boolean {
+  protected isEditing(publicId: string): boolean {
     return !!publicId && this.editingId() === publicId;
   }
 
@@ -227,7 +214,7 @@ export class AlertList {
   }
 
   private showApiError(fallbackKey: string, err: HttpErrorResponse): void {
-    const apiError = err.error as ApiErrorResponse | undefined;
+    const apiError = err.error as ApiErrorResponse;
     this.toastService.showError(fallbackKey, apiError?.code);
   }
 }

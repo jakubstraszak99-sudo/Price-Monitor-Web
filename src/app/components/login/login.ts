@@ -1,9 +1,11 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthenticationService, UserLoginRequest } from '../../api-client';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Modal } from '../modal/modal';
+import { ModalService } from '../../services/modal-service';
+import { SessionService } from '../../services/session-service';
 
 @Component({
   imports: [CommonModule, ReactiveFormsModule, TranslatePipe, Modal],
@@ -13,11 +15,11 @@ import { Modal } from '../modal/modal';
 export class Login {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthenticationService);
+  private readonly modalService = inject(ModalService);
+  private readonly sessionService = inject(SessionService);
 
   protected readonly loading = signal(false);
   protected readonly error = signal(false);
-  protected readonly closeModal = output<void>();
-  protected readonly loginSuccess = output<void>();
 
   protected readonly loginForm = this.fb.nonNullable.group({
     login: ['', Validators.required],
@@ -36,8 +38,8 @@ export class Login {
     this.authService.login(request).subscribe({
       next: () => {
         this.loading.set(false);
-        this.loginSuccess.emit();
         this.close();
+        this.sessionService.setLogin();
       },
       error: () => {
         this.loading.set(false);
@@ -48,6 +50,6 @@ export class Login {
   }
 
   protected close(): void {
-    this.closeModal.emit();
+    this.modalService.closeLogin();
   }
 }

@@ -331,19 +331,13 @@ paths:
         '200':
           description: Price history retrieved successfully
           content:
-            "*/*":
+            application/json:
               schema:
                 type: array
                 items:
                   "$ref": "#/components/schemas/PriceHistory"
         '400':
           description: Invalid product url
-          content:
-            "*/*":
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/PriceHistory"
   "/api/v1/auth/verify":
     get:
       tags:
@@ -363,6 +357,28 @@ paths:
           description: Account verified successfully
         '400':
           description: Invalid or expired token
+  "/api/v1/alert/exists":
+    get:
+      tags:
+        - Price Alert
+      summary: Check if alert exists
+      description: Checks if the user already has an alert for the given product URL
+      operationId: checkAlertExists
+      parameters:
+        - name: productUrl
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully checked if alert exists
+          content:
+            application/json:
+              schema:
+                type: boolean
+        '400':
+          description: Invalid product url
   "/api/v1/alert/{publicId}/delete":
     delete:
       tags:
@@ -600,14 +616,14 @@ components:
             "$ref": "#/components/schemas/Product"
         pageable:
           "$ref": "#/components/schemas/PageableObject"
-        last:
-          type: boolean
         totalElements:
           type: integer
           format: int64
         totalPages:
           type: integer
           format: int32
+        last:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -616,11 +632,11 @@ components:
           format: int32
         sort:
           "$ref": "#/components/schemas/SortObject"
-        first:
-          type: boolean
         numberOfElements:
           type: integer
           format: int32
+        first:
+          type: boolean
         empty:
           type: boolean
     SortObject:
@@ -649,14 +665,14 @@ components:
             "$ref": "#/components/schemas/PriceAlert"
         pageable:
           "$ref": "#/components/schemas/PageableObject"
-        last:
-          type: boolean
         totalElements:
           type: integer
           format: int64
         totalPages:
           type: integer
           format: int32
+        last:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -665,10 +681,10 @@ components:
           format: int32
         sort:
           "$ref": "#/components/schemas/SortObject"
-        first:
-          type: boolean
         numberOfElements:
           type: integer
           format: int32
+        first:
+          type: boolean
         empty:
           type: boolean

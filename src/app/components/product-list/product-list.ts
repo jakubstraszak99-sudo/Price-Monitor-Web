@@ -5,6 +5,7 @@ import { RouteUrl } from '../../shared/route-url';
 import { DecimalPipe } from '@angular/common';
 import { createPagedList } from '../../shared/paged-list.util';
 import { Pagination } from '../pagination/pagination';
+import { ModalService } from '../../services/modal-service';
 
 @Component({
   imports: [TranslatePipe, DecimalPipe, Pagination],
@@ -14,6 +15,7 @@ import { Pagination } from '../pagination/pagination';
 })
 export class ProductList {
   private readonly productService = inject(ProductService);
+  protected readonly modalService = inject(ModalService);
 
   public readonly searchTerm = input<string>('');
   public readonly sortValue = input<string>('name,asc');
@@ -36,7 +38,7 @@ export class ProductList {
     this.list.goToPage(page);
   }
 
-  protected get pageNumbers() {
+  protected get pageNumbers(): any {
     return this.list.pageNumbers();
   }
 }

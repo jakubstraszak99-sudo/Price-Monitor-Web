@@ -1,3 +1,19 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
 <app-toast></app-toast>
+
+@if (modalService.isLoginModalOpen()) {
+  <app-login />
+}
+
+@if (modalService.isRegisterModalOpen()) {
+  <app-register />
+}
+
+@if (modalService.isAddProductModalOpen()) {
+  <app-add-product />
+}
+
+@if (modalService.selectedProduct(); as product) {
+  <app-product-details [product]="product" />
+}

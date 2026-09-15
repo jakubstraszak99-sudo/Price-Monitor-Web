@@ -1,0 +1,119 @@
+<app-modal (close)="close()">
+  @let p = product();
+
+  <div class="pd-header">
+    <img [src]="p.imageUrl" [alt]="p.name" class="pd-image" loading="lazy" />
+    <div class="pd-header-info">
+      <div class="pd-source">
+        @if (p.faviconUrl) {
+          <img [src]="p.faviconUrl" [alt]="p.shop || ''" class="pd-favicon" loading="lazy" />
+        }
+        @if (p.shop) {
+          <span class="pd-shop">{{ p.shop }}</span>
+        }
+      </div>
+      <p class="pd-name" role="heading" aria-level="2">{{ p.name }}</p>
+      <p class="pd-price">
+        {{ p.currentPrice | number: '1.2-2' }} {{ p.currency?.symbol || p.currency?.currencyCode || p.currency }}
+      </p>
+      <a class="detail-link" [href]="p.productUrl" target="_blank" rel="noopener">
+        {{ 'VIEW_PRODUCT' | translate }}
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+          <polyline points="15 3 21 3 21 9" />
+          <line x1="10" y1="14" x2="21" y2="3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="pd-section">
+    <h3 class="pd-section-title">{{ 'PRICE_HISTORY' | translate }}</h3>
+
+    @if (historyLoading()) {
+      <div class="loader-container pd-history-loader">
+        <div class="spinner"></div>
+      </div>
+    } @else if (sparklinePath(); as line) {
+      <div class="pd-sparkline-wrapper">
+        <svg class="pd-sparkline" viewBox="0 0 280 64" preserveAspectRatio="none">
+          <path [attr.d]="sparklineAreaPath()" class="pd-sparkline-area" />
+          <path [attr.d]="line" class="pd-sparkline-line" />
+          @for (point of sparklinePoints(); track point.x) {
+            <circle
+              [attr.cx]="point.x"
+              [attr.cy]="point.y"
+              r="6"
+              class="pd-sparkline-hit"
+              (mouseenter)="onSparklineHover(point)"
+              (mouseleave)="onSparklineLeave()"
+            />
+          }
+          @if (hoveredPoint(); as hp) {
+            <circle [attr.cx]="hp.x" [attr.cy]="hp.y" r="3" class="pd-sparkline-dot" />
+          }
+        </svg>
+
+        @if (hoveredPoint(); as hp) {
+          <div class="pd-sparkline-tooltip" [style.left.%]="(hp.x / 280) * 100">
+            <strong>{{ hp.price | number: '1.2-2' }} {{ p.currency?.symbol || p.currency }}</strong>
+            @if (hp.createdAt) {
+              <span>{{ hp.createdAt | date: 'mediumDate' }}</span>
+            }
+          </div>
+        }
+      </div>
+      <div class="pd-history-range">
+        <span>{{ 'LOWEST_PRICE' | translate }}: <strong>{{ lowestPrice() | number: '1.2-2' }} {{ p.currency?.symbol || p.currency }}</strong></span>
+        <span>{{ 'HIGHEST_PRICE' | translate }}: <strong>{{ highestPrice() | number: '1.2-2' }} {{ p.currency?.symbol || p.currency }}</strong></span>
+      </div>
+    } @else {
+      <p class="pd-no-history">{{ 'NO_PRICE_HISTORY_DATA' | translate }}</p>
+    }
+
+    <div class="pd-updated">
+      {{ 'LAST_UPDATED' | translate }}: {{ p.lastUpdated | date: 'medium' }}
+    </div>
+  </div>
+
+  <div class="pd-section">
+    @if (!sessionService.isLoggedIn()) {
+      <button type="button" class="btn-primary" style="width: 100%; margin-top: 1.5rem;" (click)="promptLogin()">
+        {{ 'SIGN_IN_TO_TRACK' | translate }}
+      </button>
+    } @else if (alertCreated() || alertAlreadyExists()) {
+      <div class="pd-already-tracking">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6L9 17l-5-5" />
+        </svg>
+        {{ 'ALREADY_TRACKING' | translate }}
+      </div>
+    } @else {
+      <div class="field-group">
+        <div class="field-header">
+          <label class="field-label">{{ 'TARGET_PRICE' | translate }}:</label>
+          @if (targetPriceControl.invalid && targetPriceControl.touched) {
+            <span class="field-error">{{ 'ERRORS.INVALID_TARGET_PRICE' | translate }}</span>
+          }
+        </div>
+
+        <div class="price-input">
+          <input
+            type="text"
+            inputmode="decimal"
+            [formControl]="targetPriceControl"
+            (input)="onPriceInput($event)"
+            (keyup.enter)="addAlert()"
+            [class.input-error]="targetPriceControl.invalid && targetPriceControl.touched"
+            style="width: 100%; padding-right: 4rem;"
+          />
+          <span>{{ p.currency?.symbol || p.currency?.currencyCode || p.currency }}</span>
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary" style="width: 100%;" [disabled]="submitting()" (click)="addAlert()">
+        {{ 'ADD_AND_TRACK' | translate }}
+      </button>
+    }
+  </div>
+</app-modal>

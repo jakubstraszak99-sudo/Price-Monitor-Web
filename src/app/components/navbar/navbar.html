@@ -3,7 +3,7 @@
     Price Monitor
   </div>
   <div class="nav-actions">
-    <button class="btn-primary add-product-btn" style="min-width: 10rem" (click)="isAddProductModalOpen.set(true)">
+    <button class="btn-primary add-product-btn" style="min-width: 10rem" (click)="modalService.openAddProduct()">
       {{ 'ADD_PRODUCT' | translate }}
     </button>
     <div class="nav-divider"></div>
@@ -21,10 +21,10 @@
 
     @if (!sessionService.isLoggedIn()) {
       <div class="nav-auth">
-        <button class="btn-secondary" (click)="isLoginModalOpen.set(true)">
+        <button class="btn-secondary" (click)="modalService.openLogin()">
           {{ 'SIGN_IN' | translate }}
         </button>
-        <button class="btn-primary" (click)="isRegisterModalOpen.set(true)">
+        <button class="btn-primary" (click)="modalService.openRegister()">
           {{ 'SIGN_UP' | translate }}
         </button>
       </div>
@@ -61,23 +61,3 @@
     }
   </div>
 </nav>
-
-@if (isLoginModalOpen()) {
-  <app-login
-    (closeModal)="isLoginModalOpen.set(false)"
-    (loginSuccess)="onLogin()">
-  </app-login>
-}
-
-@if (isRegisterModalOpen()) {
-  <app-register
-    (closeModal)="isRegisterModalOpen.set(false)">
-  </app-register>
-}
-
-@if (isAddProductModalOpen()) {
-  <app-add-product
-    (closeModal)="isAddProductModalOpen.set(false)"
-    (requireLogin)="handleRequireLogin()">
-  </app-add-product>
-}

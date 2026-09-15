@@ -2,26 +2,22 @@ import { Component, HostListener, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../services/language.service';
-import { Login } from '../login/login';
-import { Register } from '../register/register';
 import { SessionService } from '../../services/session-service';
-import { AddProduct } from '../add-product/add-product';
+import { ModalService } from '../../services/modal-service';
 import { RouteUrl } from '../../shared/route-url';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterModule, TranslatePipe, Login, Register, AddProduct],
+  imports: [RouterModule, TranslatePipe],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
 export class Navbar {
   private readonly languageService = inject(LanguageService);
   protected readonly sessionService = inject(SessionService);
+  protected readonly modalService = inject(ModalService);
 
-  protected readonly isLoginModalOpen = signal(false);
-  protected readonly isRegisterModalOpen = signal(false);
   protected readonly isDropdownOpen = signal(false);
-  protected readonly isAddProductModalOpen = signal(false);
   protected readonly homeRouterLink = `/${RouteUrl.HOME}`;
   protected readonly alertsRouterLink = `/${RouteUrl.MY_ALERTS}`;
 
@@ -31,16 +27,6 @@ export class Navbar {
 
   protected toggleDropdown(): void {
     this.isDropdownOpen.update((val) => !val);
-  }
-
-  protected onLogin(): void {
-    this.isLoginModalOpen.set(false);
-    this.sessionService.setLogin();
-  }
-
-  protected handleRequireLogin(): void {
-    this.isAddProductModalOpen.set(false);
-    this.isLoginModalOpen.set(true);
   }
 
   @HostListener('document:click', ['$event'])
