@@ -5,6 +5,12 @@
   "PASSWORD": "Password",
   "REPEAT_PASSWORD": "Repeat Password",
   "LOG_IN": "Log In",
+  "FORGOT_PASSWORD": "Forgot your password?",
+  "FORGOT_PASSWORD_INSTRUCTIONS": "Enter the email address associated with your account and we'll send you a link to reset your password.",
+  "FORGOT_PASSWORD_SENT": "If that email is associated with an account, we've sent a password reset link to it.",
+  "SEND_RESET_LINK": "Send reset link",
+  "BACK_TO_LOGIN": "Back to log in",
+  "CLOSE": "Close",
   "LOADING": "Loading",
   "REGISTER": "Register",
   "MY_ALERTS": "My alerts",
@@ -55,7 +61,8 @@
     "UNABLE_TO_LOAD_PRODUCTS": "Unable to load products",
     "UNABLE_TO_LOAD_ALERTS": "Unable to load alerts",
     "UNABLE_TO_REMOVE_PRICE_ALERT": "Unable to remove price alert",
-    "UNABLE_TO_UPDATE_PRICE_ALERT": "Unable to update price alert"
+    "UNABLE_TO_UPDATE_PRICE_ALERT": "Unable to update price alert",
+    "FORGOT_PASSWORD_FAILED": "Unable to send the reset link. Please try again later."
   },
   "TOASTS": {
     "REGISTER_SUCCESS": "Registration successful! Please check your email!",

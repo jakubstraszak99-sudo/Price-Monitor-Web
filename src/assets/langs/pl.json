@@ -5,6 +5,12 @@
   "PASSWORD": "Hasło",
   "REPEAT_PASSWORD": "Powtórz Hasło",
   "LOG_IN": "Logowanie",
+  "FORGOT_PASSWORD": "Nie pamiętasz hasła?",
+  "FORGOT_PASSWORD_INSTRUCTIONS": "Podaj adres e-mail przypisany do konta, a wyślemy Ci link do zresetowania hasła.",
+  "FORGOT_PASSWORD_SENT": "Jeśli podany adres e-mail jest powiązany z kontem, wysłaliśmy na niego link do zresetowania hasła.",
+  "SEND_RESET_LINK": "Wyślij link resetujący",
+  "BACK_TO_LOGIN": "Wróć do logowania",
+  "CLOSE": "Zamknij",
   "LOADING": "Ładowanie",
   "REGISTER": "Rejestracja",
   "MY_ALERTS": "Moje alerty",
@@ -55,7 +61,8 @@
     "UNABLE_TO_LOAD_PRODUCTS": "Nie udało się wczytać produktów",
     "UNABLE_TO_LOAD_ALERTS": "Nie udało się załadować alertów",
     "UNABLE_TO_REMOVE_PRICE_ALERT": "Nie udało się usunąć alertu",
-    "UNABLE_TO_UPDATE_PRICE_ALERT": "Nie udało się zaktualizować alertu"
+    "UNABLE_TO_UPDATE_PRICE_ALERT": "Nie udało się zaktualizować alertu",
+    "FORGOT_PASSWORD_FAILED": "Nie udało się wysłać linku resetującego. Spróbuj ponownie później."
   },
   "TOASTS": {
     "REGISTER_SUCCESS": "Rejestracja udana! Sprawdź swój e-mail!",

@@ -616,14 +616,14 @@ components:
             "$ref": "#/components/schemas/Product"
         pageable:
           "$ref": "#/components/schemas/PageableObject"
+        last:
+          type: boolean
         totalElements:
           type: integer
           format: int64
         totalPages:
           type: integer
           format: int32
-        last:
-          type: boolean
         size:
           type: integer
           format: int32
@@ -632,11 +632,11 @@ components:
           format: int32
         sort:
           "$ref": "#/components/schemas/SortObject"
+        first:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
-        first:
-          type: boolean
         empty:
           type: boolean
     SortObject:
@@ -665,14 +665,14 @@ components:
             "$ref": "#/components/schemas/PriceAlert"
         pageable:
           "$ref": "#/components/schemas/PageableObject"
+        last:
+          type: boolean
         totalElements:
           type: integer
           format: int64
         totalPages:
           type: integer
           format: int32
-        last:
-          type: boolean
         size:
           type: integer
           format: int32
@@ -681,10 +681,10 @@ components:
           format: int32
         sort:
           "$ref": "#/components/schemas/SortObject"
+        first:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
-        first:
-          type: boolean
         empty:
           type: boolean

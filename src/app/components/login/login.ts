@@ -52,4 +52,8 @@ export class Login {
   protected close(): void {
     this.modalService.closeLogin();
   }
+
+  protected openForgotPassword(): void {
+    this.modalService.openForgotPassword();
+  }
 }

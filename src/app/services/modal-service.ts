@@ -5,6 +5,7 @@ import { Product } from '../api-client';
 export class ModalService {
   public readonly isLoginModalOpen = signal(false);
   public readonly isRegisterModalOpen = signal(false);
+  public readonly isForgotPasswordModalOpen = signal(false);
   public readonly isAddProductModalOpen = signal(false);
   public readonly selectedProduct = signal<Product | null>(null);
 
@@ -22,6 +23,15 @@ export class ModalService {
 
   public closeRegister(): void {
     this.isRegisterModalOpen.set(false);
+  }
+
+  public openForgotPassword(): void {
+    this.isLoginModalOpen.set(false);
+    this.isForgotPasswordModalOpen.set(true);
+  }
+
+  public closeForgotPassword(): void {
+    this.isForgotPasswordModalOpen.set(false);
   }
 
   public openAddProduct(): void {
@@ -42,6 +52,7 @@ export class ModalService {
 
   public requireLogin(): void {
     this.isAddProductModalOpen.set(false);
+    this.isForgotPasswordModalOpen.set(false);
     this.selectedProduct.set(null);
     this.isLoginModalOpen.set(true);
   }

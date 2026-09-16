@@ -8,9 +8,19 @@ import { Login } from './components/login/login';
 import { Register } from './components/register/register';
 import { AddProduct } from './components/add-product/add-product';
 import { ProductDetails } from './components/product-details/product-details';
+import { ForgotPassword } from './components/forgot-password/forgot-password';
 
 @Component({
-  imports: [RouterOutlet, Toast, Navbar, Login, Register, AddProduct, ProductDetails],
+  imports: [
+    RouterOutlet,
+    Toast,
+    Navbar,
+    Login,
+    Register,
+    AddProduct,
+    ProductDetails,
+    ForgotPassword,
+  ],
   selector: 'app-root',
   templateUrl: './app.html',
 })
