@@ -1,5 +1,6 @@
 export enum RouteUrl {
   HOME = 'home',
   VERIFY = 'verify',
-  MY_ALERTS = 'my-alerts'
+  RESET_PASSWORD = 'reset-password',
+  MY_ALERTS = 'my-alerts',
 }

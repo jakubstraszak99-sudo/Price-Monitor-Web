@@ -11,6 +11,10 @@
   "SEND_RESET_LINK": "Wyślij link resetujący",
   "BACK_TO_LOGIN": "Wróć do logowania",
   "CLOSE": "Zamknij",
+  "RESET_PASSWORD": "Ustaw nowe hasło",
+  "NEW_PASSWORD": "Nowe hasło",
+  "SET_NEW_PASSWORD": "Ustaw hasło",
+  "BACK_TO_HOME": "Wróć do strony głównej",
   "LOADING": "Ładowanie",
   "REGISTER": "Rejestracja",
   "MY_ALERTS": "Moje alerty",
@@ -62,13 +66,16 @@
     "UNABLE_TO_LOAD_ALERTS": "Nie udało się załadować alertów",
     "UNABLE_TO_REMOVE_PRICE_ALERT": "Nie udało się usunąć alertu",
     "UNABLE_TO_UPDATE_PRICE_ALERT": "Nie udało się zaktualizować alertu",
-    "FORGOT_PASSWORD_FAILED": "Nie udało się wysłać linku resetującego. Spróbuj ponownie później."
+    "FORGOT_PASSWORD_FAILED": "Nie udało się wysłać linku resetującego. Spróbuj ponownie później.",
+    "RESET_PASSWORD_FAILED": "Nie udało się zresetować hasła. Link mógł wygasnąć lub jest nieprawidłowy.",
+    "RESET_PASSWORD_INVALID_LINK": "Ten link do resetowania hasła jest nieprawidłowy lub wygasł."
   },
   "TOASTS": {
     "REGISTER_SUCCESS": "Rejestracja udana! Sprawdź swój e-mail!",
     "VERIFY_SUCCESS": "Konto zostało pomyślnie zweryfikowane!",
     "VERIFY_FAILED": "Nie można zweryfikować konta!",
-    "PRICE_ALERT_CREATED": "Pomyślnie dodano produkt!"
+    "PRICE_ALERT_CREATED": "Pomyślnie dodano produkt!",
+    "RESET_PASSWORD_SUCCESS": "Hasło zostało zmienione! Możesz się teraz zalogować."
   },
   "SORT": {
     "NAME_ASC": "Nazwa (A-Z)",

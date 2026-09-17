@@ -595,6 +595,8 @@ components:
         offset:
           type: integer
           format: int64
+        sort:
+          "$ref": "#/components/schemas/SortObject"
         paged:
           type: boolean
         pageNumber:
@@ -603,8 +605,6 @@ components:
         pageSize:
           type: integer
           format: int32
-        sort:
-          "$ref": "#/components/schemas/SortObject"
         unpaged:
           type: boolean
     ProductPage:

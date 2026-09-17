@@ -17,6 +17,10 @@ export const routes: Routes = [
     loadComponent: () => import('./components/verify/verify').then((m) => m.Verify),
   },
   {
+    path: RouteUrl.RESET_PASSWORD,
+    loadComponent: () => import('./components/reset-password/reset-password').then((m) => m.ResetPassword),
+  },
+  {
     path: RouteUrl.MY_ALERTS,
     loadComponent: () => import('./components/my-alerts/my-alerts').then((m) => m.MyAlerts),
     canActivate: [AuthGuard],

@@ -11,6 +11,10 @@
   "SEND_RESET_LINK": "Send reset link",
   "BACK_TO_LOGIN": "Back to log in",
   "CLOSE": "Close",
+  "RESET_PASSWORD": "Set a new password",
+  "NEW_PASSWORD": "New password",
+  "SET_NEW_PASSWORD": "Set password",
+  "BACK_TO_HOME": "Back to home",
   "LOADING": "Loading",
   "REGISTER": "Register",
   "MY_ALERTS": "My alerts",
@@ -62,13 +66,16 @@
     "UNABLE_TO_LOAD_ALERTS": "Unable to load alerts",
     "UNABLE_TO_REMOVE_PRICE_ALERT": "Unable to remove price alert",
     "UNABLE_TO_UPDATE_PRICE_ALERT": "Unable to update price alert",
-    "FORGOT_PASSWORD_FAILED": "Unable to send the reset link. Please try again later."
+    "FORGOT_PASSWORD_FAILED": "Unable to send the reset link. Please try again later.",
+    "RESET_PASSWORD_FAILED": "Unable to reset the password. The link may have expired or is invalid.",
+    "RESET_PASSWORD_INVALID_LINK": "This password reset link is invalid or has expired."
   },
   "TOASTS": {
     "REGISTER_SUCCESS": "Registration successful! Please check your email!",
     "VERIFY_SUCCESS": "Account verified successfully!",
     "VERIFY_FAILED": "Account verification failed!",
-    "PRICE_ALERT_CREATED": "Price alert created successfully!"
+    "PRICE_ALERT_CREATED": "Price alert created successfully!",
+    "RESET_PASSWORD_SUCCESS": "Your password has been changed! You can now log in."
   },
   "SORT": {
     "NAME_ASC": "Name (A-Z)",
