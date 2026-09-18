@@ -18,6 +18,7 @@
     @for (product of products(); track product) {
       <div
         class="product-card"
+        [class.product-card-unavailable]="!product.available"
         role="button"
         tabindex="0"
         (click)="modalService.openProductDetails(product)"
@@ -25,6 +26,9 @@
       >
         <div class="product-image-wrapper">
           <img [src]="product.imageUrl" [alt]="product.name" class="product-image" loading="lazy" />
+          @if (!product.available) {
+            <span class="product-unavailable-badge">{{ 'PRODUCT_UNAVAILABLE' | translate }}</span>
+          }
         </div>
         <div class="product-info">
           <h3 class="product-name">

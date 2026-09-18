@@ -29,6 +29,8 @@
   "SIGN_IN_TO_TRACK": "Sign in to track",
   "TARGET_PRICE": "Target price",
   "NO_ITEMS_FOUND": "No items found",
+  "PRODUCT_UNAVAILABLE": "Unavailable",
+  "PRODUCT_UNAVAILABLE_NOTE": "This product is currently unavailable, so a price alert can't be set for it.",
   "PRICE_HISTORY": "Price history",
   "LOWEST_PRICE": "Lowest price",
   "HIGHEST_PRICE": "Highest price",

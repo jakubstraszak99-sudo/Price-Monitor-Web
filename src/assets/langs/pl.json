@@ -29,6 +29,8 @@
   "SIGN_IN_TO_TRACK": "Zaloguj się, aby śledzić",
   "TARGET_PRICE": "Cena docelowa",
   "NO_ITEMS_FOUND": "Nie znaleziono żadnych przedmiotów",
+  "PRODUCT_UNAVAILABLE": "Niedostępny",
+  "PRODUCT_UNAVAILABLE_NOTE": "Ten produkt jest obecnie niedostępny, dlatego nie można ustawić dla niego alertu cenowego.",
   "PRICE_HISTORY": "Historia cen",
   "LOWEST_PRICE": "Najniższa cena",
   "HIGHEST_PRICE": "Najwyższa cena",

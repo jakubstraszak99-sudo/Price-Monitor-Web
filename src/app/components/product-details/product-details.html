@@ -15,6 +15,9 @@
       <p class="pd-name" role="heading" aria-level="2">{{ p.name }}</p>
       <p class="pd-price">
         {{ p.currentPrice | number: '1.2-2' }} {{ p.currency?.symbol || p.currency?.currencyCode || p.currency }}
+        @if (!p.available) {
+          <span class="pd-unavailable-badge">{{ 'PRODUCT_UNAVAILABLE' | translate }}</span>
+        }
       </p>
       <a class="detail-link" [href]="p.productUrl" target="_blank" rel="noopener">
         {{ 'VIEW_ITEM' | translate }}
@@ -77,7 +80,9 @@
   </div>
 
   <div class="pd-section">
-    @if (!sessionService.isLoggedIn()) {
+    @if (!p.available) {
+      <p class="pd-unavailable-note">{{ 'PRODUCT_UNAVAILABLE_NOTE' | translate }}</p>
+    } @else if (!sessionService.isLoggedIn()) {
       <button type="button" class="btn-primary" style="width: 100%; margin-top: 1.5rem;" (click)="promptLogin()">
         {{ 'SIGN_IN_TO_TRACK' | translate }}
       </button>
