@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../services/language.service';
@@ -17,26 +17,10 @@ export class Navbar {
   protected readonly sessionService = inject(SessionService);
   protected readonly modalService = inject(ModalService);
 
-  protected readonly isDropdownOpen = signal(false);
   protected readonly homeRouterLink = `/${RouteUrl.HOME}`;
   protected readonly alertsRouterLink = `/${RouteUrl.MY_ALERTS}`;
 
   protected switchLanguage(language: string): void {
     this.languageService.setLanguage(language);
-  }
-
-  protected toggleDropdown(): void {
-    this.isDropdownOpen.update((val) => !val);
-  }
-
-  @HostListener('document:click', ['$event'])
-  public onClickOutside(event: Event): void {
-    if (this.isDropdownOpen()) {
-      const clickedInside = (event.target as HTMLElement).closest('.dropdown-wrapper');
-
-      if (!clickedInside) {
-        this.isDropdownOpen.set(false);
-      }
-    }
   }
 }

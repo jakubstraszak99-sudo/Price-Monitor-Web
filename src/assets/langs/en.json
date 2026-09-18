@@ -1,4 +1,5 @@
 {
+  "HOME": "Homepage",
   "SIGN_IN": "Sign In",
   "SIGN_UP": "Sign Up",
   "USERNAME": "Username",
@@ -17,7 +18,7 @@
   "BACK_TO_HOME": "Back to home",
   "LOADING": "Loading",
   "REGISTER": "Register",
-  "MY_ALERTS": "My alerts",
+  "MY_ALERTS": "My Alerts",
   "SETTINGS": "Settings",
   "LOGOUT": "Log out",
   "ADD_ITEM": "Add Item",
@@ -39,6 +40,7 @@
   "CANCEL": "Cancel",
   "VIEW_ITEM": "View item",
   "LAST_UPDATED": "Last updated",
+  "NOTIFICATIONS": "Notifications",
   "ALERT": {
     "TARGET_PRICE": "Target price",
     "ACTIVE": "Active",

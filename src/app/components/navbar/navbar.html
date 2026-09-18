@@ -1,7 +1,26 @@
 <nav class="top-navbar">
-  <div [routerLink]="homeRouterLink" class="nav-logo">
-    Price Monitor
+  <div class="nav-left">
+    <a class="nav-logo">
+      Price Monitor
+    </a>
+    <div class="nav-links">
+      <a [routerLink]="homeRouterLink"
+         class="nav-link"
+         routerLinkActive="active-link"
+         [routerLinkActiveOptions]="{ paths: 'exact', queryParams: 'ignored', fragment: 'ignored', matrixParams: 'ignored' }">
+        {{ 'HOME' | translate }}
+      </a>
+      @if (sessionService.isLoggedIn()) {
+        <a [routerLink]="alertsRouterLink"
+           class="nav-link"
+           routerLinkActive="active-link"
+           [routerLinkActiveOptions]="{ paths: 'exact', queryParams: 'ignored', fragment: 'ignored', matrixParams: 'ignored' }">
+          {{ 'MY_ALERTS' | translate }}
+        </a>
+      }
+    </div>
   </div>
+
   <div class="nav-actions">
     <button class="btn-primary add-product-btn" style="min-width: 10rem" (click)="modalService.openAddProduct()">
       {{ 'ADD_ITEM' | translate }}
@@ -10,11 +29,11 @@
     <div class="nav-flags">
       <button class="flag-btn" (click)="switchLanguage('en')">
         <a href="https://www.flaticon.com/free-icons/united-states" style="display: none" title="united states icons">United states icons created by Freepik - Flaticon</a>
-        <img src="assets/images/usa-flag.png"/>
+        <img src="assets/images/usa-flag.png" alt="USA Flag"/>
       </button>
       <button class="flag-btn" (click)="switchLanguage('pl')">
         <a href="https://www.flaticon.com/free-icons/poland" style="display: none" title="poland icons">Poland icons created by Freepik - Flaticon</a>
-        <img src="assets/images/poland-flag.png"/>
+        <img src="assets/images/poland-flag.png" alt="Poland Flag"/>
       </button>
     </div>
     <div class="nav-divider"></div>
@@ -31,25 +50,20 @@
     } @else {
       <div class="nav-user">
         <span class="user-name">{{ sessionService.username() }}</span>
-        <div class="dropdown-wrapper">
-          <button class="icon-btn" (click)="toggleDropdown()" [class.active]="isDropdownOpen()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-          </button>
+        <button class="icon-btn" [title]="'NOTIFICATIONS' | translate">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+        </button>
 
-          @if (isDropdownOpen()) {
-            <div class="dropdown-menu">
-              <a [routerLink]="alertsRouterLink" class="dropdown-item" (click)="isDropdownOpen.set(false)">
-                {{ 'MY_ALERTS' | translate }}
-              </a>
-              <a routerLink="/settings" class="dropdown-item" (click)="isDropdownOpen.set(false)">
-                {{ 'SETTINGS' | translate }}
-              </a>
-            </div>
-          }
-        </div>
+        <button class="icon-btn" [title]="'SETTINGS' | translate">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+
         <button class="icon-btn logout-btn" (click)="sessionService.logout()" [title]="'LOGOUT' | translate">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
