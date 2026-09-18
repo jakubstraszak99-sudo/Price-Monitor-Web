@@ -13,4 +13,6 @@ export enum ExceptionCode {
   E012 = 'E012', // A network problem occurred
   E013 = 'E013', // Failed to receive data
   E014 = 'E014', // Price alert already exists
+  E015 = 'E015', // Price alert not found
+  E016 = 'E016', // Product appears to be unavailable
 }

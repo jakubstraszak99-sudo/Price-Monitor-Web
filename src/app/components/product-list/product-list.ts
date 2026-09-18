@@ -18,7 +18,7 @@ export class ProductList {
   protected readonly modalService = inject(ModalService);
 
   public readonly searchTerm = input<string>('');
-  public readonly sortValue = input<string>('name,asc');
+  public readonly sortValue = input<string>('lastUpdated,desc');
 
   private readonly list = createPagedList<Product>({
     searchTerm: this.searchTerm,

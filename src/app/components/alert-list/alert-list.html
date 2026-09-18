@@ -114,7 +114,11 @@
           </svg>
         </button>
 
-        @if (isExpanded(alert.publicId!)) {
+        <div
+          class="alert-details-wrapper"
+          [class.alert-details-wrapper-expanded]="isExpanded(alert.publicId!)"
+          [attr.aria-hidden]="!isExpanded(alert.publicId!)"
+        >
           <div class="alert-details">
             <div class="detail-row detail-row-editable">
               <span class="detail-label">{{ 'ALERT.TARGET_PRICE' | translate }}</span>
@@ -184,7 +188,7 @@
               rel="noopener"
               (click)="$event.stopPropagation()"
             >
-              {{ 'VIEW_PRODUCT' | translate }}
+              {{ 'VIEW_ITEM' | translate }}
               <svg
                 viewBox="0 0 24 24"
                 width="14"
@@ -201,7 +205,7 @@
               </svg>
             </a>
           </div>
-        }
+        </div>
       </div>
     }
   </div>

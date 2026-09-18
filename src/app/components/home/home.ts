@@ -9,15 +9,15 @@ import { SearchSortToolbar } from '../search-sort-toolbar/search-sort-toolbar';
 })
 export class Home {
   protected searchTerm = signal('');
-  protected sortValue = signal('name,asc');
+  protected sortValue = signal('lastUpdated,desc');
 
   protected readonly sortOptions: SortOption[] = [
+    { labelKey: 'SORT.LAST_UPDATED', value: 'lastUpdated,desc' },
     { labelKey: 'SORT.NAME_ASC', value: 'name,asc' },
     { labelKey: 'SORT.NAME_DESC', value: 'name,desc' },
     { labelKey: 'SORT.PRICE_ASC', value: 'currentPrice,asc' },
     { labelKey: 'SORT.PRICE_DESC', value: 'currentPrice,desc' },
     { labelKey: 'SORT.SHOP_NAME_ASC', value: 'shop,asc' },
     { labelKey: 'SORT.SHOP_NAME_DESC', value: 'shop,desc' },
-    { labelKey: 'SORT.LAST_UPDATED', value: 'lastUpdated,desc' },
   ];
 }

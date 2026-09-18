@@ -1,10 +1,10 @@
 <app-modal (close)="close()" [isLoading]="loading()" loadingText="{{ 'SEARCHING' | translate }}...">
   @if (!scrapedProduct()) {
-    <h2>{{ 'ADD_PRODUCT' | translate }}</h2>
+    <h2>{{ 'ADD_ITEM' | translate }}</h2>
 
     <div class="field-group field-group-spaced">
       <div class="field-header">
-        <label class="field-label">{{ 'PRODUCT_LINK' | translate }}</label>
+        <label class="field-label">{{ 'ITEM_LINK' | translate }}</label>
         @if (urlControl.invalid && urlControl.touched) {
           <span class="field-error">{{ 'ERRORS.URL' | translate }}</span>
         }

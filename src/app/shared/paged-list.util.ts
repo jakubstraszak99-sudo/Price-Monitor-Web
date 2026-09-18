@@ -27,7 +27,7 @@ export function createPagedList<T>(options: PagedListOptions<T>) {
   const router = inject(Router);
   const route = inject(ActivatedRoute);
 
-  const pageSize = options.pageSize ?? 20;
+  const pageSize = options.pageSize ?? 24;
   const maxVisiblePages = options.maxVisiblePages ?? 7;
 
   const items = signal<T[]>([]);

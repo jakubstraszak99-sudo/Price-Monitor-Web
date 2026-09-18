@@ -22,7 +22,7 @@ export class AlertList {
   private readonly toastService = inject(ToastService);
 
   public readonly searchTerm = input<string>('');
-  public readonly sortValue = input<string>('product.name,asc');
+  public readonly sortValue = input<string>('createdAt,desc');
 
   private readonly list = createPagedList<PriceAlert>({
     searchTerm: this.searchTerm,
