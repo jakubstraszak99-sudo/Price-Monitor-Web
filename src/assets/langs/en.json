@@ -43,6 +43,10 @@
   "VIEW_ITEM": "View item",
   "LAST_UPDATED": "Last updated",
   "NOTIFICATIONS": "Notifications",
+  "MARK_ALL_AS_READ": "Mark all as read",
+  "NO_NOTIFICATIONS": "No notifications",
+  "NOTIFICATION_PRICE_DROP": "The price of {{name}} dropped to {{price}} {{currency}}!",
+  "NOTIFICATION_PRODUCT_UNAVAILABLE": "{{name}} is now unavailable.",
   "ALERT": {
     "TARGET_PRICE": "Target price",
     "ACTIVE": "Active",

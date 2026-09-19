@@ -98,24 +98,6 @@
   font-size: 0.95rem;
 }
 
-.icon-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  border-radius: var(--radius);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.icon-btn:hover {
-  background-color: var(--border);
-  color: var(--primary);
-}
-
 .logout-btn:hover {
   color: #ef4444;
   background-color: #fef2f2;

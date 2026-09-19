@@ -221,6 +221,25 @@ paths:
       responses:
         '200':
           description: Password has been reset
+  "/api/v1/notification/read":
+    patch:
+      tags:
+        - Notification
+      summary: Mark notification as read
+      description: Marks notification belonging to the current user as read
+      operationId: markAsRead
+      parameters:
+        - name: publicId
+          in: query
+          required: false
+          schema:
+            type:
+              - string
+              - 'null'
+            format: uuid
+      responses:
+        '204':
+          description: Notification marked as read
   "/api/v1/alert/{publicId}":
     patch:
       tags:
@@ -314,6 +333,63 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/ProductPage"
+  "/api/v1/notification":
+    get:
+      tags:
+        - Notification
+      summary: Fetch notifications
+      description: Returns a paginated list of the current user's notifications
+      operationId: getNotifications
+      parameters:
+        - name: page
+          in: query
+          description: Zero-based page index (0..N)
+          required: false
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - name: size
+          in: query
+          description: The size of the page to be returned
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property,(asc|desc). Default
+          sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          schema:
+            type: array
+            default:
+              - createdAt,ASC
+            items:
+              type: string
+      responses:
+        '200':
+          description: Page of notifications retrieved successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NotificationPage"
+  "/api/v1/notification/unread/count":
+    get:
+      tags:
+        - Notification
+      summary: Get unread notification count
+      description: Returns how many of the current user's notifications are unread
+      operationId: getUnreadCount
+      responses:
+        '200':
+          description: Unread count retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
   "/api/v1/history":
     get:
       tags:
@@ -379,6 +455,25 @@ paths:
                 type: boolean
         '400':
           description: Invalid product url
+  "/api/v1/notification/delete":
+    delete:
+      tags:
+        - Notification
+      summary: Delete notification
+      description: Removes notification belonging to the current user
+      operationId: deleteNotification
+      parameters:
+        - name: publicId
+          in: query
+          required: false
+          schema:
+            type:
+              - string
+              - 'null'
+            format: uuid
+      responses:
+        '204':
+          description: Notification removed successfully
   "/api/v1/alert/{publicId}/delete":
     delete:
       tags:
@@ -620,12 +715,12 @@ components:
           "$ref": "#/components/schemas/PageableObject"
         last:
           type: boolean
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         size:
           type: integer
           format: int32
@@ -650,6 +745,58 @@ components:
           type: boolean
         unsorted:
           type: boolean
+    Notification:
+      type: object
+      properties:
+        publicId:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+            - PRICE_DROP
+            - PRODUCT_UNAVAILABLE
+        product:
+          "$ref": "#/components/schemas/Product"
+        read:
+          type: boolean
+        triggerPrice:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+    NotificationPage:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Notification"
+        pageable:
+          "$ref": "#/components/schemas/PageableObject"
+        last:
+          type: boolean
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        number:
+          type: integer
+          format: int32
+        sort:
+          "$ref": "#/components/schemas/SortObject"
+        first:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
     PriceHistory:
       type: object
       properties:
@@ -669,12 +816,12 @@ components:
           "$ref": "#/components/schemas/PageableObject"
         last:
           type: boolean
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         size:
           type: integer
           format: int32

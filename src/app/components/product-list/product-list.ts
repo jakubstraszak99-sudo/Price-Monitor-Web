@@ -3,7 +3,7 @@ import { Product, ProductService } from '../../api-client';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RouteUrl } from '../../shared/route-url';
 import { DecimalPipe } from '@angular/common';
-import { createPagedList } from '../../shared/paged-list.util';
+import { createPagedList } from '../../utils/paged-list.util';
 import { Pagination } from '../pagination/pagination';
 import { ModalService } from '../../services/modal-service';
 

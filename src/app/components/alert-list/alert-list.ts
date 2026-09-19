@@ -1,7 +1,7 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { PriceAlert, PriceAlertService } from '../../api-client';
 import { RouteUrl } from '../../shared/route-url';
-import { createPagedList } from '../../shared/paged-list.util';
+import { createPagedList } from '../../utils/paged-list.util';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Pagination } from '../pagination/pagination';

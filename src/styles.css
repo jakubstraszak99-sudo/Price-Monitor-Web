@@ -291,6 +291,24 @@ input.input-error {
   text-decoration: underline;
 }
 
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+  background-color: var(--border);
+  color: var(--primary);
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
