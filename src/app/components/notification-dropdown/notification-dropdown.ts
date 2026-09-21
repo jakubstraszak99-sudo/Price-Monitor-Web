@@ -1,13 +1,13 @@
 import { Component, DestroyRef, ElementRef, HostListener, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { interval, startWith } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Notification, NotificationService } from '../../api-client';
 import { ModalService } from '../../services/modal-service';
+import { SocketService } from '../../services/socket-service';
 
-const POLL_INTERVAL_MS = 60_000;
 const DROPDOWN_PAGE_SIZE = 10;
+const MAX_DROPDOWN_ITEMS = 20;
 
 @Component({
   selector: 'app-notification-dropdown',
@@ -17,6 +17,7 @@ const DROPDOWN_PAGE_SIZE = 10;
 })
 export class NotificationDropdown {
   private readonly notificationService = inject(NotificationService);
+  private readonly socketService = inject(SocketService);
   private readonly modalService = inject(ModalService);
   private readonly elementRef = inject(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
@@ -27,10 +28,11 @@ export class NotificationDropdown {
   protected readonly notifications = signal<Notification[]>([]);
 
   constructor() {
-    // Keep the badge fresh even while the dropdown is closed.
-    interval(POLL_INTERVAL_MS)
-      .pipe(startWith(0), takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.refreshUnreadCount());
+    this.refreshUnreadCount();
+
+    this.socketService.notificationReceived
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((notification) => this.onNotificationReceived(notification));
   }
 
   protected toggle(): void {
@@ -75,6 +77,13 @@ export class NotificationDropdown {
   protected onDocumentClick(event: Event): void {
     if (this.isOpen() && !this.elementRef.nativeElement.contains(event.target)) {
       this.isOpen.set(false);
+    }
+  }
+
+  private onNotificationReceived(notification: Notification): void {
+    this.unreadCount.update((count) => count + 1);
+    if (this.notifications().length > 0) {
+      this.notifications.update((list) => [notification, ...list].slice(0, MAX_DROPDOWN_ITEMS));
     }
   }
 

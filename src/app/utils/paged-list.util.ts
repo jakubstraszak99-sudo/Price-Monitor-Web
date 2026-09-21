@@ -3,6 +3,9 @@ import { map, Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 
+const DEFAULT_PAGE_SIZE = 24;
+const DEFAULT_MAX_VISIBLE_PAGES = 7;
+
 export interface PagedResponse<T> {
   content?: T[];
   totalPages?: number;
@@ -27,8 +30,8 @@ export function createPagedList<T>(options: PagedListOptions<T>) {
   const router = inject(Router);
   const route = inject(ActivatedRoute);
 
-  const pageSize = options.pageSize ?? 24;
-  const maxVisiblePages = options.maxVisiblePages ?? 7;
+  const pageSize = options.pageSize ?? DEFAULT_PAGE_SIZE;
+  const maxVisiblePages = options.maxVisiblePages ?? DEFAULT_MAX_VISIBLE_PAGES;
 
   const items = signal<T[]>([]);
   const loading = signal(true);
