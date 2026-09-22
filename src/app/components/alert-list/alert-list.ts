@@ -1,5 +1,5 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { PriceAlert, PriceAlertService } from '../../api-client';
+import { PriceAlert, PriceAlertService, PriceHistory, PriceHistoryService } from '../../api-client';
 import { RouteUrl } from '../../shared/route-url';
 import { createPagedList } from '../../utils/paged-list.util';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -19,6 +19,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AlertList {
   private readonly priceAlertService = inject(PriceAlertService);
+  private readonly priceHistoryService = inject(PriceHistoryService);
   private readonly toastService = inject(ToastService);
 
   public readonly searchTerm = input<string>('');
@@ -38,8 +39,10 @@ export class AlertList {
   protected readonly totalPages = this.list.totalPages;
   protected readonly currentPage = this.list.currentPage;
 
+  private readonly priceHistoryCache = signal<Map<string, PriceHistory[]>>(new Map());
   protected readonly expandedIds = signal<Set<string>>(new Set());
   protected readonly togglingIds = signal<Set<string>>(new Set());
+  protected readonly historyLoadingIds = signal<Set<string>>(new Set());
   protected readonly alertPendingDeletion = signal<PriceAlert | null>(null);
   protected readonly isDeleting = signal(false);
   protected readonly editingId = signal<string | null>(null);
@@ -63,7 +66,12 @@ export class AlertList {
       return;
     }
 
+    const willExpand = !this.isExpanded(publicId);
     this.expandedIds.update((set) => this.toggleSetMember(set, publicId));
+
+    if (willExpand) {
+      this.loadPriceHistoryIfNeeded(publicId);
+    }
   }
 
   protected isExpanded(publicId: string): boolean {
@@ -72,6 +80,23 @@ export class AlertList {
 
   protected isToggling(publicId: string): boolean {
     return !!publicId && this.togglingIds().has(publicId);
+  }
+
+  protected isHistoryLoading(publicId: string): boolean {
+    return !!publicId && this.historyLoadingIds().has(publicId);
+  }
+
+  protected lowestPriceFor(alert: PriceAlert): number | null {
+    return this.minMaxFor(alert)?.min ?? null;
+  }
+
+  protected highestPriceFor(alert: PriceAlert): number | null {
+    return this.minMaxFor(alert)?.max ?? null;
+  }
+
+  protected hasNoHistoryData(alert: PriceAlert): boolean {
+    const productUrl = alert.product?.productUrl;
+    return !!productUrl && this.priceHistoryCache().has(productUrl) && !this.minMaxFor(alert);
   }
 
   protected onToggleStatus(event: Event, alert: PriceAlert): void {
@@ -199,6 +224,42 @@ export class AlertList {
     this.list.items.update((alerts) =>
       alerts.map((a) => (a.publicId === publicId ? { ...a, ...changes } : a)),
     );
+  }
+
+  private loadPriceHistoryIfNeeded(publicId: string): void {
+    const productUrl = this.priceAlerts().find((a) => a.publicId === publicId)?.product?.productUrl;
+
+    if (!productUrl || this.priceHistoryCache().has(productUrl)) {
+      return;
+    }
+
+    this.historyLoadingIds.update((set) => this.setMember(set, publicId, true));
+
+    this.priceHistoryService.getPriceHistory(productUrl).subscribe({
+      next: (history) =>
+        this.cacheHistory(publicId, productUrl, Array.isArray(history) ? history : []),
+      error: () => this.cacheHistory(publicId, productUrl, []),
+    });
+  }
+
+  private cacheHistory(publicId: string, productUrl: string, history: PriceHistory[]): void {
+    this.priceHistoryCache.update((map) => new Map(map).set(productUrl, history));
+    this.historyLoadingIds.update((set) => this.setMember(set, publicId, false));
+  }
+
+  private minMaxFor(alert: PriceAlert): { min: number; max: number } | null {
+    const productUrl = alert.product?.productUrl;
+    if (!productUrl) {
+      return null;
+    }
+
+    const history = this.priceHistoryCache().get(productUrl);
+    if (!history || history.length === 0) {
+      return null;
+    }
+
+    const prices = history.map((h) => h.recordedPrice ?? 0);
+    return { min: Math.min(...prices), max: Math.max(...prices) };
   }
 
   private toggleSetMember(set: Set<string>, id: string): Set<string> {

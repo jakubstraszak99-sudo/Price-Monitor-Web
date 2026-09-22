@@ -61,7 +61,7 @@
           <div class="pd-sparkline-tooltip" [style.left.%]="(hp.x / 280) * 100">
             <strong>{{ hp.price | number: '1.2-2' }} {{ p.currency?.symbol || p.currency }}</strong>
             @if (hp.createdAt) {
-              <span>{{ hp.createdAt | date: 'mediumDate' }}</span>
+              <span>{{ hp.createdAt | date: 'short' }}</span>
             }
           </div>
         }
@@ -75,7 +75,7 @@
     }
 
     <div class="pd-updated">
-      {{ 'LAST_UPDATED' | translate }}: {{ p.lastUpdated | date: 'medium' }}
+      {{ 'LAST_UPDATED' | translate }}: {{ p.lastUpdated | date: 'short' }}
     </div>
   </div>
 

@@ -173,13 +173,37 @@
                 </button>
               }
             </div>
+            @let historyLoading = isHistoryLoading(alert.publicId!);
+            @let lowestPrice = lowestPriceFor(alert);
+            @let highestPrice = highestPriceFor(alert);
+
+            <div class="detail-row">
+              <span class="detail-label">{{ 'LOWEST_PRICE' | translate }}</span>
+              @if (historyLoading) {
+                <span class="mini-spinner"></span>
+              } @else if (lowestPrice !== null) {
+                <span class="detail-value">{{ lowestPrice | number: '1.2-2' }} {{ alert.product?.currency }}</span>
+              } @else if (hasNoHistoryData(alert)) {
+                <span class="detail-value detail-value-muted">{{ 'NO_PRICE_HISTORY_DATA' | translate }}</span>
+              }
+            </div>
+            @if (historyLoading || lowestPrice !== null) {
+              <div class="detail-row">
+                <span class="detail-label">{{ 'HIGHEST_PRICE' | translate }}</span>
+                @if (historyLoading) {
+                  <span class="mini-spinner"></span>
+                } @else if (highestPrice !== null) {
+                  <span class="detail-value">{{ highestPrice | number: '1.2-2' }} {{ alert.product?.currency }}</span>
+                }
+              </div>
+            }
             <div class="detail-row">
               <span class="detail-label">{{ 'ALERT.CREATED_AT' | translate }}</span>
-              <span class="detail-value">{{ alert.createdAt | date: 'medium' }}</span>
+              <span class="detail-value">{{ alert.createdAt | date: 'short' }}</span>
             </div>
             <div class="detail-row">
               <span class="detail-label">{{ 'LAST_UPDATED' | translate }}</span>
-              <span class="detail-value">{{ alert.product?.lastUpdated | date: 'medium' }}</span>
+              <span class="detail-value">{{ alert.product?.lastUpdated | date: 'short' }}</span>
             </div>
             <a
               class="detail-link"

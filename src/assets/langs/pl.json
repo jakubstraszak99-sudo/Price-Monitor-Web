@@ -44,6 +44,7 @@
   "LAST_UPDATED": "Ostatnia aktualizacja",
   "NOTIFICATIONS": "Powiadomienia",
   "MARK_ALL_AS_READ": "Oznacz wszystkie jako przeczytane",
+  "DELETE_ALL": "Usuń wszystkie",
   "NO_NOTIFICATIONS": "Brak powiadomień",
   "NOTIFICATION_PRICE_DROP": "Cena produktu {{name}} spadła do {{price}} {{currency}}!",
   "NOTIFICATION_PRODUCT_UNAVAILABLE": "Produkt {{name}} jest teraz niedostępny.",

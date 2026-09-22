@@ -73,6 +73,31 @@ export class NotificationDropdown {
     });
   }
 
+  protected onDeleteClick(event: Event, notification: Notification): void {
+    event.stopPropagation();
+
+    this.notificationService.deleteNotification(notification.publicId).subscribe(() => {
+      this.notifications.update((list) => list.filter((n) => n.publicId !== notification.publicId));
+
+      if (!notification.read) {
+        this.unreadCount.update((count) => Math.max(0, count - 1));
+      }
+    });
+  }
+
+  protected deleteAll(event: Event): void {
+    event.stopPropagation();
+
+    if (this.notifications().length === 0) {
+      return;
+    }
+
+    this.notificationService.deleteNotification().subscribe(() => {
+      this.notifications.set([]);
+      this.unreadCount.set(0);
+    });
+  }
+
   @HostListener('document:click', ['$event'])
   protected onDocumentClick(event: Event): void {
     if (this.isOpen() && !this.elementRef.nativeElement.contains(event.target)) {
