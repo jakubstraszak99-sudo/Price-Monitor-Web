@@ -77,14 +77,21 @@
     "UNABLE_TO_UPDATE_PRICE_ALERT": "Nie udało się zaktualizować alertu",
     "FORGOT_PASSWORD_FAILED": "Nie udało się wysłać linku resetującego. Spróbuj ponownie później.",
     "RESET_PASSWORD_FAILED": "Nie udało się zresetować hasła. Link mógł wygasnąć lub jest nieprawidłowy.",
-    "RESET_PASSWORD_INVALID_LINK": "Ten link do resetowania hasła jest nieprawidłowy lub wygasł."
+    "RESET_PASSWORD_INVALID_LINK": "Ten link do resetowania hasła jest nieprawidłowy lub wygasł.",
+    "SETTINGS_LOAD_FAILED": "Nie udało się wczytać ustawień.",
+    "SETTINGS_SAVE_FAILED": "Nie udało się zapisać ustawień. Przywrócono poprzedni wybór.",
+    "CURRENT_PASSWORD_INVALID": "Obecne hasło jest nieprawidłowe.",
+    "PASSWORD_UNCHANGED": "Nowe hasło musi być inne niż obecne.",
+    "CHANGE_PASSWORD_FAILED": "Nie udało się zmienić hasła. Spróbuj ponownie.",
+    "SESSION_EXPIRED": "Sesja wygasła. Odśwież stronę i zaloguj się ponownie, jeśli będzie to konieczne."
   },
   "TOASTS": {
     "REGISTER_SUCCESS": "Rejestracja udana! Sprawdź swój e-mail!",
     "VERIFY_SUCCESS": "Konto zostało pomyślnie zweryfikowane!",
     "VERIFY_FAILED": "Nie można zweryfikować konta!",
     "PRICE_ALERT_CREATED": "Pomyślnie dodano przedmiot!",
-    "RESET_PASSWORD_SUCCESS": "Hasło zostało zmienione! Możesz się teraz zalogować."
+    "RESET_PASSWORD_SUCCESS": "Hasło zostało zmienione! Możesz się teraz zalogować.",
+    "CHANGE_PASSWORD_SUCCESS": "Hasło zostało zmienione."
   },
   "SORT": {
     "NAME_ASC": "Nazwa (A-Z)",
@@ -98,5 +105,11 @@
     "CREATED_OLDEST": "Od najstarszych",
     "ACTIVE_FIRST": "Od aktywnych",
     "INACTIVE_FIRST": "Od nieaktywnych"
-  }
+  },
+  "EMAIL_ALERTS": "Alerty e-mail",
+  "EMAIL_ALERTS_DESCRIPTION": "Otrzymuj e-mail, gdy cena osiągnie ustawiony próg.",
+  "CHANGE_PASSWORD": "Zmień hasło",
+  "CURRENT_PASSWORD": "Obecne hasło",
+  "SAVING": "Zapisywanie",
+  "RETRY": "Spróbuj ponownie"
 }

@@ -11,6 +11,7 @@ import { ProductDetails } from './components/product-details/product-details';
 import { ForgotPassword } from './components/forgot-password/forgot-password';
 import { SessionService } from './services/session-service';
 import { SocketService } from './services/socket-service';
+import { ChangePassword } from './components/change-password/change-password';
 
 @Component({
   imports: [
@@ -22,6 +23,7 @@ import { SocketService } from './services/socket-service';
     AddProduct,
     ProductDetails,
     ForgotPassword,
+    ChangePassword,
   ],
   selector: 'app-root',
   templateUrl: './app.html',

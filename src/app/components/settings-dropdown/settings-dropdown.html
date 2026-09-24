@@ -1,0 +1,80 @@
+<div class="settings-wrapper">
+  <button
+    #trigger
+    id="settings-toggle"
+    type="button"
+    class="icon-btn"
+    [title]="'SETTINGS' | translate"
+    [attr.aria-label]="'SETTINGS' | translate"
+    [attr.aria-expanded]="isOpen()"
+    aria-controls="settings-panel"
+    (click)="toggle()"
+  >
+    <svg
+      aria-hidden="true"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="3" />
+      <path
+        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+      />
+    </svg>
+  </button>
+
+  @if (isOpen()) {
+    <div
+      id="settings-panel"
+      class="settings-dropdown"
+      role="region"
+      aria-labelledby="settings-title"
+    >
+      <h2 id="settings-title">{{ 'SETTINGS' | translate }}</h2>
+      <div class="settings-body">
+        @if (loading()) {
+          <p class="settings-status" role="status">{{ 'LOADING' | translate }}…</p>
+        } @else if (emailAlertsEnabled() !== null) {
+          <label class="email-setting" for="email-alerts">
+            <span>{{ 'EMAIL_ALERTS' | translate }}</span>
+            <span class="checkbox-wrapper-2">
+              <input
+                id="email-alerts"
+                type="checkbox"
+                class="sc-gJwTLC ikxBAC"
+                role="switch"
+                [checked]="emailAlertsEnabled()"
+                [disabled]="saving()"
+                aria-describedby="email-alerts-description"
+                (change)="changeEmailPreference($event)"
+              />
+            </span>
+          </label>
+          <p id="email-alerts-description" class="settings-description">
+            {{ 'EMAIL_ALERTS_DESCRIPTION' | translate }}
+          </p>
+        }
+        <div class="settings-feedback" aria-live="polite">
+          @if (error()) {
+            <p class="settings-error" role="alert">{{ error() | translate }}</p>
+            @if (emailAlertsEnabled() === null) {
+              <button type="button" class="subtle-link" (click)="loadSettings()">
+                {{ 'RETRY' | translate }}
+              </button>
+            }
+          } @else if (saving()) {
+            <span>{{ 'SAVING' | translate }}…</span>
+          }
+        </div>
+        <button type="button" class="btn-secondary change-password-btn" (click)="changePassword()">
+          {{ 'CHANGE_PASSWORD' | translate }}
+        </button>
+      </div>
+    </div>
+  }
+</div>

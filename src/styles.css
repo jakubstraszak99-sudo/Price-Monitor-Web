@@ -212,8 +212,12 @@ button:active {
 }
 
 .modal-content {
+  box-sizing: border-box;
   margin: 0;
-  width: 90%;
+  width: calc(100% - 2rem);
+  max-width: 500px;
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
   animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 

@@ -185,6 +185,30 @@ paths:
           description: Unauthorized
         '409':
           description: Price alert already exists
+  "/api/v1/user/settings":
+    patch:
+      tags:
+        - User
+      summary: Update user settings
+      description: Enables or disables price alert emails for the authenticated user
+      operationId: updateSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UpdateUserSettingsRequest"
+        required: true
+      responses:
+        '200':
+          description: Settings updated successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/User"
+        '400':
+          description: Invalid settings
+        '401':
+          description: Unauthorized
   "/api/v1/user/password":
     patch:
       tags:
@@ -587,6 +611,25 @@ components:
         - scrapedProduct
         - targetPrice
         - url
+    UpdateUserSettingsRequest:
+      type: object
+      properties:
+        emailAlertsEnabled:
+          type: boolean
+      required:
+        - emailAlertsEnabled
+    User:
+      type: object
+      properties:
+        publicId:
+          type: string
+          format: uuid
+        username:
+          type: string
+        email:
+          type: string
+        emailAlertsEnabled:
+          type: boolean
     UpdatePasswordRequest:
       type: object
       properties:
@@ -676,16 +719,6 @@ components:
           format: uri
         available:
           type: boolean
-    User:
-      type: object
-      properties:
-        publicId:
-          type: string
-          format: uuid
-        username:
-          type: string
-        email:
-          type: string
     PageableObject:
       type: object
       properties:
@@ -715,12 +748,12 @@ components:
           "$ref": "#/components/schemas/PageableObject"
         last:
           type: boolean
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -776,12 +809,12 @@ components:
           "$ref": "#/components/schemas/PageableObject"
         last:
           type: boolean
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -816,12 +849,12 @@ components:
           "$ref": "#/components/schemas/PageableObject"
         last:
           type: boolean
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32

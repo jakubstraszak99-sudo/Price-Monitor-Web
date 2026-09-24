@@ -77,14 +77,21 @@
     "UNABLE_TO_UPDATE_PRICE_ALERT": "Unable to update price alert",
     "FORGOT_PASSWORD_FAILED": "Unable to send the reset link. Please try again later.",
     "RESET_PASSWORD_FAILED": "Unable to reset the password. The link may have expired or is invalid.",
-    "RESET_PASSWORD_INVALID_LINK": "This password reset link is invalid or has expired."
+    "RESET_PASSWORD_INVALID_LINK": "This password reset link is invalid or has expired.",
+    "SETTINGS_LOAD_FAILED": "Unable to load settings.",
+    "SETTINGS_SAVE_FAILED": "Unable to save settings. Your previous choice has been restored.",
+    "CURRENT_PASSWORD_INVALID": "The current password is incorrect.",
+    "PASSWORD_UNCHANGED": "The new password must be different from the current password.",
+    "CHANGE_PASSWORD_FAILED": "Unable to change your password. Please try again.",
+    "SESSION_EXPIRED": "Your session has expired. Refresh the page and sign in again if needed."
   },
   "TOASTS": {
     "REGISTER_SUCCESS": "Registration successful! Please check your email!",
     "VERIFY_SUCCESS": "Account verified successfully!",
     "VERIFY_FAILED": "Account verification failed!",
     "PRICE_ALERT_CREATED": "Price alert created successfully!",
-    "RESET_PASSWORD_SUCCESS": "Your password has been changed! You can now log in."
+    "RESET_PASSWORD_SUCCESS": "Your password has been changed! You can now log in.",
+    "CHANGE_PASSWORD_SUCCESS": "Your password has been changed."
   },
   "SORT": {
     "NAME_ASC": "Name (A-Z)",
@@ -98,5 +105,11 @@
     "CREATED_OLDEST": "From oldest",
     "ACTIVE_FIRST": "Active first",
     "INACTIVE_FIRST": "Inactive first"
-  }
+  },
+  "EMAIL_ALERTS": "Email alerts",
+  "EMAIL_ALERTS_DESCRIPTION": "Receive an email when the price reaches your target.",
+  "CHANGE_PASSWORD": "Change password",
+  "CURRENT_PASSWORD": "Current password",
+  "SAVING": "Saving",
+  "RETRY": "Try again"
 }

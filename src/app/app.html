@@ -18,6 +18,10 @@
   <app-forgot-password />
 }
 
+@if (modalService.isChangePasswordModalOpen()) {
+  <app-change-password />
+}
+
 @if (modalService.selectedProduct(); as product) {
   <app-product-details [product]="product" />
 }

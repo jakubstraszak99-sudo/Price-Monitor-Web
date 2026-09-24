@@ -96,6 +96,7 @@
 }
 
 .notif-item {
+  box-sizing: border-box;
   position: relative;
   display: flex;
   align-items: flex-start;
@@ -131,14 +132,15 @@
   width: 28px;
   height: 28px;
   padding: 0;
-  color: var(--text-main);
-  opacity: 0.55;
 }
 
 .notif-delete-btn:hover {
-  opacity: 1;
-  color: #ef4444;
-  background-color: #fef2f2;
+  background-color: var(--error-bg, #fef2f2);
+  color: var(--error, #ef4444);
+}
+
+.notif-delete-btn:active {
+  transform: scale(0.92);
 }
 
 .notif-icon {

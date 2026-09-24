@@ -6,6 +6,7 @@ export class ModalService {
   public readonly isLoginModalOpen = signal(false);
   public readonly isRegisterModalOpen = signal(false);
   public readonly isForgotPasswordModalOpen = signal(false);
+  public readonly isChangePasswordModalOpen = signal(false);
   public readonly isAddProductModalOpen = signal(false);
   public readonly selectedProduct = signal<Product | null>(null);
 
@@ -34,6 +35,14 @@ export class ModalService {
     this.isForgotPasswordModalOpen.set(false);
   }
 
+  public openChangePassword(): void {
+    this.isChangePasswordModalOpen.set(true);
+  }
+
+  public closeChangePassword(): void {
+    this.isChangePasswordModalOpen.set(false);
+  }
+
   public openAddProduct(): void {
     this.isAddProductModalOpen.set(true);
   }
@@ -51,6 +60,7 @@ export class ModalService {
   }
 
   public requireLogin(): void {
+    this.isChangePasswordModalOpen.set(false);
     this.isAddProductModalOpen.set(false);
     this.isForgotPasswordModalOpen.set(false);
     this.selectedProduct.set(null);

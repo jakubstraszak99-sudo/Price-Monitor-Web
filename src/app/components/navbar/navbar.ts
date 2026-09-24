@@ -6,10 +6,11 @@ import { SessionService } from '../../services/session-service';
 import { ModalService } from '../../services/modal-service';
 import { RouteUrl } from '../../shared/route-url';
 import { NotificationDropdown } from '../notification-dropdown/notification-dropdown';
+import { SettingsDropdown } from '../settings-dropdown/settings-dropdown';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterModule, TranslatePipe, NotificationDropdown],
+  imports: [RouterModule, TranslatePipe, NotificationDropdown, SettingsDropdown],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
