@@ -55,16 +55,6 @@ Przed korzystaniem z konta i produktów uruchom backend pod `http://localhost:80
 | [environment.ts](src/environments/environment.ts) | Używany przez domyślny build produkcyjny |
 | [angular.json](angular.json) | Konfiguracje budowania, zamiana plików środowiska i limity rozmiaru |
 
-Profil developerski wskazuje `http://localhost:8080`. Profil produkcyjny ma `production: true` i korzysta z `window.location.origin`, czyli domeny, z której otwarto frontend. Nie trzeba wpisywać domeny przed kompilacją.
-
-```typescript
-export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:8080',
-  languageToken: 'PRICE_MONITOR_LANG',
-};
-```
-
 `apiUrl` jest adresem bazowym backendu, bez końcowego `/` i bez dopisanego `/api/v1`. Trafia do klienta REST i służy do wyliczenia adresu WebSocket: `http` zmienia się w `ws`, a `https` w `wss`, z końcówką `/ws`.
 
 Po stronie backendu `PM_CLIENT_URL` (ustawienie `app.client-url`) musi odpowiadać adresowi frontendu. Lokalnie trzymaj się `localhost` dla obu aplikacji. Zmiana na `127.0.0.1`, inny protokół lub inną domenę wymaga odpowiednich ustawień pochodzenia i ciasteczek.
@@ -78,7 +68,7 @@ curl --fail http://localhost:8080/v3/api-docs.yaml -o api-docs.yaml
 npm run generate-api
 ```
 
-Polecenie `curl` zastępuje lokalny kontrakt — pobieraj go z backendu odpowiadającego rozwijanej wersji frontendu. Zmianę `api-docs.yaml` zapisuj razem z kodem, który jej używa. Wersję generatora ustala `openapitools.json` (obecnie 7.25.0); plik warto przechowywać w repozytorium dla powtarzalnego generowania.
+Polecenie `curl` zastępuje lokalny kontrakt — pobieraj go z backendu odpowiadającego rozwijanej wersji frontendu. Zmianę `api-docs.yaml` zapisuj razem z kodem, który jej używa. Wersję generatora ustala `openapitools.json` (obecnie 7.25.0).
 
 Nie wprowadzaj trwałych poprawek ręcznie w `src/app/api-client`: zostaną nadpisane. Reguły pomijania plików są w `src/app/api-client/.openapi-generator-ignore`. Jeżeli generator zgłosi brak wskazanego w skrypcie głównego `.openapi-generator-ignore`, można uruchomić go bezpośrednio z istniejącym plikiem:
 
