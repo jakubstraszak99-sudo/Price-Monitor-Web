@@ -29,6 +29,7 @@ h2 {
 .settings-body {
   padding: 1rem;
 }
+
 .email-setting {
   display: flex;
   align-items: center;
@@ -38,6 +39,7 @@ h2 {
   font-weight: 500;
   cursor: pointer;
 }
+
 .settings-description,
 .settings-status,
 .settings-feedback {
@@ -45,21 +47,26 @@ h2 {
   line-height: 1.5;
   color: var(--text-muted);
 }
+
 .settings-description {
   margin: 0.5rem 0 0;
 }
+
 .settings-feedback {
   min-height: 1.5em;
   margin: 0.5rem 0 0.75rem;
 }
+
 .settings-error {
   color: var(--error);
   margin: 0;
 }
+
 .change-password-btn {
   width: 100%;
   font-size: 0.85rem;
 }
+
 .checkbox-wrapper-2 {
   display: flex;
   flex-shrink: 0;
@@ -78,6 +85,7 @@ h2 {
   width: 30px;
   cursor: pointer;
 }
+
 .checkbox-wrapper-2 .ikxBAC::before {
   bottom: -6px;
   content: '';
@@ -86,10 +94,12 @@ h2 {
   right: -6px;
   top: -6px;
 }
+
 .checkbox-wrapper-2 .ikxBAC,
 .checkbox-wrapper-2 .ikxBAC::after {
   transition: all 100ms ease-out;
 }
+
 .checkbox-wrapper-2 .ikxBAC::after {
   background-color: #fff;
   border-radius: 50%;
@@ -100,26 +110,33 @@ h2 {
   top: 3px;
   width: 14px;
 }
+
 .checkbox-wrapper-2 .ikxBAC:hover:not(:disabled) {
   background-color: #c9cbcd;
 }
+
 .checkbox-wrapper-2 .ikxBAC:checked {
-  background-color: #6e79d6;
+  background-color: var(--primary);
 }
+
 .checkbox-wrapper-2 .ikxBAC:checked::after {
   left: 13px;
 }
+
 .checkbox-wrapper-2 .ikxBAC:checked:hover:not(:disabled) {
   background-color: #535db3;
 }
+
 .checkbox-wrapper-2 .ikxBAC:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 4px;
 }
+
 .checkbox-wrapper-2 .ikxBAC:disabled {
   cursor: wait;
   opacity: 0.6;
 }
+
 @media (prefers-reduced-motion: reduce) {
   .checkbox-wrapper-2 .ikxBAC,
   .checkbox-wrapper-2 .ikxBAC::after {

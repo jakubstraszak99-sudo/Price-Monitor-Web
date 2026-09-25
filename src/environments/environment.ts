@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:8080',
+  production: true,
+  apiUrl: window.location.origin,
   languageToken: 'PRICE_MONITOR_LANG',
 };

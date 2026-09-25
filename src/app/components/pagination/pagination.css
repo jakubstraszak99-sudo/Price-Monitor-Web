@@ -21,6 +21,7 @@
 
 .page-btn:hover:not(:disabled) {
   background-color: var(--secondary-hover);
+  color: black;
 }
 
 .page-btn:disabled {

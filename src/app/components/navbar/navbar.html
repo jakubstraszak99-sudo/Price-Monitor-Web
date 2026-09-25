@@ -4,13 +4,13 @@
       Price Monitor
     </a>
     <div class="nav-links">
-      <a [routerLink]="homeRouterLink"
-         class="nav-link"
-         routerLinkActive="active-link"
-         [routerLinkActiveOptions]="{ paths: 'exact', queryParams: 'ignored', fragment: 'ignored', matrixParams: 'ignored' }">
-        {{ 'HOME' | translate }}
-      </a>
       @if (sessionService.isLoggedIn()) {
+        <a [routerLink]="homeRouterLink"
+           class="nav-link"
+           routerLinkActive="active-link"
+           [routerLinkActiveOptions]="{ paths: 'exact', queryParams: 'ignored', fragment: 'ignored', matrixParams: 'ignored' }">
+          {{ 'HOME' | translate }}
+        </a>
         <a [routerLink]="alertsRouterLink"
            class="nav-link"
            routerLinkActive="active-link"
