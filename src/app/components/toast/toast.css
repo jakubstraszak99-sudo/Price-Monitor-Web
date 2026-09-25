@@ -37,3 +37,28 @@
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }
+
+.toast-container {
+  max-width: min(480px, calc(100vw - 2rem));
+  overflow-wrap: anywhere;
+}
+
+.toast-container svg {
+  flex-shrink: 0;
+}
+
+.toast-container > span {
+  min-width: 0;
+}
+
+@media (max-width: 600px) {
+  .toast-container {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom));
+    max-width: none;
+    padding: 0.85rem 1rem;
+    font-size: 0.85rem;
+    animation-name: fadeIn;
+  }
+}

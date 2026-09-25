@@ -143,3 +143,21 @@ h2 {
     transition: none;
   }
 }
+
+@media (max-width: 768px) {
+  .settings-dropdown {
+    position: fixed;
+    top: calc(4rem + env(safe-area-inset-top));
+    left: 0.75rem;
+    right: 0.75rem;
+    width: auto;
+    max-width: none;
+    max-height: calc(100dvh - 5rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .email-setting {
+    min-height: 44px;
+  }
+}

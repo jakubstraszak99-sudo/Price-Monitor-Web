@@ -327,3 +327,133 @@ input.input-error {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button,
+a,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+[role='button']:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.field-header {
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.field-group,
+.price-input {
+  min-width: 0;
+}
+
+.field-group input {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.empty-state {
+  gap: 1rem;
+  text-align: center;
+}
+
+.empty-state svg {
+  flex-shrink: 0;
+}
+
+html:has(.modal-backdrop) {
+  overflow: hidden;
+}
+
+.modal-backdrop {
+  width: 100%;
+  height: 100dvh;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+.modal-content {
+  overscroll-behavior: contain;
+}
+
+.modal-container h2 {
+  padding-inline: 1.5rem;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1280px) {
+  section {
+    width: 100%;
+    max-width: 1100px;
+  }
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 1.25rem max(0.75rem, env(safe-area-inset-right)) 2rem max(0.75rem, env(safe-area-inset-left));
+  }
+
+  section h1 {
+    font-size: 1.4rem;
+  }
+
+  input:not([type='checkbox']),
+  select {
+    font-size: 16px;
+    min-height: 44px;
+  }
+
+  button:not(.subtle-link),
+  .icon-btn,
+  .modal-close-btn {
+    min-height: 44px;
+  }
+
+  .icon-btn,
+  .modal-close-btn {
+    min-width: 44px;
+  }
+
+  .modal-container {
+    width: calc(100% - 1.5rem);
+    padding: 1.25rem;
+    margin: 1rem auto;
+  }
+
+  .modal-content {
+    margin: 0;
+    max-height: calc(100dvh - 1.5rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+
+  .modal-close-row {
+    margin: -0.5rem -0.5rem 0;
+  }
+
+  .modal-container h2 {
+    font-size: 1.3rem;
+    padding-inline: 0;
+  }
+
+  .empty-state {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

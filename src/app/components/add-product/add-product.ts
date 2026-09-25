@@ -20,6 +20,7 @@ import { ApiErrorResponse } from '../../shared/api-error-response';
   imports: [CommonModule, ReactiveFormsModule, TranslatePipe, Modal],
   selector: 'app-add-product',
   templateUrl: './add-product.html',
+  styleUrl: './add-product.css',
 })
 export class AddProduct {
   private readonly productService = inject(ProductService);

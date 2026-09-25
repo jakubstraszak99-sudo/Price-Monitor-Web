@@ -189,3 +189,50 @@
   background-color: var(--primary);
   margin-top: 0.4rem;
 }
+
+@media (max-width: 768px) {
+  .notif-dropdown {
+    position: fixed;
+    top: calc(4rem + env(safe-area-inset-top));
+    left: 0.75rem;
+    right: 0.75rem;
+    width: auto;
+    max-width: none;
+    max-height: calc(100dvh - 5rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+  }
+
+  .notif-header {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .notif-header-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .notif-action-link {
+    min-height: 44px;
+    text-align: left;
+  }
+
+  .notif-list {
+    max-height: none;
+    overscroll-behavior: contain;
+  }
+
+  .notif-item {
+    padding: 0.75rem 3.5rem 0.75rem 0.75rem;
+  }
+
+  .notif-delete-btn {
+    top: 0.25rem;
+    right: 0.25rem;
+    width: 44px;
+    height: 44px;
+  }
+}

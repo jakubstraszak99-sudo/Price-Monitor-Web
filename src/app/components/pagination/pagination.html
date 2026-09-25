@@ -1,18 +1,19 @@
 @if (totalPages() > 1) {
   <div class="pagination">
-    <button class="btn-secondary page-btn" [disabled]="currentPage() === 0" (click)="onGoToPage(currentPage() - 1)">
+    <button class="btn-secondary page-btn" [attr.aria-label]="'PREVIOUS_PAGE' | translate" [disabled]="currentPage() === 0" (click)="onGoToPage(currentPage() - 1)">
       ‹
     </button>
+    <span class="mobile-page-status" aria-live="polite">{{ currentPage() + 1 }} / {{ totalPages() }}</span>
     @for (page of pageNumbers(); track $index) {
       @if (page === '...') {
         <span class="page-ellipsis">…</span>
       } @else {
-        <button class="page-btn" [class.page-btn-active]="page === currentPage()" (click)="onGoToPage(page)">
+        <button class="page-btn page-number" [class.page-btn-active]="page === currentPage()" [attr.aria-current]="page === currentPage() ? 'page' : null" (click)="onGoToPage(page)">
           {{ page + 1 }}
         </button>
       }
     }
-    <button class="btn-secondary page-btn" [disabled]="currentPage() === totalPages() - 1" (click)="onGoToPage(currentPage() + 1)">
+    <button class="btn-secondary page-btn" [attr.aria-label]="'NEXT_PAGE' | translate" [disabled]="currentPage() === totalPages() - 1" (click)="onGoToPage(currentPage() + 1)">
       ›
     </button>
   </div>

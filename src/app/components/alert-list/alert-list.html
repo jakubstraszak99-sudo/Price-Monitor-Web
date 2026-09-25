@@ -27,41 +27,56 @@
   <div class="alert-list">
     @for (alert of priceAlerts(); track alert.publicId) {
       <div class="alert-item" [class.alert-item-expanded]="isExpanded(alert.publicId!)">
-        <button class="alert-summary" type="button" (click)="toggleExpanded(alert.publicId!)">
-          <img
-            [src]="alert.product?.imageUrl"
-            [alt]="alert.product?.name || ''"
-            class="alert-image"
-            loading="lazy"
-          />
+        <div class="alert-summary">
+          <button class="alert-toggle" type="button" [attr.aria-expanded]="isExpanded(alert.publicId!)" (click)="toggleExpanded(alert.publicId!)">
+            <img
+              [src]="alert.product?.imageUrl"
+              [alt]="alert.product?.name || ''"
+              class="alert-image"
+              loading="lazy"
+            />
 
-          <div class="alert-main-info">
-            <div class="alert-source">
-              @if (alert.product?.faviconUrl) {
-                <img
-                  [src]="alert.product?.faviconUrl"
-                  [alt]="alert.product?.shop || ''"
-                  class="alert-favicon"
-                  loading="lazy"
-                />
-              }
-              @if (alert.product?.shop) {
-                <span class="alert-shop">{{ alert.product?.shop }}</span>
-              }
-            </div>
-            <h3 class="alert-name">{{ alert.product?.name }}</h3>
-            <div class="alert-prices">
-              <span class="alert-price-current">
-                {{ alert.product?.currentPrice | number: '1.2-2' }} {{ alert.product?.currency }}
-              </span>
-              @if (!isExpanded(alert.publicId!)) {
-                <span class="alert-price-target">
-                  {{ 'ALERT.TARGET_PRICE' | translate }}: {{ alert.targetPrice | number: '1.2-2' }} {{ alert.product?.currency }}
+            <div class="alert-main-info">
+              <div class="alert-source">
+                @if (alert.product?.faviconUrl) {
+                  <img
+                    [src]="alert.product?.faviconUrl"
+                    [alt]="alert.product?.shop || ''"
+                    class="alert-favicon"
+                    loading="lazy"
+                  />
+                }
+                @if (alert.product?.shop) {
+                  <span class="alert-shop">{{ alert.product?.shop }}</span>
+                }
+              </div>
+              <h3 class="alert-name">{{ alert.product?.name }}</h3>
+              <div class="alert-prices">
+                <span class="alert-price-current">
+                  {{ alert.product?.currentPrice | number: '1.2-2' }} {{ alert.product?.currency }}
                 </span>
-              }
+                @if (!isExpanded(alert.publicId!)) {
+                  <span class="alert-price-target">
+                    {{ 'ALERT.TARGET_PRICE' | translate }}: {{ alert.targetPrice | number: '1.2-2' }} {{ alert.product?.currency }}
+                  </span>
+                }
+              </div>
             </div>
-          </div>
 
+            <svg
+              class="expand-icon"
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
           <div class="alert-status">
             <button
               type="button"
@@ -78,6 +93,7 @@
               type="button"
               class="icon-btn delete-btn"
               [title]="'ALERT.DELETE' | translate"
+              [attr.aria-label]="'ALERT.DELETE' | translate"
               (click)="onDeleteClick($event, alert)"
             >
               <svg
@@ -99,25 +115,13 @@
               </svg>
             </button>
           </div>
-          <svg
-            class="expand-icon"
-            viewBox="0 0 24 24"
-            width="18"
-            height="18"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </button>
+        </div>
 
         <div
           class="alert-details-wrapper"
           [class.alert-details-wrapper-expanded]="isExpanded(alert.publicId!)"
           [attr.aria-hidden]="!isExpanded(alert.publicId!)"
+          [inert]="!isExpanded(alert.publicId!)"
         >
           <div class="alert-details">
             <div class="detail-row detail-row-editable">
@@ -128,6 +132,7 @@
                     <button
                       type="button"
                       class="icon-btn price-save-btn"
+                      [attr.aria-label]="'SAVE' | translate"
                       [disabled]="isSavingPrice()"
                       (click)="onSaveTargetPrice($event, alert)"
                     >
@@ -142,6 +147,7 @@
                     <button
                       type="button"
                       class="icon-btn price-cancel-btn"
+                      [attr.aria-label]="'CANCEL' | translate"
                       [disabled]="isSavingPrice()"
                       (click)="onCancelEditPrice($event)"
                     >
@@ -152,6 +158,8 @@
                     <input
                       type="text"
                       class="price-input"
+                      inputmode="decimal"
+                      [attr.aria-label]="'ALERT.TARGET_PRICE' | translate"
                       [formControl]="targetPriceControl"
                       (input)="onPriceInput($event)"
                       [class.input-error]="targetPriceControl.invalid && targetPriceControl.touched"
@@ -160,7 +168,7 @@
                     <span>{{ alert.product?.currency }}</span>
                   </div>
                   @if (priceEditError()) {
-                    <span class="price-edit-error">{{ 'ERRORS.INVALID_TARGET_PRICE' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span class="price-edit-error">{{ 'ERRORS.INVALID_TARGET_PRICE' | translate }}</span>
                   }
                 </div>
               } @else {

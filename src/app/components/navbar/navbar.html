@@ -1,6 +1,6 @@
-<nav class="top-navbar">
+<nav class="top-navbar" [class.is-authenticated]="sessionService.isLoggedIn()">
   <div class="nav-left">
-    <a class="nav-logo">
+    <a class="nav-logo" [routerLink]="homeRouterLink">
       Price Monitor
     </a>
     <div class="nav-links">
@@ -22,16 +22,16 @@
   </div>
 
   <div class="nav-actions">
-    <button class="btn-primary add-product-btn" style="min-width: 10rem" (click)="modalService.openAddProduct()">
+    <button class="btn-primary add-product-btn" (click)="modalService.openAddProduct()">
       {{ 'ADD_ITEM' | translate }}
     </button>
     <div class="nav-divider"></div>
     <div class="nav-flags">
-      <button class="flag-btn" (click)="switchLanguage('en')">
+      <button class="flag-btn" aria-label="English" (click)="switchLanguage('en')">
         <a href="https://www.flaticon.com/free-icons/united-states" style="display: none" title="united states icons">United states icons created by Freepik - Flaticon</a>
         <img src="assets/images/usa-flag.png" alt="USA Flag"/>
       </button>
-      <button class="flag-btn" (click)="switchLanguage('pl')">
+      <button class="flag-btn" aria-label="Polski" (click)="switchLanguage('pl')">
         <a href="https://www.flaticon.com/free-icons/poland" style="display: none" title="poland icons">Poland icons created by Freepik - Flaticon</a>
         <img src="assets/images/poland-flag.png" alt="Poland Flag"/>
       </button>
@@ -53,7 +53,7 @@
         <app-notification-dropdown></app-notification-dropdown>
         <app-settings-dropdown />
 
-        <button class="icon-btn logout-btn" (click)="sessionService.logout()" [title]="'LOGOUT' | translate">
+        <button class="icon-btn logout-btn" (click)="sessionService.logout()" [title]="'LOGOUT' | translate" [attr.aria-label]="'LOGOUT' | translate">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>

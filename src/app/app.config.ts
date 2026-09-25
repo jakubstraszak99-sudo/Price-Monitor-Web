@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  LOCALE_ID,
   inject,
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
@@ -29,5 +30,6 @@ export const appConfig: ApplicationConfig = {
       suffix: '.json',
     }),
     { provide: BASE_PATH, useValue: environment.apiUrl },
+    { provide: LOCALE_ID, useValue: 'pl' },
   ],
 };
