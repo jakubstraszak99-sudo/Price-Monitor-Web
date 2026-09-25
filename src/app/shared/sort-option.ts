@@ -1,4 +1,4 @@
-interface SortOption {
+export interface SortOption {
   labelKey: string;
   value: string;
 }

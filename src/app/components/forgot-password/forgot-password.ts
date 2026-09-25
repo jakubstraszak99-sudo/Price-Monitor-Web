@@ -27,6 +27,10 @@ export class ForgotPassword {
   });
 
   protected onSubmit(): void {
+    if (this.loading()) {
+      return;
+    }
+
     if (this.forgotPasswordForm.invalid) {
       this.forgotPasswordForm.markAllAsTouched();
       return;

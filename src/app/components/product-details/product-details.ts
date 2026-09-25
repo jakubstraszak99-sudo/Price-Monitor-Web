@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, input, signal, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Modal } from '../modal/modal';
 import {
@@ -10,9 +10,12 @@ import {
   PriceHistoryService,
   Product,
 } from '../../api-client';
+import { targetPriceValidators } from '../../utils/form-validators.util';
+import { updatePriceInput } from '../../utils/price-input.util';
 import { SessionService } from '../../services/session-service';
 import { ModalService } from '../../services/modal-service';
 import { ToastService } from '../../services/toast-service';
+import { Subscription } from 'rxjs';
 import { ApiErrorResponse } from '../../shared/api-error-response';
 
 const SPARKLINE_WIDTH = 280;
@@ -62,24 +65,10 @@ export class ProductDetails {
   });
 
   protected readonly sparklinePath = computed(() => {
-    const history = this.sortedHistory();
-    if (history.length < 2) {
-      return null;
-    }
-
-    const prices = history.map((h) => h.recordedPrice ?? 0);
-    const min = Math.min(...prices);
-    const max = Math.max(...prices);
-    const range = max - min || 1;
-    const stepX = SPARKLINE_WIDTH / (prices.length - 1);
-
-    const points = prices.map((price, index) => {
-      const x = index * stepX;
-      const y = SPARKLINE_HEIGHT - ((price - min) / range) * SPARKLINE_HEIGHT;
-      return { x, y, price };
-    });
-
-    return `M${points.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' L')}`;
+    const points = this.sparklinePoints();
+    return points.length
+      ? `M${points.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' L')}`
+      : null;
   });
 
   protected readonly sparklineAreaPath = computed(() => {
@@ -115,31 +104,38 @@ export class ProductDetails {
   } | null>(null);
 
   constructor() {
-    effect(() => {
+    effect((onCleanup) => {
       const product = this.product();
+      const loggedIn = this.sessionService.isLoggedIn();
+      const requests = new Subscription();
+      onCleanup(() => requests.unsubscribe());
+
       untracked(() => {
-        this.setupTargetPriceValidators(product.currentPrice!);
-        this.loadPriceHistory(product.productUrl!);
-        this.priceAlertService.checkAlertExists(product.productUrl!).subscribe((value) => {
-          if (value) {
-            this.alertAlreadyExists.set(true);
-          }
-        });
+        this.alertAlreadyExists.set(false);
+        this.alertCreated.set(false);
+        this.hoveredPoint.set(null);
+        this.priceHistory.set([]);
+        this.targetPriceControl.reset('');
+        this.setupTargetPriceValidators(product.currentPrice);
+        if (!product.productUrl) {
+          this.historyLoading.set(false);
+          return;
+        }
+        requests.add(this.loadPriceHistory(product.productUrl));
+        if (loggedIn) {
+          requests.add(
+            this.priceAlertService.checkAlertExists(product.productUrl).subscribe({
+              next: (value) => this.alertAlreadyExists.set(value),
+              error: () => this.alertAlreadyExists.set(false),
+            }),
+          );
+        }
       });
     });
   }
 
   protected onPriceInput(event: Event): void {
-    const inputEl = event.target as HTMLInputElement;
-    let sanitized = inputEl.value.replace(/[^0-9.,]/g, '').replace(/,/g, '.');
-    const parts = sanitized.split('.');
-
-    if (parts.length > 2) {
-      sanitized = parts[0] + '.' + parts.slice(1).join('');
-    }
-
-    inputEl.value = sanitized;
-    this.targetPriceControl.setValue(sanitized, { emitEvent: false });
+    updatePriceInput(event, this.targetPriceControl);
   }
 
   protected onSparklineHover(point: {
@@ -156,6 +152,9 @@ export class ProductDetails {
   }
 
   protected addAlert(): void {
+    if (this.submitting() || this.alertCreated() || this.alertAlreadyExists()) {
+      return;
+    }
     if (this.targetPriceControl.invalid) {
       this.targetPriceControl.markAsTouched();
       return;
@@ -203,19 +202,15 @@ export class ProductDetails {
     this.modalService.requireLogin();
   }
 
-  private setupTargetPriceValidators(currentPrice: number): void {
-    const validators = [
-      Validators.required,
-      Validators.pattern(/^\d+(\.\d{1,2})?$/),
-      Validators.max(currentPrice),
-    ];
-    this.targetPriceControl.setValidators(validators);
+  private setupTargetPriceValidators(currentPrice?: number): void {
+    this.targetPriceControl.setValidators(targetPriceValidators(currentPrice));
+    this.targetPriceControl.updateValueAndValidity();
   }
 
-  private loadPriceHistory(productUrl: string): void {
+  private loadPriceHistory(productUrl: string): Subscription {
     this.historyLoading.set(true);
 
-    this.priceHistoryService.getPriceHistory(productUrl).subscribe({
+    return this.priceHistoryService.getPriceHistory(productUrl).subscribe({
       next: (history) => {
         this.historyLoading.set(false);
         this.priceHistory.set(Array.isArray(history) ? history : []);

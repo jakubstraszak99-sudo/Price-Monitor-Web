@@ -48,6 +48,7 @@
   "NO_NOTIFICATIONS": "No notifications",
   "NOTIFICATION_PRICE_DROP": "The price of {{name}} dropped to {{price}} {{currency}}!",
   "NOTIFICATION_PRODUCT_UNAVAILABLE": "{{name}} is now unavailable.",
+  "NOTIFICATION_PRODUCT_REMOVED": "{{name}} was removed from monitoring because its page no longer exists.",
   "ALERT": {
     "TARGET_PRICE": "Target price",
     "ACTIVE": "Active",

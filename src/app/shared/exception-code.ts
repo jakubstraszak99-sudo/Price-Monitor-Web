@@ -15,4 +15,5 @@ export enum ExceptionCode {
   E014 = 'E014', // Price alert already exists
   E015 = 'E015', // Price alert not found
   E016 = 'E016', // Product appears to be unavailable
+  E017 = 'E017', // Product page no longer exists
 }

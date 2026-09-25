@@ -3,6 +3,7 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
+import { SortOption } from '../../shared/sort-option';
 
 @Component({
   imports: [TranslatePipe, FormsModule],

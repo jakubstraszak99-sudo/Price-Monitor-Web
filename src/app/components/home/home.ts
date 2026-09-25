@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ProductList } from '../product-list/product-list';
 import { SearchSortToolbar } from '../search-sort-toolbar/search-sort-toolbar';
+import { SortOption } from '../../shared/sort-option';
 
 @Component({
   imports: [ProductList, SearchSortToolbar],

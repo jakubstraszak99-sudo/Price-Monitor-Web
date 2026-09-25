@@ -107,9 +107,7 @@ export class NotificationDropdown {
 
   private onNotificationReceived(notification: Notification): void {
     this.unreadCount.update((count) => count + 1);
-    if (this.notifications().length > 0) {
-      this.notifications.update((list) => [notification, ...list].slice(0, MAX_DROPDOWN_ITEMS));
-    }
+    this.notifications.update((list) => [notification, ...list].slice(0, MAX_DROPDOWN_ITEMS));
   }
 
   private loadNotifications(): void {

@@ -8,13 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import {
-  AbstractControl,
-  FormBuilder,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UserService } from '../../api-client';
@@ -22,6 +16,7 @@ import { Modal } from '../modal/modal';
 import { ModalService } from '../../services/modal-service';
 import { ToastService } from '../../services/toast-service';
 import { ExceptionCode } from '../../shared/exception-code';
+import { passwordsMatch } from '../../utils/form-validators.util';
 
 @Component({
   selector: 'app-change-password',
@@ -47,10 +42,7 @@ export class ChangePassword {
       repeatPassword: ['', Validators.required],
     },
     {
-      validators: (control: AbstractControl): ValidationErrors | null =>
-        control.get('newPassword')?.value === control.get('repeatPassword')?.value
-          ? null
-          : { mismatch: true },
+      validators: passwordsMatch('newPassword'),
     },
   );
 

@@ -70,7 +70,7 @@
                   </span>
                 } @else {
                   <span class="notif-text">
-                    {{ 'NOTIFICATION_PRODUCT_UNAVAILABLE' | translate: { name: notification.product?.name } }}
+                    {{ (notification.product ? 'NOTIFICATION_PRODUCT_UNAVAILABLE' : 'NOTIFICATION_PRODUCT_REMOVED') | translate: { name: notification.productName || notification.product?.name } }}
                   </span>
                 }
                 <span class="notif-time">{{ notification.createdAt | date: 'short' }}</span>

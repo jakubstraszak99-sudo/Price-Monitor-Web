@@ -1,18 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import {
-  AbstractControl,
-  FormBuilder,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../api-client';
 import { ToastService } from '../../services/toast-service';
 import { ModalService } from '../../services/modal-service';
 import { RouteUrl } from '../../shared/route-url';
 import { TranslatePipe } from '@ngx-translate/core';
+import { passwordsMatch } from '../../utils/form-validators.util';
 
 @Component({
   imports: [CommonModule, ReactiveFormsModule, TranslatePipe, RouterLink],
@@ -37,7 +32,7 @@ export class ResetPassword implements OnInit {
       newPassword: ['', [Validators.required, Validators.minLength(8)]],
       repeatPassword: ['', Validators.required],
     },
-    { validators: this.passwordsMatchValidator },
+    { validators: passwordsMatch('newPassword') },
   );
 
   public ngOnInit(): void {
@@ -49,6 +44,9 @@ export class ResetPassword implements OnInit {
   }
 
   protected onSubmit(): void {
+    if (this.loading()) {
+      return;
+    }
     if (this.resetPasswordForm.invalid || !this.resetToken) {
       this.resetPasswordForm.markAllAsTouched();
       return;
@@ -68,11 +66,5 @@ export class ResetPassword implements OnInit {
         this.toastService.showError('ERRORS.RESET_PASSWORD_FAILED');
       },
     });
-  }
-
-  private passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
-    const password = control.get('newPassword')?.value;
-    const repeatPassword = control.get('repeatPassword')?.value;
-    return password === repeatPassword ? null : { mismatch: true };
   }
 }

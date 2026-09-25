@@ -8,8 +8,10 @@ import { Pagination } from '../pagination/pagination';
 import { ToastService } from '../../services/toast-service';
 import { ApiErrorResponse } from '../../shared/api-error-response';
 import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { targetPriceValidators } from '../../utils/form-validators.util';
+import { updatePriceInput } from '../../utils/price-input.util';
 
 @Component({
   imports: [TranslatePipe, DecimalPipe, DatePipe, Pagination, ConfirmDialog, ReactiveFormsModule],
@@ -57,7 +59,7 @@ export class AlertList {
     this.list.goToPage(page);
   }
 
-  protected get pageNumbers(): any {
+  protected get pageNumbers(): (number | '...')[] {
     return this.list.pageNumbers();
   }
 
@@ -139,12 +141,15 @@ export class AlertList {
   }
 
   protected onConfirmDelete(): void {
-    const publicId = this.alertPendingDeletion()!.publicId!;
-    this.isDeleting.set(true);
+    const publicId = this.alertPendingDeletion()?.publicId;
+    if (!publicId || this.isDeleting()) {
+      return;
+    }
 
+    this.isDeleting.set(true);
     this.priceAlertService.deletePriceAlert(publicId).subscribe({
       next: () => {
-        this.list.items.update((alerts) => alerts.filter((a) => a.publicId !== publicId));
+        this.list.reload();
         this.isDeleting.set(false);
         this.alertPendingDeletion.set(null);
         this.toastService.showSuccess('PRICE_ALERT_REMOVED');
@@ -160,13 +165,7 @@ export class AlertList {
     event.stopPropagation();
     this.priceEditError.set(false);
     this.editingId.set(alert.publicId!);
-    const validators = [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)];
-
-    if (alert.product?.currentPrice !== undefined) {
-      validators.push(Validators.max(alert.product.currentPrice));
-    }
-
-    this.targetPriceControl.setValidators(validators);
+    this.targetPriceControl.setValidators(targetPriceValidators(alert.product?.currentPrice));
     this.targetPriceControl.setValue((alert.targetPrice ?? 0).toFixed(2));
     this.targetPriceControl.markAsUntouched();
     this.targetPriceControl.updateValueAndValidity();
@@ -178,20 +177,15 @@ export class AlertList {
   }
 
   protected onPriceInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    let sanitized = input.value.replace(/[^0-9.,]/g, '').replace(/,/g, '.');
-
-    const parts = sanitized.split('.');
-    if (parts.length > 2) {
-      sanitized = parts[0] + '.' + parts.slice(1).join('');
-    }
-
-    input.value = sanitized;
-    this.targetPriceControl.setValue(sanitized, { emitEvent: false });
+    updatePriceInput(event, this.targetPriceControl);
   }
 
   protected onSaveTargetPrice(event: Event, alert: PriceAlert): void {
     event.stopPropagation();
+
+    if (this.isSavingPrice()) {
+      return;
+    }
 
     if (this.targetPriceControl.invalid) {
       this.targetPriceControl.markAsTouched();
@@ -211,7 +205,7 @@ export class AlertList {
       },
       error: (err) => {
         this.isSavingPrice.set(false);
-        this.showApiError('ALERT.UNABLE_TO_UPDATE_PRICE_ALERT', err);
+        this.showApiError('ERRORS.UNABLE_TO_UPDATE_PRICE_ALERT', err);
       },
     });
   }

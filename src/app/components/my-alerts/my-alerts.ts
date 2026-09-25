@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { SearchSortToolbar } from '../search-sort-toolbar/search-sort-toolbar';
 import { AlertList } from '../alert-list/alert-list';
 import { TranslatePipe } from '@ngx-translate/core';
+import { SortOption } from '../../shared/sort-option';
 
 @Component({
   imports: [SearchSortToolbar, AlertList, TranslatePipe],

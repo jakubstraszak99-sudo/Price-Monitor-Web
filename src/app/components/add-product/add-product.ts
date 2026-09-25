@@ -5,6 +5,8 @@ import {
   ProductService,
   ScrapedProduct,
 } from '../../api-client';
+import { targetPriceValidators } from '../../utils/form-validators.util';
+import { updatePriceInput } from '../../utils/price-input.util';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -37,11 +39,15 @@ export class AddProduct {
   });
 
   protected readonly targetPriceControl = new FormControl<string>('0.01', {
-    validators: [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)],
+    validators: targetPriceValidators(),
     nonNullable: true,
   });
 
   protected onSearch(): void {
+    if (this.loading()) {
+      return;
+    }
+
     if (this.urlControl.invalid) {
       this.urlControl.markAsTouched();
       return;
@@ -55,10 +61,8 @@ export class AddProduct {
       next: (product: ScrapedProduct) => {
         this.scrapedProduct.set(product);
 
-        if (product.price !== undefined && product.price >= 0.01) {
-          this.targetPriceControl.addValidators(Validators.max(product.price));
-          this.targetPriceControl.updateValueAndValidity();
-        }
+        this.targetPriceControl.setValidators(targetPriceValidators(product.price));
+        this.targetPriceControl.updateValueAndValidity();
 
         this.loading.set(false);
       },
@@ -70,20 +74,13 @@ export class AddProduct {
   }
 
   protected onPriceInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    let sanitized = input.value.replace(/[^0-9.,]/g, '');
-    sanitized = sanitized.replace(/,/g, '.');
-    const parts = sanitized.split('.');
-
-    if (parts.length > 2) {
-      sanitized = parts[0] + '.' + parts.slice(1).join('');
-    }
-
-    input.value = sanitized;
-    this.targetPriceControl.setValue(sanitized, { emitEvent: false });
+    updatePriceInput(event, this.targetPriceControl);
   }
 
   protected confirmTracking(): void {
+    if (this.loading() || !this.scrapedProduct()) {
+      return;
+    }
     if (this.targetPriceControl.invalid) {
       this.targetPriceControl.markAsTouched();
       return;
@@ -108,7 +105,7 @@ export class AddProduct {
         const apiError = err.error as ApiErrorResponse;
         this.loading.set(false);
 
-        if (apiError.code === 'E014') {
+        if (apiError?.code === 'E014') {
           this.errorMessage.set('ERRORS.PRICE_ALERT_ALREADY_EXISTS');
         } else {
           this.toastService.showError('ERRORS.PRICE_ALERT_NOT_CREATED', apiError?.code);

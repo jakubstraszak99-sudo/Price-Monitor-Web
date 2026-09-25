@@ -1,17 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  AbstractControl,
-  FormBuilder,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthenticationService, UserRegisterRequest } from '../../api-client';
 import { ToastService } from '../../services/toast-service';
 import { ModalService } from '../../services/modal-service';
 import { Modal } from '../modal/modal';
+import { passwordsMatch } from '../../utils/form-validators.util';
 import { ApiErrorResponse } from '../../shared/api-error-response';
 
 @Component({
@@ -35,10 +30,13 @@ export class Register {
       password: ['', [Validators.required, Validators.minLength(8)]],
       repeatPassword: ['', Validators.required],
     },
-    { validators: this.passwordsMatchValidator },
+    { validators: passwordsMatch('password') },
   );
 
   protected onSubmit(): void {
+    if (this.loading()) {
+      return;
+    }
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       return;
@@ -57,11 +55,11 @@ export class Register {
       error: (err) => {
         const apiError = err.error as ApiErrorResponse;
 
-        if (apiError.code === 'E007') {
+        if (apiError?.code === 'E007') {
           this.error.set(true);
         } else {
           this.close();
-          this.toastService.showError('ERRORS.REGISTER_ERROR', apiError.code);
+          this.toastService.showError('ERRORS.REGISTER_ERROR', apiError?.code);
         }
 
         this.loading.set(false);
@@ -71,11 +69,5 @@ export class Register {
 
   protected close(): void {
     this.modalService.closeRegister();
-  }
-
-  private passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
-    const password = control.get('password')?.value;
-    const repeatPassword = control.get('repeatPassword')?.value;
-    return password === repeatPassword ? null : { mismatch: true };
   }
 }

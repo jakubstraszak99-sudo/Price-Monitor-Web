@@ -38,7 +38,7 @@ export class ProductList {
     this.list.goToPage(page);
   }
 
-  protected get pageNumbers(): any {
+  protected get pageNumbers(): (number | '...')[] {
     return this.list.pageNumbers();
   }
 }

@@ -27,6 +27,10 @@ export class Login {
   });
 
   protected onSubmit(): void {
+    if (this.loading()) {
+      return;
+    }
+
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;

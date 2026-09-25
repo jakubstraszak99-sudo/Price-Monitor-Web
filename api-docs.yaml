@@ -791,6 +791,8 @@ components:
             - PRODUCT_UNAVAILABLE
         product:
           "$ref": "#/components/schemas/Product"
+        productName:
+          type: string
         read:
           type: boolean
         triggerPrice:

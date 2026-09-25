@@ -33,6 +33,7 @@ export function createPagedList<T>(options: PagedListOptions<T>) {
   const pageSize = options.pageSize ?? DEFAULT_PAGE_SIZE;
   const maxVisiblePages = options.maxVisiblePages ?? DEFAULT_MAX_VISIBLE_PAGES;
 
+  const reloadVersion = signal(0);
   const items = signal<T[]>([]);
   const loading = signal(true);
   const error = signal(false);
@@ -43,26 +44,29 @@ export function createPagedList<T>(options: PagedListOptions<T>) {
     route.queryParamMap.pipe(
       map((params) => {
         const raw = Number(params.get('page') ?? 1);
-        return Number.isFinite(raw) && raw >= 1 ? raw - 1 : 0;
+        return Number.isSafeInteger(raw) && raw >= 1 ? raw - 1 : 0;
       }),
     ),
     { initialValue: 0 },
   );
 
-  function loadItems(): void {
+  function loadItems() {
     loading.set(true);
     error.set(false);
 
     const requestedPage = currentPage();
 
-    options
+    return options
       .fetchPage(requestedPage, pageSize, [options.sortValue()], options.searchTerm() || undefined)
       .subscribe({
         next: (page) => {
           const total = page.totalPages ?? 0;
 
-          if (total > 0 && requestedPage >= total) {
-            router.navigate([options.fallbackRoute]);
+          if (requestedPage > 0 && requestedPage >= total) {
+            router.navigate([options.fallbackRoute], {
+              queryParams: { page: null },
+              queryParamsHandling: 'merge',
+            });
             return;
           }
 
@@ -121,12 +125,28 @@ export function createPagedList<T>(options: PagedListOptions<T>) {
     return pages;
   }
 
-  effect(() => {
+  effect((onCleanup) => {
     currentPage();
     options.searchTerm();
     options.sortValue();
-    untracked(() => loadItems());
+    reloadVersion();
+    const subscription = untracked(() => loadItems());
+    onCleanup(() => subscription.unsubscribe());
   });
 
-  return { items, loading, error, totalPages, totalElements, currentPage, goToPage, pageNumbers };
+  function reload(): void {
+    reloadVersion.update((version) => version + 1);
+  }
+
+  return {
+    items,
+    loading,
+    error,
+    totalPages,
+    totalElements,
+    currentPage,
+    goToPage,
+    pageNumbers,
+    reload,
+  };
 }
